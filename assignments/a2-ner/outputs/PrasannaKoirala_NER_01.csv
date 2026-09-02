@@ -1,0 +1,117 @@
+Entity,Entity_Type,Description,Token_Count,Sentence_No
+NASA,ORG,"Companies, agencies, institutions, etc.",1,1
+Dark Universe-Seeking,PERSON,"People, including fictional",4,1
+Nancy Grace Roman Space,PERSON,"People, including fictional",4,1
+three-month,DATE,Absolute or relative dates or periods,3,1
+million-mile,QUANTITY,"Measurements, as of weight or distance",3,1
+NASA,ORG,"Companies, agencies, institutions, etc.",1,1
+Nancy Grace Roman Space Telescope,PERSON,"People, including fictional",5,1
+7:26 a.m. EDT,TIME,Times smaller than a day,3,2
+Sunday,DATE,Absolute or relative dates or periods,1,2
+Falcon Heavy,ORG,"Companies, agencies, institutions, etc.",2,2
+Launch,NORP,Nationalities or religious or political groups,1,2
+Kennedy Space Center,FAC,"Buildings, airports, highways, bridges, etc.",3,2
+Florida,GPE,"Countries, cities, states",1,2
+Roman,NORP,Nationalities or religious or political groups,1,3
+Roman,PERSON,"People, including fictional",1,6
+NASA,ORG,"Companies, agencies, institutions, etc.",1,6
+NASA,ORG,"Companies, agencies, institutions, etc.",1,6
+Jared Isaacman,PERSON,"People, including fictional",2,6
+more than a decade,DATE,Absolute or relative dates or periods,4,7
+NASA,ORG,"Companies, agencies, institutions, etc.",1,7
+Roman,ORG,"Companies, agencies, institutions, etc.",1,8
+America,GPE,"Countries, cities, states",1,8
+NASA,ORG,"Companies, agencies, institutions, etc.",1,9
+Goddard Space Flight Center,ORG,"Companies, agencies, institutions, etc.",4,9
+Greenbelt,GPE,"Countries, cities, states",1,9
+Maryland,GPE,"Countries, cities, states",1,9
+Roman seven minutes,TIME,Times smaller than a day,3,9
+Falcon Heavy,ORG,"Companies, agencies, institutions, etc.",2,10
+31 minutes,TIME,Times smaller than a day,2,10
+Roman,NORP,Nationalities or religious or political groups,1,12
+Nicky Fox,PERSON,"People, including fictional",2,12
+the Science Mission Directorate,ORG,"Companies, agencies, institutions, etc.",4,12
+NASA Headquarters,ORG,"Companies, agencies, institutions, etc.",2,12
+Washington,GPE,"Countries, cities, states",1,12
+Roman,NORP,Nationalities or religious or political groups,1,13
+Roman,ORG,"Companies, agencies, institutions, etc.",1,14
+the Near Space Network's,ORG,"Companies, agencies, institutions, etc.",5,14
+About 70 minutes,TIME,Times smaller than a day,3,15
+the Deep Space Network,ORG,"Companies, agencies, institutions, etc.",4,15
+Roman,NORP,Nationalities or religious or political groups,1,15
+second,ORDINAL,"""first"", ""second"", etc.",1,15
+Sun-Earth Lagrange,ORG,"Companies, agencies, institutions, etc.",4,15
+L2,CARDINAL,Numerals that do not fall under another type,1,15
+about one million miles,QUANTITY,"Measurements, as of weight or distance",4,15
+Earth,LOC,"Non-GPE locations, mountain ranges, bodies of water",1,15
+the Canberra Deep Space Communication Complex,FAC,"Buildings, airports, highways, bridges, etc.",6,16
+Australia,GPE,"Countries, cities, states",1,16
+first,ORDINAL,"""first"", ""second"", etc.",1,16
+Approximately six hours,TIME,Times smaller than a day,3,17
+the Madrid Deep Space Communication Complex,ORG,"Companies, agencies, institutions, etc.",6,17
+Spain,GPE,"Countries, cities, states",1,17
+the Goldstone Deep Space Communication Complex,ORG,"Companies, agencies, institutions, etc.",6,17
+California,GPE,"Countries, cities, states",1,17
+Roman,NORP,Nationalities or religious or political groups,1,17
+Roman,NORP,Nationalities or religious or political groups,1,18
+an hour and 23 minutes,TIME,Times smaller than a day,5,18
+the upcoming days,DATE,Absolute or relative dates or periods,3,19
+Roman,ORG,"Companies, agencies, institutions, etc.",1,19
+first,ORDINAL,"""first"", ""second"", etc.",1,19
+two,CARDINAL,Numerals that do not fall under another type,1,19
+the Coronagraph Instrument,ORG,"Companies, agencies, institutions, etc.",3,19
+NASA,ORG,"Companies, agencies, institutions, etc.",1,20
+Worlds Observatory,PERSON,"People, including fictional",2,20
+Earth,LOC,"Non-GPE locations, mountain ranges, bodies of water",1,20
+Roman,ORG,"Companies, agencies, institutions, etc.",1,21
+Coronagraph,ORG,"Companies, agencies, institutions, etc.",1,21
+Jupiter,LOC,"Non-GPE locations, mountain ranges, bodies of water",1,21
+A few weeks,DATE,Absolute or relative dates or periods,3,22
+Roman,ORG,"Companies, agencies, institutions, etc.",1,22
+the Wide Field Instrument,ORG,"Companies, agencies, institutions, etc.",4,22
+300,CARDINAL,Numerals that do not fall under another type,1,23
+18 4K,CARDINAL,Numerals that do not fall under another type,3,23
+Roman,NORP,Nationalities or religious or political groups,1,26
+a thousand,CARDINAL,Numerals that do not fall under another type,2,26
+NASA,ORG,"Companies, agencies, institutions, etc.",1,26
+Hubble Space Telescope,FAC,"Buildings, airports, highways, bridges, etc.",3,26
+Roman,ORG,"Companies, agencies, institutions, etc.",1,27
+three-month,DATE,Absolute or relative dates or periods,3,27
+NASA,ORG,"Companies, agencies, institutions, etc.",1,28
+Roman,ORG,"Companies, agencies, institutions, etc.",1,28
+first,ORDINAL,"""first"", ""second"", etc.",1,28
+early 2027,DATE,Absolute or relative dates or periods,2,28
+Roman,NORP,Nationalities or religious or political groups,1,29
+1.4,CARDINAL,Numerals that do not fall under another type,1,29
+every day,DATE,Absolute or relative dates or periods,2,29
+NASA,ORG,"Companies, agencies, institutions, etc.",1,29
+Roman,PERSON,"People, including fictional",1,31
+Julie McEnery,PERSON,"People, including fictional",2,31
+Roman,ORG,"Companies, agencies, institutions, etc.",1,31
+NASA Goddard,ORG,"Companies, agencies, institutions, etc.",2,31
+next year,DATE,Absolute or relative dates or periods,2,32
+Roman,PERSON,"People, including fictional",1,33
+fourth,ORDINAL,"""first"", ""second"", etc.",1,33
+NASA,ORG,"Companies, agencies, institutions, etc.",1,33
+Falcon Heavy,ORG,"Companies, agencies, institutions, etc.",2,33
+Earlier this year,DATE,Absolute or relative dates or periods,3,34
+Launch Services Program,ORG,"Companies, agencies, institutions, etc.",3,34
+NASA Goddard,ORG,"Companies, agencies, institutions, etc.",2,35
+Jet Propulsion Laboratory,ORG,"Companies, agencies, institutions, etc.",3,35
+Southern California,LOC,"Non-GPE locations, mountain ranges, bodies of water",2,35
+Caltech,GPE,"Countries, cities, states",1,35
+Pasadena,GPE,"Countries, cities, states",1,35
+California,GPE,"Countries, cities, states",1,35
+the Space Telescope Science Institute,ORG,"Companies, agencies, institutions, etc.",5,35
+Baltimore,GPE,"Countries, cities, states",1,35
+BAE Systems Inc.,ORG,"Companies, agencies, institutions, etc.",3,36
+L3Harris Technologies,ORG,"Companies, agencies, institutions, etc.",2,36
+Teledyne Scientific & Imaging,ORG,"Companies, agencies, institutions, etc.",4,36
+Roman,PERSON,"People, including fictional",1,37
+ESA,ORG,"Companies, agencies, institutions, etc.",1,37
+JAXA,PERSON,"People, including fictional",1,37
+French,NORP,Nationalities or religious or political groups,1,37
+CNES (,ORG,"Companies, agencies, institutions, etc.",2,37
+Centre National d'Etudes Spatiales,ORG,"Companies, agencies, institutions, etc.",4,37
+the Max Planck Institute for Astronomy,ORG,"Companies, agencies, institutions, etc.",6,37
+Germany,GPE,"Countries, cities, states",1,37

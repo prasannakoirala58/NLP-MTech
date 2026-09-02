@@ -1,0 +1,18 @@
+# --- Python / uv ---
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Large downloads, if any ever land in the repo ---
+*.bin
+*.vec
+*.gz
+*.zip
+
+# --- OS ---
+.DS_Store

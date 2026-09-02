@@ -1,0 +1,12 @@
+Entity_Type,Count,Unique,Percent,Meaning
+ORG,45,25,38.8,"Companies, agencies, institutions, etc."
+GPE,13,12,11.2,"Countries, cities, states"
+PERSON,12,9,10.3,"People, including fictional"
+DATE,10,9,8.6,Absolute or relative dates or periods
+NORP,10,3,8.6,Nationalities or religious or political groups
+CARDINAL,6,6,5.2,Numerals that do not fall under another type
+TIME,6,6,5.2,Times smaller than a day
+ORDINAL,5,3,4.3,"""first"", ""second"", etc."
+LOC,4,3,3.4,"Non-GPE locations, mountain ranges, bodies of water"
+FAC,3,3,2.6,"Buildings, airports, highways, bridges, etc."
+QUANTITY,2,2,1.7,"Measurements, as of weight or distance"
