@@ -113,6 +113,75 @@ largely on Western news text, so non-Western names are recognised less reliably,
 especially without surrounding context. Directly relevant to syllabus Unit 7 (Multilingual
 NLP, Nepali/Indic case studies).
 
+## 7a. Error analysis: the headline breaks NER three separate ways
+
+Reading the `displacy` output revealed two bad entities at the very start. Chasing them
+down produced the strongest analysis in this assignment, because the cause is general.
+
+### Problem 1 — the model invents entities in headlines
+
+Running NER on the headline alone:
+
+| Found | Labelled | Verdict |
+|---|---|---|
+| NASA | `ORG` | correct |
+| Dark Universe-Seeking | `PERSON` | **wrong** — a descriptive phrase, not a person |
+| Nancy Grace Roman Space | `PERSON` | **wrong span** — truncates "...Space Telescope" |
+
+Two of three wrong. "Dark Universe-Seeking" names nothing; the model fabricated it.
+
+**Why:** headlines are not sentences. Title Case On Every Word defeats capitalisation,
+which is one of the strongest cues a model uses to spot names. There is no main verb.
+"Dark Universe-Seeking" is a stacked modifier that barely occurs in ordinary prose. NER
+models are trained on running prose, so a headline is out of distribution.
+
+### Problem 2 — rewriting does not fix it, it inverts the error
+
+Testing the theory by restating the same facts as an ordinary sentence:
+
+> "NASA launched the Nancy Grace Roman Space Telescope, which seeks to study the dark universe."
+
+The hallucinated `PERSON` disappears — which supports the diagnosis. But the model now
+finds **only** `NASA`, missing the telescope completely.
+
+| | Headline | Ordinary sentence |
+|---|---|---|
+| Failure | **over-detects**, invents entities | **under-detects**, misses a real one |
+
+Neither is correct. Recording this honestly matters more than claiming a fix.
+
+### Problem 3 — the headline has no full stop, so sentence splitting breaks
+
+The headline ends "...Telescope Launches" with no terminal punctuation. Sentence splitters
+break on punctuation, so spaCy never breaks there and glues the headline onto the first
+body paragraph as a single "sentence".
+
+Consequences: the `Sentence_No` column is skewed (sentence 1 is really headline +
+paragraph 1), and headline text is read continuously with body text — the exact
+genre-mixing that caused Problem 1.
+
+**Deliberately not fixed.** The brief says to load and process the article as saved.
+Silently editing the source would misrepresent how the model behaves on real input.
+Documenting the limitation is the more honest choice, and the fix (split headline from
+body before tagging) is stated in the notebook.
+
+### The deepest problem — the label set has no correct answer
+
+Even in clean body prose, "Nancy Grace Roman Space Telescope" is tagged `PERSON`.
+
+That is not absurd: the telescope **is** named after Nancy Grace Roman, NASA's first
+Chief of Astronomy. But what *should* it be? Against spaCy's 18 types:
+
+- `PERSON` — named after one, but it is a machine
+- `ORG` — not an organisation
+- `PRODUCT` — closest, but built once for science
+- `FAC` — facilities are buildings; this one is a million miles from Earth
+
+**No correct label exists.** The category is missing from the scheme. This finally explains
+the "Roman" inconsistency in §6: the models are not choosing badly among good options,
+they are choosing among options that are all partly wrong. That is a limitation of the
+**label set**, not of the models.
+
 ## 8. Bonus items — both done
 
 - **`displacy` visualisation** — first 3 sentences rendered inline with colour-coded
@@ -129,10 +198,16 @@ NLP, Nepali/Indic case studies).
 | `Token_Count` | how many words the entity spans — makes multi-word entities visible |
 | `Sentence_No` | traces each entity back to its sentence |
 
-Two files, since the brief requires a summary as its own deliverable:
+The brief specifies `.csv` **only** for the entity list. The summary is listed as a
+deliverable with **no format given**, so a second CSV is not required.
 
-- `PrasannaKoirala_NER_01.csv` — 116 rows, one per entity
-- `PrasannaKoirala_NER_01_summary.csv` — counts by type
+- `PrasannaKoirala_NER_01.csv` — 116 rows, one per entity — **required as .csv**
+- `PrasannaKoirala_NER_01_summary.csv` — counts by type — **convenience only**
+
+The real summary lives in the notebook, where the table sits beside a bar chart and a
+written interpretation. "A brief summary" implies something you read, not a data file.
+The CSV is kept as redundancy so a grader browsing `outputs/` finds it without running
+anything.
 
 ## 10. Verification
 
