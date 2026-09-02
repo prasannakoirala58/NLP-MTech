@@ -1,10 +1,8 @@
 # C1 — Word Embeddings: Theory and Analysis
 
-> **This is the draft to copy out by hand.** Roughly 3 pages of handwriting.
-> Four sections, one per task in the brief. Diagrams are simple on purpose — all
-> are quick to sketch with a pen.
->
-> Write the headings, keep the tables, draw the 4 boxed diagrams. Skip this box.
+> **Copy out everything below the line. Skip this box.**
+> Target: **4–5 pages** of handwriting. 3 small diagrams — all quick to draw.
+> The tables save you writing: a table row says in 6 words what a sentence needs 20 for.
 
 ---
 
@@ -12,287 +10,199 @@
 
 **Prasanna Koirala** · AIAC 536 Natural Language Processing · Kathmandu University
 
----
+### Introduction
 
-### Introduction — what is a word embedding?
+A computer cannot understand the word *cat*. It can only do arithmetic. So every word must
+first be turned into numbers.
 
-A computer cannot understand the word *"cat"*. It can only do arithmetic. So before any
-language can be processed, **every word must be converted into numbers**.
-
-A **word embedding** is exactly that: a word represented as a list of numbers, called a
-**vector**.
+A **word embedding** is exactly that — a word represented as a list of numbers, called a
+**vector**:
 
 ```
 "cat"  →  [ 0.21, -0.44, 0.87, ... ]
 ```
 
-The useful part is *which* numbers get chosen. If they are chosen well, then **words with
-similar meanings end up with similar numbers** — so the computer can measure that *cat* is
-closer to *dog* than to *rocket*, without anyone ever telling it what those words mean.
-
-This note covers four questions: how words were represented before embeddings and why it
-failed (§1), the three main methods for building embeddings (§2), how similarity is
-measured once we have them (§3), and how many numbers each word should get (§4).
+What matters is *which* numbers. Chosen well, **words with similar meanings get similar
+numbers**, so a computer can tell that *cat* is closer to *dog* than to *rocket* — without
+being told what any of them mean.
 
 ---
 
 ### 1. One-Hot Encoding vs Dense Embeddings
 
-There are two ways to turn a word into numbers. The first is obvious and does not work
-well; the second is what we actually use.
-
-**One-hot encoding.** Each word becomes a vector as long as the whole vocabulary — all
-zeros, except a single 1 marking that word's position.
+**One-hot encoding.** Each word becomes a vector as long as the whole vocabulary: all
+zeros, with a single 1 marking its position.
 
 Vocabulary = [ cat, dog, king, queen, rocket ]
 
 ```
-cat    = [ 1, 0, 0, 0, 0 ]
-dog    = [ 0, 1, 0, 0, 0 ]
-king   = [ 0, 0, 1, 0, 0 ]
+cat  = [ 1, 0, 0, 0, 0 ]
+dog  = [ 0, 1, 0, 0, 0 ]
+king = [ 0, 0, 1, 0, 0 ]
 ```
 
-This has two serious problems.
+Two serious problems:
 
-**Problem 1 — size.** A real vocabulary has ~50,000 words. So every single word becomes
-a vector of 50,000 numbers, of which 49,999 are zero. Almost all storage is wasted.
+**(a) Size.** A real vocabulary holds ~50,000 words, so every word becomes 50,000 numbers
+of which 49,999 are zero. Nearly all storage is wasted.
 
-**Problem 2 — no meaning.** Any two different one-hot vectors are exactly the same
-distance apart:
+**(b) No meaning.** Every pair of different words is equally far apart:
 
-> cos(cat, dog) = 0  and  cos(cat, rocket) = 0
+> cos(cat, dog) = 0   and   cos(cat, rocket) = 0
 
-The encoding claims *cat* is as unrelated to *dog* as it is to *rocket*. It carries no
-information about meaning at all.
+The encoding claims *cat* is as unrelated to *dog* as to *rocket*.
 
-**Dense embeddings.** Each word becomes a short vector of real numbers, **learned from
-text** rather than assigned by hand.
-
-```
-cat = [ 0.21, -0.44,  0.87, ... ]     100 numbers
-dog = [ 0.19, -0.40,  0.91, ... ]     100 numbers
-```
-
-Because *cat* and *dog* appear in similar sentences, training pushes their vectors close
-together. Meaning is now encoded in the numbers.
+**Dense embeddings** fix both. Each word becomes a short vector of real numbers **learned
+from text**. Because *cat* and *dog* appear in similar sentences, training pulls their
+vectors together.
 
 | | One-hot | Dense embedding |
 |---|---|---|
-| Length | vocabulary size (~50,000) | fixed and small (50–300) |
-| Values | zeros and a single 1 | real numbers |
-| Created by | indexing/counting | learned from data |
+| Length | vocabulary size (~50,000) | small and fixed (50–300) |
+| Values | zeros and one 1 | real numbers |
+| Created by | indexing | learned from data |
 | Captures meaning | **No** | **Yes** |
-| Similar words close | No — all equidistant | Yes |
-| Storage | huge, sparse | compact, dense |
+| Similar words close | no — all equidistant | yes |
 
 ---
 
 ### 2. Word2Vec, GloVe and FastText
 
-All three rest on one idea, the **distributional hypothesis**:
+All three rest on the **distributional hypothesis**:
 
 > *"You shall know a word by the company it keeps."* — J.R. Firth, 1957
 
-Words that appear in similar contexts tend to have similar meanings. So the way to learn
-what a word means is to look at the words around it.
+Words used in similar contexts have similar meanings.
 
-#### Word2Vec (2013)
-
-Slides a window across the text and trains a small neural network on it.
-
-Sentence: `the cat sat on the mat`, window size 2, centre word **sat**
-Context = [ the, cat, on, the ]
-
-There are two ways to set up the prediction:
+**Word2Vec (2013)** slides a window over the text and trains a small neural network.
+Sentence `the cat sat on the mat`, centre word **sat**, context [the, cat, on, the].
+There are two ways round:
 
 ```
-┌──────── DIAGRAM 1 ────────────────────────────────┐
-│                                                   │
-│  CBOW      [the, cat, on, the]  ──►  sat          │
-│            context predicts the centre            │
-│                                                   │
-│  SKIP-GRAM      sat  ──►  [the, cat, on, the]     │
-│            centre predicts the context            │
-│                                                   │
-└───────────────────────────────────────────────────┘
+┌─────────── DIAGRAM 1 ────────────────────────┐
+│                                              │
+│  CBOW       [the, cat, on, the] ──► sat      │
+│             context predicts the word        │
+│                                              │
+│  SKIP-GRAM  sat ──► [the, cat, on, the]      │
+│             word predicts the context        │
+│                                              │
+└──────────────────────────────────────────────┘
 ```
 
 | | CBOW | Skip-Gram |
 |---|---|---|
-| Direction | context → centre | centre → context |
-| Training speed | faster | slower |
+| Direction | context → word | word → context |
+| Speed | faster | slower |
 | Rare words | weaker | **better** |
 | Small corpus | weaker | **better** |
-| Frequent words | good | good |
 
-#### GloVe (2014) — *Global Vectors*
-
-Word2Vec only ever sees one small window at a time — it uses **local** information.
-
-GloVe instead first counts, across the **entire corpus**, how often every pair of words
-occurs together. That gives a large co-occurrence matrix. It then factorises that matrix
-so the vectors reproduce the co-occurrence counts.
+**GloVe (2014)** — *Global Vectors*. Word2Vec sees only one window at a time. GloVe first
+counts how often every pair of words co-occurs across the **whole corpus**, then
+factorises that count matrix.
 
 > Word2Vec = local windows.  GloVe = global counts.
 
-#### FastText (2016)
-
-Word2Vec and GloVe treat each word as an indivisible unit. FastText breaks a word into
-**character n-grams** and adds them up:
+**FastText (2016)** treats a word as a bag of **character n-grams**:
 
 ```
-"playing"  →  <pl, pla, lay, ayi, yin, ing, ng>
-
-vector("playing") = sum of the vectors of its n-grams
+"playing" → pla, lay, ayi, yin, ing
+"played"  → pla, lay, aye, yed        (shares pla, lay)
 ```
 
-This gives two real advantages:
+Two advantages: an **unseen word** still gets a vector from its pieces, and **morphology**
+comes free — *play / played / playing* share n-grams so they get related vectors. This
+matters greatly for morphologically rich languages such as **Nepali**.
 
-1. **Unknown words.** A word never seen in training — a misspelling, a new name — still
-   gets a sensible vector, built from its pieces. Word2Vec and GloVe simply fail here.
-2. **Morphology.** *play, played, playing, player* share n-grams, so they automatically
-   receive related vectors. This matters enormously for morphologically rich languages
-   such as **Nepali**, where one root produces many surface forms.
-
-| Model | Core idea | Main strength |
+| Model | Core idea | Strength |
 |---|---|---|
-| **Word2Vec** | predict within a local window | fast and simple |
-| **GloVe** | factorise global co-occurrence counts | uses whole-corpus statistics |
-| **FastText** | word = sum of character n-grams | unseen words + morphology |
+| Word2Vec | predict within a local window | fast, simple |
+| GloVe | factorise global co-occurrence counts | whole-corpus statistics |
+| FastText | word = sum of character n-grams | unseen words, morphology |
 
 ---
 
-### 3. Semantic Similarity in Embedding Space
+### 3. Semantic Similarity
 
-Once words are vectors, "similar meaning" becomes "close together". Closeness is measured
-with **cosine similarity**:
+Closeness of meaning is measured by **cosine similarity** — the *angle* between two
+vectors, ignoring their length:
 
 ```
               A · B
-cos(A, B) = ───────────
+cos(A, B) = ─────────        −1 opposite  ·  0 unrelated  ·  +1 identical
             |A| × |B|
 ```
 
-This measures the **angle** between two vectors, ignoring their length.
+**Why the angle, not the distance?** Frequent words develop longer vectors. Plain distance
+would call a common word "far" from a rare one purely because of frequency. The angle
+discards length and keeps direction — and meaning lives in the direction.
 
-```
-Range:   -1  ─────────  0  ─────────  +1
-      opposite      unrelated      identical
-```
+**Measured on GloVe (100 dimensions, 400,000 words):**
 
-**Why the angle rather than the distance?** Frequently-occurring words tend to develop
-longer vectors. If we used ordinary straight-line distance, a common word would look
-"far" from a rare one purely because of frequency, not meaning. The angle discards length
-and keeps only direction — and direction is where the meaning lives.
-
-**Real values, measured with GloVe (100 dimensions, 400,000-word vocabulary):**
-
-| Word pair | cos | Comment |
+| Pair | cos | |
 |---|---|---|
-| cat — dog | **0.88** | both common pets, appear in the same contexts |
-| good — bad | **0.77** | *see the warning below* |
+| cat — dog | **0.88** | same contexts |
+| good — bad | **0.77** | *see warning* |
 | king — queen | **0.75** | both royalty |
-| rocket — spacecraft | **0.61** | related but not interchangeable |
 | cat — rocket | **0.19** | unrelated |
-| king — banana | **0.16** | unrelated |
 
-**An important warning.** Notice that **good — bad scores 0.77**, almost as high as
-*king — queen*. These are opposites, yet the embedding calls them very similar.
+**Warning.** *good — bad* scores 0.77 — nearly as high as *king — queen*, though they are
+opposites. Cosine similarity really measures **"appears in similar contexts"**, not "means
+the same". Both fit "this film was very ___". So **static embeddings cannot separate
+antonyms from synonyms** — a real limitation.
 
-Why? Because cosine similarity really measures **"appears in similar contexts"**, not
-"means the same thing". *Good* and *bad* slot into identical sentences — "this film was
-very ___" — so they end up with nearly the same vector.
-
-This is a genuine limitation of static embeddings: **they capture relatedness, not
-synonymy, and they cannot distinguish antonyms from synonyms.**
-
-#### Vector arithmetic
-
-Relationships between words appear as **directions** in the space. The famous example:
+**Vector arithmetic.** Relationships become *directions*:
 
 ```
-king − man + woman  ≈  queen
+┌─────────── DIAGRAM 2 ────────────────────────┐
+│                                              │
+│     man  ─────────────►  king                │
+│      │                    │                  │
+│      ▼ "female"           ▼ "female"         │
+│    woman ─────────────►  queen               │
+│                                              │
+│    horizontal arrow = "royalty"              │
+└──────────────────────────────────────────────┘
 ```
 
-```
-┌──────── DIAGRAM 2 ────────────────────────────────┐
-│                                                   │
-│      man  ──────────────►  king                   │
-│       │                     │                     │
-│       │  "female"           │  "female"           │
-│       ▼                     ▼                     │
-│    woman  ──────────────►  queen                  │
-│                                                   │
-│      the horizontal arrow = "royalty"             │
-│      both arrows are the same direction & length  │
-└───────────────────────────────────────────────────┘
-```
-
-The step from *man* to *king* is roughly the same direction and length as the step from
-*woman* to *queen*. That shared direction encodes the concept "royalty" — and nobody
-programmed it. It emerged from reading text.
-
-**Tested on real GloVe vectors:**
-
-| Arithmetic | Top result | Score |
+| Arithmetic | Result | Score |
 |---|---|---|
 | king − man + woman | **queen** | 0.77 |
 | paris − france + nepal | **kathmandu** | 0.81 |
 
-The second one is worth pausing on. The vectors were never told what a capital city is.
-They learned the relationship *country → capital* purely from how those words are used in
-text, and that same direction transfers correctly from France to Nepal.
+The vectors were never told what a capital city is. They learned *country → capital* from
+usage alone, and it transfers correctly to Nepal.
 
 ---
 
 ### 4. The Role of Dimensionality
 
-The dimension **d** is simply how many numbers represent each word.
+**d** = how many numbers represent each word.
 
-**If d is too small** (say 5), there is not enough room to separate meanings. Different
-concepts are forced to share space and collide. The model *underfits*.
-
-**If d is too large** (say 1000), each dimension gets very little data to learn from, so
-the model starts memorising noise instead of meaning. It also costs more memory and is
-slower to train. The model *overfits*.
+**Too small** (d = 5): not enough room, different meanings collide — the model
+**underfits**. **Too large** (d = 1000): each dimension sees too little data, so the model
+memorises noise instead of meaning — it **overfits** — and costs more memory and time.
 
 ```
-┌──────── DIAGRAM 3 ────────────────────────────────┐
-│  quality                                          │
-│    ▲                                              │
-│    │           ______                             │
-│    │        __/      \____                        │
-│    │      _/               \___                   │
-│    │    _/                                        │
-│    │  _/                                          │
-│    └──┴─────┴──────┴──────┴──────►  d             │
-│      10    50    300    1000                      │
-│              sweet spot                           │
-└───────────────────────────────────────────────────┘
+┌─────────── DIAGRAM 3 ────────────────────────┐
+│ quality                                      │
+│   ▲        ______                            │
+│   │     __/      \____                       │
+│   │   _/               \___                  │
+│   │ _/                                       │
+│   └─┴─────┴──────┴──────┴──►  d              │
+│    10    50    300   1000                    │
+│           sweet spot                         │
+└──────────────────────────────────────────────┘
 ```
 
-| Dimension | Effect |
+| d | Effect |
 |---|---|
-| Very small (< 20) | underfits — distinct meanings collide |
+| < 20 | underfits — meanings collide |
 | **50 – 300** | **usual sweet spot** |
-| Very large (> 1000) | overfits, more memory, slower, diminishing returns |
+| > 1000 | overfits, slower, diminishing returns |
 
-**One important caution.** The individual dimensions are **not interpretable**. Dimension
-42 does not mean "royalty" or "animal". Meaning is distributed across the whole vector,
-and appears as *directions through the space* rather than along single axes. This is why
-embeddings are powerful but hard to explain — a limitation that motivates the
-explainability topics later in the course.
-
----
-
-### Summary
-
-1. One-hot vectors are huge and carry no meaning; dense embeddings are compact and
-   learned, so similar words end up close together.
-2. Word2Vec learns from local windows (CBOW predicts the centre, Skip-Gram predicts the
-   context); GloVe factorises global co-occurrence counts; FastText builds words from
-   character n-grams and so handles unseen words and rich morphology.
-3. Similarity is measured by the cosine of the angle between vectors, and relationships
-   appear as consistent directions, which is why `king − man + woman ≈ queen` works.
-4. Dimensionality is a trade-off: too few dimensions underfit, too many overfit, and
-   50–300 is the usual range. Individual dimensions carry no meaning on their own.
+**Important:** individual dimensions are **not interpretable**. Dimension 42 does not mean
+"royalty". Meaning is spread across the whole vector and appears as *directions* through
+the space, not along single axes. This is why embeddings work well but are hard to
+explain.
