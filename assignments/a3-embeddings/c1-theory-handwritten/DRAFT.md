@@ -14,10 +14,32 @@
 
 ---
 
+### Introduction — what is a word embedding?
+
+A computer cannot understand the word *"cat"*. It can only do arithmetic. So before any
+language can be processed, **every word must be converted into numbers**.
+
+A **word embedding** is exactly that: a word represented as a list of numbers, called a
+**vector**.
+
+```
+"cat"  →  [ 0.21, -0.44, 0.87, ... ]
+```
+
+The useful part is *which* numbers get chosen. If they are chosen well, then **words with
+similar meanings end up with similar numbers** — so the computer can measure that *cat* is
+closer to *dog* than to *rocket*, without anyone ever telling it what those words mean.
+
+This note covers four questions: how words were represented before embeddings and why it
+failed (§1), the three main methods for building embeddings (§2), how similarity is
+measured once we have them (§3), and how many numbers each word should get (§4).
+
+---
+
 ### 1. One-Hot Encoding vs Dense Embeddings
 
-A computer cannot work with words, only numbers. So every word must first be turned
-into a vector. There are two ways to do it.
+There are two ways to turn a word into numbers. The first is obvious and does not work
+well; the second is what we actually use.
 
 **One-hot encoding.** Each word becomes a vector as long as the whole vocabulary — all
 zeros, except a single 1 marking that word's position.
