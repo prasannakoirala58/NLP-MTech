@@ -2,30 +2,47 @@
 
 The brief puts this under *"Write Handwritten Notes. Scan and upload PDF."*
 
-## How this works
+## Copy from this
 
-1. **`DRAFT.md`** — the full text to copy out. ~3 pages of handwriting.
-   Skip the grey instruction box at the top; start at the title.
-2. Write it out by hand, including the 3 boxed diagrams (all quick to sketch).
-3. Scan or photograph the pages → one PDF.
-4. Save it here as **`PrasannaKoirala_Embeddings_C1.pdf`** and it gets committed.
+**`DRAFT.pdf`** — 4 typeset A4 pages with 3 proper vector figures. This is the one to
+read from while writing.
 
-## What the brief requires — all four are covered in the draft
+Other files here:
+
+| File | What it is |
+|---|---|
+| `DRAFT.pdf` | **the one to copy from** — typeset, with figures |
+| `DRAFT.html` | source the PDF is rendered from |
+| `DRAFT.md` | same content as plain text, for diffing and search |
+| `render.sh` | regenerates `DRAFT.pdf` from `DRAFT.html` |
+
+If the content changes, edit `DRAFT.html`, run `bash render.sh`, and update `DRAFT.md`
+to match.
+
+## What the brief requires — all four are covered
 
 - [x] Compare one-hot encoding with dense word embeddings → §1
-- [x] Explain the differences between Word2Vec (CBOW vs Skip-Gram), GloVe, FastText → §2
-- [x] Discuss semantic similarity in embedding spaces with examples → §3
-- [x] Analyse the role of dimensionality in embedding representations → §4
+- [x] Explain Word2Vec (CBOW vs Skip-Gram), GloVe, FastText → §2
+- [x] Discuss semantic similarity with examples → §3
+- [x] Analyse the role of dimensionality → §4
 
 ## Status
 
 - [x] Draft written
+- [x] Typeset as PDF with figures
 - [ ] Copied out by hand
 - [ ] Scanned to PDF
-- [ ] PDF added here and committed
+- [ ] Final scan saved here as `PrasannaKoirala_Embeddings_C1.pdf` and committed
 
-## Note on the numbers
+## The numbers are real
 
-Every figure in §3 is **measured**, not invented — computed from GloVe
-`glove-wiki-gigaword-100` (400,000 words, 100 dimensions). If you are asked where they
-came from, that is the answer. The same vectors are reused in C2.
+Every similarity figure in §3 is **measured**, not quoted — computed from GloVe
+`glove-wiki-gigaword-100` (400,000 words, 100 dimensions). Two are worth remembering:
+
+- **good — bad = 0.77**, nearly as high as king — queen, because cosine similarity
+  measures shared *context*, not shared *meaning*. Static embeddings cannot separate
+  antonyms from synonyms.
+- **paris − france + nepal = kathmandu (0.81)**. The country→capital direction transfers
+  to a country the examples never mentioned.
+
+The same GloVe vectors are reused in C2.
