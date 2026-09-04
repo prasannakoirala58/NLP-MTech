@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Embedding Space Exploration</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm 16mm 16mm; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body { font-family: "Charter","Iowan Old Style",Georgia,serif;
+         font-size: 10.4pt; line-height: 1.44; color: #16181d; margin: 0; }
+
+  .title-block { border-bottom: 2.5px solid #16181d; padding-bottom: 10px; margin-bottom: 18px; }
+  h1 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 21pt; font-weight: 700;
+       letter-spacing: -0.4px; margin: 0 0 6px; }
+  .byline { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 9pt;
+            color: #5b6270; letter-spacing: 0.3px; }
+
+  h2 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 12.6pt; font-weight: 700;
+       margin: 15px 0 6px; padding-bottom: 4px; border-bottom: 1px solid #c9cdd6;
+       break-after: avoid; }
+  h2 .num { color: #8b93a3; margin-right: 8px; }
+  h3 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 10.5pt; font-weight: 700;
+       margin: 11px 0 4px; break-after: avoid; }
+
+  p { margin: 0 0 6.5px; }
+  .mono { font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9.2pt; }
+
+  pre.sample { font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9.3pt;
+    line-height: 1.6; background: #f5f6f8; border-left: 3px solid #9aa2b1;
+    padding: 7px 12px; margin: 7px 0; border-radius: 0 3px 3px 0;
+    white-space: pre; break-inside: avoid; }
+
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 9px;
+          font-size: 9.7pt; break-inside: avoid; }
+  th { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.6pt;
+       text-transform: uppercase; letter-spacing: 0.6px; text-align: left;
+       padding: 5px 8px; border-bottom: 1.5px solid #16181d; color: #3a4150; }
+  td { padding: 4px 8px; border-bottom: 1px solid #dfe2e8; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.c, th.c { text-align: center; }
+  .num-cell { font-family: "SF Mono",Menlo,monospace; font-weight: 700; }
+  .hi { background: #fff4d6; }
+
+  .callout { border: 1px solid #16181d; border-left-width: 4px;
+             padding: 8px 13px; margin: 9px 0; background: #fbfbfc; break-inside: avoid; }
+  .callout .label { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.4pt;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px;
+    display: block; margin-bottom: 4px; }
+
+  /* ---- the blank box to leave when writing by hand ---- */
+  .figbox {
+    border: 2px dashed #16181d; border-radius: 4px;
+    height: 92px; margin: 12px 0 6px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: repeating-linear-gradient(45deg, #fff, #fff 9px, #f6f7f9 9px, #f6f7f9 18px);
+    break-inside: avoid;
+  }
+  .figbox .big { font-family: "Helvetica Neue",Arial,sans-serif;
+                 font-size: 12pt; font-weight: 700; letter-spacing: 1.2px; }
+  .figbox .small { font-family: "Helvetica Neue",Arial,sans-serif;
+                   font-size: 8.8pt; color: #3a4150; margin-top: 4px; }
+  .figbox .tiny  { font-family: "Helvetica Neue",Arial,sans-serif;
+                   font-size: 7.8pt; color: #6b7280; margin-top: 2px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<div class="title-block">
+  <h1>Embedding Space Exploration</h1>
+  <div class="byline">PRASANNA KOIRALA &nbsp;·&nbsp; AIAC 536 NATURAL LANGUAGE PROCESSING &nbsp;·&nbsp; KATHMANDU UNIVERSITY</div>
+</div>
+
+<h2>Introduction</h2>
+
+<p>The previous note explained <em>what</em> word embeddings are. This one <strong>explores
+them</strong> — taking real vectors and measuring what is actually inside the space.</p>
+
+<p>All numbers below are measured from <strong>GloVe</strong>
+(<span class="mono">glove-wiki-gigaword-100</span>): 400,000 English words, each represented
+by 100 numbers.</p>
+
+<h2><span class="num">1</span>Cosine Similarity Between Words</h2>
+
+<p>Cosine similarity measures the <em>angle</em> between two vectors:</p>
+
+<pre class="sample">cos(A, B)  =  (A · B) / (|A| × |B|)</pre>
+
+<h3>Worked by hand</h3>
+
+<p>Real vectors have 100 numbers, which is impossible to do on paper. With 2 numbers each
+the arithmetic is easy to follow, and it is <strong>exactly the same calculation</strong>.</p>
+
+<pre class="sample">Let  A = [ 2, 3 ]     B = [ 3, 1 ]
+
+  A · B  =  (2 × 3) + (3 × 1)  =  6 + 3  =  9
+  |A|    =  √(2² + 3²)  =  √13  =  3.61
+  |B|    =  √(3² + 1²)  =  √10  =  3.16
+
+  cos(A, B)  =  9 / (3.61 × 3.16)  =  <b>0.79</b>      → similar</pre>
+
+<pre class="sample">Now  C = [ -3, 1 ]
+
+  A · C  =  (2 × -3) + (3 × 1)  =  -6 + 3  =  -3
+  |C|    =  √((-3)² + 1²)  =  √10  =  3.16
+
+  cos(A, C)  =  -3 / (3.61 × 3.16)  =  <b>-0.26</b>    → unrelated</pre>
+
+<h3>Measured on real GloVe vectors</h3>
+
+<p>Four groups of words were chosen. If the embedding space is meaningful, words
+<em>within</em> a group should score high and words <em>across</em> groups should score low.</p>
+
+<table>
+  <tr><th>Within a group</th><th class="c">cos</th><th>Across groups</th><th class="c">cos</th></tr>
+  <tr><td>cat — dog</td><td class="c num-cell">0.88</td><td>cat — computer</td><td class="c num-cell">0.30</td></tr>
+  <tr><td>computer — software</td><td class="c num-cell">0.84</td><td>king — internet</td><td class="c num-cell">0.25</td></tr>
+  <tr><td>king — prince</td><td class="c num-cell">0.77</td><td>nepal — horse</td><td class="c num-cell">0.09</td></tr>
+  <tr><td>king — queen</td><td class="c num-cell">0.75</td><td>queen — software</td><td class="c num-cell">0.04</td></tr>
+</table>
+
+<p>The pattern holds cleanly: <strong>within-group scores are 0.75–0.88, across-group
+scores are 0.04–0.30.</strong> The space genuinely encodes meaning.</p>
+
+<div class="callout">
+  <span class="label">But look closer — one result breaks the pattern</span>
+  <table style="margin:4px 0 0">
+    <tr><td>nepal — india</td><td class="c num-cell">0.68</td><td>both South Asian neighbours</td></tr>
+    <tr class="hi"><td>nepal — france</td><td class="c num-cell">0.22</td><td>both countries, yet <em>low</em></td></tr>
+  </table>
+  <p style="margin-top:6px">Both pairs are “two countries”, so a category-based system would
+  score them the same. The embedding does not, because it learned from <strong>how the words
+  are used</strong>, not from a category list. Nepal and India appear in the same news
+  stories; Nepal and France rarely do.</p>
+  <p style="margin:0"><strong>Embeddings capture usage, not taxonomy.</strong></p>
+</div>
+
+<h2><span class="num">2</span>Vector Arithmetic</h2>
+
+<p>Relationships between words appear as <strong>directions</strong>, so they can be added
+and subtracted. To answer “man is to king as woman is to <em>what?</em>”:</p>
+
+<pre class="sample">vector(king) − vector(man) + vector(woman)  =  ?
+
+then find the word whose vector is nearest to the result.</pre>
+
+<table>
+  <tr><th>Arithmetic</th><th>Nearest word</th><th class="c">Score</th><th>Relationship</th></tr>
+  <tr><td class="mono">king − man + woman</td><td><strong>queen</strong></td><td class="c num-cell">0.77</td><td>gender</td></tr>
+  <tr><td class="mono">paris − france + nepal</td><td><strong>kathmandu</strong></td><td class="c num-cell">0.81</td><td>country → capital</td></tr>
+  <tr><td class="mono">walking − walk + swim</td><td><strong>swimming</strong></td><td class="c num-cell">0.80</td><td>verb tense</td></tr>
+  <tr><td class="mono">mice − mouse + cat</td><td><strong>cats</strong></td><td class="c num-cell">0.77</td><td>singular → plural</td></tr>
+</table>
+
+<p>Four different kinds of relationship — gender, geography, grammatical tense and plurals —
+all recovered by the same simple arithmetic. Nobody programmed any of them in.</p>
+
+<div class="callout">
+  <span class="label">Where it fails</span>
+  <table style="margin:4px 0 0">
+    <tr><th>Arithmetic</th><th>Results</th></tr>
+    <tr class="hi"><td class="mono">bigger − big + small</td>
+        <td><strong>larger 0.89</strong> &nbsp;·&nbsp; smaller 0.87 &nbsp;·&nbsp; large 0.79</td></tr>
+  </table>
+  <p style="margin-top:6px">The expected answer is <em>smaller</em>. It <em>is</em> found — but
+  only in <strong>second place</strong>. The top answer, <em>larger</em>, keeps the
+  comparative form but loses the reversal from big to small.</p>
+  <p style="margin:0">This is the same weakness seen in the previous note: the embedding
+  places <strong>antonyms very close together</strong>, because opposites appear in the same
+  contexts. Analogies work often, but not reliably.</p>
+</div>
+
+<div class="callout">
+  <span class="label">A more serious problem — bias</span>
+  <table style="margin:4px 0 0">
+    <tr class="hi"><td class="mono">doctor − man + woman</td>
+        <td><strong>nurse 0.77</strong> &nbsp;·&nbsp; physician 0.72 &nbsp;·&nbsp; doctors 0.68</td></tr>
+  </table>
+  <p style="margin-top:6px">The correct answer is <em>doctor</em> — the profession does not
+  change with gender. The model returns <strong>nurse</strong>.</p>
+  <p style="margin:0">This is not a bug in the arithmetic. The vectors were trained on
+  human-written text, and that text associates women with nursing and men with doctoring.
+  <strong>The embedding faithfully learned a human bias.</strong> Any system built on these
+  vectors — CV screening, search, translation — inherits it.</p>
+</div>
+
+<h2><span class="num">3</span>Visualising the Space with PCA</h2>
+
+<p>Each word has 100 numbers, so the space cannot be drawn. <strong>PCA</strong> (Principal
+Component Analysis) squashes 100 dimensions down to 2 by keeping the directions along which
+the words differ most.</p>
+
+<p>30 words were chosen from five clear categories — animals, royalty, countries, technology
+and food — and projected to 2 dimensions.</p>
+
+<div class="figbox">
+  <span class="big">FIGURE 1 — PCA</span>
+  <span class="small">LEAVE BLANK in your notes — rule a box roughly <b>15 cm wide × 10 cm tall</b></span>
+  <span class="tiny">(this marker is not to scale — your box should be much taller)</span>
+</div>
+
+<div class="callout">
+  <span class="label">Important caveat</span>
+  These 2 dimensions capture only <strong>35% of the total variance</strong>. The other
+  <strong>65% of the information cannot be drawn.</strong> Two words that look close on the
+  page may be far apart in the real 100-dimensional space. The picture is a useful summary,
+  never proof.
+</div>
+
+<h2><span class="num">4</span>Visualising with t-SNE</h2>
+
+<p>t-SNE solves the same problem differently. PCA is <strong>linear</strong> — it finds the
+flattest sensible shadow of the data. t-SNE is <strong>non-linear</strong> and optimises for
+one thing only: keeping each word close to its true nearest neighbours.</p>
+
+<div class="figbox">
+  <span class="big">FIGURE 2 — t-SNE</span>
+  <span class="small">LEAVE BLANK in your notes — rule a box roughly <b>15 cm wide × 10 cm tall</b></span>
+  <span class="tiny">(this marker is not to scale — your box should be much taller)</span>
+</div>
+
+<table>
+  <tr><th></th><th>PCA</th><th>t-SNE</th></tr>
+  <tr><td>Type</td><td>linear</td><td>non-linear</td></tr>
+  <tr><td>Preserves</td><td>overall variance</td><td>near neighbours</td></tr>
+  <tr><td>Distance between clusters</td><td>meaningful</td><td><strong>not</strong> meaningful</td></tr>
+  <tr><td>Same result every run</td><td>yes</td><td>no — depends on settings</td></tr>
+  <tr><td>Clusters look</td><td>looser</td><td>tighter, better separated</td></tr>
+</table>
+
+<p>t-SNE produces visibly cleaner groups. But its <em>gaps</em> must not be read as
+distances — a wide gap between two clusters does not mean they are especially unrelated.</p>
+
+<h2><span class="num">5</span>Interpreting the Clusters</h2>
+
+<p>Both plots show the same five groups separating on their own. <strong>Nobody labelled
+these words.</strong> The grouping emerged purely from how the words are used in text —
+strong evidence that the embedding space encodes meaning.</p>
+
+<p>Two finer patterns are visible inside the clusters:</p>
+
+<ul style="margin:0 0 8px 18px; padding:0">
+  <li><strong>Countries sub-group by region.</strong> Nepal and India sit together, away from
+  France and Brazil — matching the 0.68 versus 0.22 scores from §1.</li>
+  <li><strong>Royalty is extremely tight.</strong> king, queen, prince, princess, throne and
+  crown almost overlap, because they appear in nearly identical contexts.</li>
+</ul>
+
+<div class="callout">
+  <span class="label">The anomaly — one word in the wrong place</span>
+  <p style="margin:0 0 6px"><strong>“apple” does not sit with the food cluster.</strong> In
+  both plots it drifts towards <em>computer, software</em> and <em>laptop</em>.</p>
+  <p style="margin:0 0 6px">The reason is that <em>apple</em> has <strong>two distinct
+  meanings</strong> — the fruit and the technology company — and GloVe gives every word
+  <strong>exactly one vector</strong>. That single vector has to serve both senses, so it
+  lands in a compromise position between the two clusters, belonging properly to neither.</p>
+  <p style="margin:0">This is the fundamental limitation of <strong>static</strong>
+  embeddings: <em>one word, one vector, regardless of context.</em> It is precisely the
+  problem that contextual embeddings such as BERT were built to solve — they give
+  <em>apple</em> a different vector in “apple pie” than in “Apple released a phone”.</p>
+</div>
+
+<h2>Conclusion</h2>
+
+<p>The embedding space is genuinely meaningful: similarity scores separate related from
+unrelated words, arithmetic recovers gender, geography, tense and plural relationships, and
+five categories cluster without supervision.</p>
+
+<p>But the exploration also exposed three real limits. Analogies are <strong>unreliable</strong>
+(<span class="mono">bigger − big + small</span> ranks <em>larger</em> above <em>smaller</em>).
+The vectors carry <strong>human bias</strong> (<span class="mono">doctor − man + woman</span>
+returns <em>nurse</em>). And a single vector per word <strong>cannot represent two
+meanings</strong>, which is why <em>apple</em> sits stranded between food and technology.</p>
+
+</body>
+</html>
