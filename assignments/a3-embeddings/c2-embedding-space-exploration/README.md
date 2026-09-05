@@ -41,13 +41,30 @@ to paste into than a rough gap.
 - [x] Visualise embeddings using PCA or t-SNE *(marked optional — we do both)* → §3, §4
 - [x] Interpret the visualised clusters *(marked optional — we do it)* → §5
 
-## Status
+## Status — COMPLETE
 
 - [x] Draft written and typeset
 - [x] Figures generated
-- [ ] Copied out by hand, boxes left blank
-- [ ] Scanned
-- [ ] Figures pasted in, final PDF committed
+- [x] Copied out by hand — 11 pages, both boxes left blank
+- [x] Scanned
+- [x] Figures pasted in, final PDF committed
+
+**Submit `PrasannaKoirala_Embeddings_C2.pdf`** (11 pages, 3.9 MB).
+
+### How the figures got in
+
+`insert_figures.py` does it, and can be re-run if a figure changes:
+
+1. Renders the scan at 175 dpi
+2. Finds the ruled box on pages 7 and 8 by looking for peaks in ink density
+   inside the region where the box sits
+3. Whites out the interior (keeping the hand-drawn border) and pastes the figure,
+   scaled to fit and centred
+4. Reassembles the PDF — handwriting pages in greyscale to keep the size down,
+   **the two figure pages in colour** because the clusters are colour-coded
+
+Detected boxes: page 7 at 1033x813 px, page 8 at 1039x857 px. Source scan was
+5.67 MB; the finished file is 3.9 MB.
 
 ## Findings worth defending in a viva
 
