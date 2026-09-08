@@ -16,3 +16,6 @@ __pycache__/
 
 # --- OS ---
 .DS_Store
+
+# regenerable by re-running the P3 notebook (same data as the .npz)
+*_SGNS_vectors.txt

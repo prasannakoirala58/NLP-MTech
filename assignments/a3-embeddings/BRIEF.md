@@ -55,11 +55,12 @@ breaks the static assumption entirely.
 - [ ] Interpret the visualised clusters *(marked optional — we do it)*
 - [ ] **Handwritten** derivations + printed plots attached to the scan
 
-### P3 — Build a Word2Vec Model (SGNS, pure Python)  -> `p3-sgns-pure-python/`
-- [ ] Preprocess text (tokenisation, vocabulary indexing)
-- [ ] Implement training using **negative sampling**
-- [ ] Evaluate with similarity tasks or analogies
-- [ ] Tools: Python + NumPy **only** — no PyTorch/TensorFlow (Group A rule)
+### P3 — Build a Word2Vec Model (SGNS, pure Python)  -> `p3-sgns-pure-python/`  ✅ DONE
+- [x] Preprocess text (tokenisation, vocabulary indexing) — 685k tokens, 5,617 vocab
+- [x] Implement training using **negative sampling** — 8.35M pairs, loss 3.20 -> 2.45
+- [x] Evaluate with similarity tasks or analogies — both; similarity worked, analogies
+      mostly failed (corpus 10,000x smaller than where analogies were discovered)
+- [x] Tools: Python + NumPy **only** — asserted programmatically in the checklist
 
 ### P4 — Use Pre-trained Embeddings  -> `p4-pretrained-embeddings/`
 - [ ] Load GloVe or FastText embeddings
