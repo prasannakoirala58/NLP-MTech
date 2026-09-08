@@ -19,3 +19,4 @@ __pycache__/
 
 # regenerable by re-running the P3 notebook (same data as the .npz)
 *_SGNS_vectors.txt
+corpus_tokens.txt
