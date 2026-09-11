@@ -62,11 +62,12 @@ breaks the static assumption entirely.
       mostly failed (corpus 10,000x smaller than where analogies were discovered)
 - [x] Tools: Python + NumPy **only** — asserted programmatically in the checklist
 
-### P4 — Use Pre-trained Embeddings  -> `p4-pretrained-embeddings/`
-- [ ] Load GloVe or FastText embeddings
-- [ ] Use as input for **one** of: sentiment classification (IMDB/Twitter) *or* NER (CoNLL)
-- [ ] **Compare performance with vs without** embeddings
-- [ ] Bonus for us: benchmark against our own P3 vectors
+### P4 — Use Pre-trained Embeddings  -> `p4-pretrained-embeddings/`  ✅ DONE
+- [x] Load GloVe or FastText embeddings — GloVe 100d
+- [x] Use as input for sentiment classification — NLTK Movie Reviews, 2,000 labelled
+- [x] **Compare performance with vs without** embeddings — bag of words 82.0% vs GloVe 72.8%
+- [x] Bonus: benchmarked against our own P3 vectors — 64.8%, limited by 65.7% coverage
+- [x] Extra: fairness control at equal feature budget (BoW 74.0% vs GloVe 72.8% at 100)
 
 ### P5 — Contextualised vs Static Embeddings  -> `p5-contextual-vs-static/`
 - [ ] Use HF Transformers to extract contextual embeddings
