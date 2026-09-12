@@ -69,7 +69,10 @@ breaks the static assumption entirely.
 - [x] Bonus: benchmarked against our own P3 vectors — 64.8%, limited by 65.7% coverage
 - [x] Extra: fairness control at equal feature budget (BoW 74.0% vs GloVe 72.8% at 100)
 
-### P5 — Contextualised vs Static Embeddings  -> `p5-contextual-vs-static/`
-- [ ] Use HF Transformers to extract contextual embeddings
-- [ ] Analyse sentence similarity **or** word sense disambiguation
-- [ ] Report differences in performance / interpretability
+### P5 — Contextualised vs Static Embeddings  -> `p5-contextual-vs-static/`  ✅ DONE
+- [x] Use HF Transformers to extract contextual embeddings — bert-base-uncased, 110M params
+- [x] Analyse sentence similarity **and** word sense disambiguation — both done
+- [x] Report differences in performance / interpretability — BERT separates senses
+      (~0.42 vs GloVe's unavoidable 1.000); GloVe wins on interpretability
+- [x] Extra: control run proving BERT tracks meaning rather than emitting noise
+      (same sense 0.82 vs different sense 0.42)
