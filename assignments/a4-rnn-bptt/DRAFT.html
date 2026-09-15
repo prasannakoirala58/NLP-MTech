@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RNN — Backpropagation Through Time</title>
+<style>
+  @page { size: A4; margin: 17mm 15mm 15mm 15mm; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body { font-family: "Charter","Iowan Old Style",Georgia,serif;
+         font-size: 10.3pt; line-height: 1.42; color: #16181d; margin: 0; }
+
+  .title-block { border-bottom: 2.5px solid #16181d; padding-bottom: 9px; margin-bottom: 16px; }
+  h1 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 20pt; font-weight: 700;
+       letter-spacing: -0.4px; margin: 0 0 5px; }
+  .byline { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.8pt;
+            color: #5b6270; letter-spacing: 0.3px; }
+
+  h2 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 12.4pt; font-weight: 700;
+       margin: 14px 0 6px; padding-bottom: 3px; border-bottom: 1px solid #c9cdd6;
+       break-after: avoid; }
+  h2 .q { color: #be123c; margin-right: 7px; }
+  h3 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 10.2pt; font-weight: 700;
+       margin: 10px 0 4px; break-after: avoid; }
+
+  p { margin: 0 0 6px; }
+  ul { margin: 0 0 7px 17px; padding: 0; }
+  li { margin-bottom: 3px; }
+
+  .mono { font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9pt; }
+
+  pre.eq { font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9.6pt;
+    line-height: 1.6; background: #f5f6f8; border-left: 3px solid #9aa2b1;
+    padding: 7px 12px; margin: 7px 0; border-radius: 0 3px 3px 0;
+    white-space: pre; break-inside: avoid; }
+  pre.key { border-left-color: #be123c; background: #fdf4f5; }
+
+  table { border-collapse: collapse; width: 100%; margin: 7px 0 8px;
+          font-size: 9.5pt; break-inside: avoid; }
+  th { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.4pt;
+       text-transform: uppercase; letter-spacing: 0.5px; text-align: left;
+       padding: 4px 7px; border-bottom: 1.5px solid #16181d; color: #3a4150; }
+  td { padding: 3.5px 7px; border-bottom: 1px solid #dfe2e8; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.c, th.c { text-align: center; }
+  .num { font-family: "SF Mono",Menlo,monospace; font-weight: 700; }
+
+  .callout { border: 1px solid #16181d; border-left-width: 4px;
+             padding: 7px 12px; margin: 8px 0; background: #fbfbfc; break-inside: avoid; }
+  .callout .label { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.2pt;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+    display: block; margin-bottom: 3px; }
+
+  .figbox { border: 2px dashed #16181d; border-radius: 4px;
+    height: 74px; margin: 10px 0 5px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: repeating-linear-gradient(45deg,#fff,#fff 9px,#f6f7f9 9px,#f6f7f9 18px);
+    break-inside: avoid; }
+  .figbox .big { font-family:"Helvetica Neue",Arial,sans-serif; font-size:11.5pt;
+                 font-weight:700; letter-spacing:1.1px; }
+  .figbox .small { font-family:"Helvetica Neue",Arial,sans-serif; font-size:8.5pt;
+                   color:#3a4150; margin-top:3px; }
+  .figbox .tiny { font-family:"Helvetica Neue",Arial,sans-serif; font-size:7.6pt;
+                  color:#6b7280; margin-top:2px; font-style:italic; }
+
+  .drawbox { border: 2px solid #16181d; border-radius: 4px;
+    padding: 9px 12px; margin: 9px 0 5px; background: #fbfbfc; break-inside: avoid; }
+  .drawbox .label { font-family:"Helvetica Neue",Arial,sans-serif; font-size:8.2pt;
+    font-weight:700; text-transform:uppercase; letter-spacing:0.8px; display:block;
+    margin-bottom:5px; }
+</style>
+</head>
+<body>
+
+<div class="title-block">
+  <h1>Recurrent Neural Networks &mdash; BPTT</h1>
+  <div class="byline">PRASANNA KOIRALA &nbsp;&middot;&nbsp; ROLL 20016 &nbsp;&middot;&nbsp; AIAC 536 NATURAL LANGUAGE PROCESSING &nbsp;&middot;&nbsp; KATHMANDU UNIVERSITY</div>
+</div>
+
+<h2>The Setup</h2>
+
+<p>An RNN processes a three&ndash;step sequence (x&#8321;, x&#8322;, x&#8323;). The hidden state
+updates as h&#8348; = f(x&#8348;, h&#8348;&#8331;&#8321;) and one scalar loss is taken at the
+end: L = L(h&#8323;). Throughout I use the standard concrete form</p>
+
+<pre class="eq">h&#8348; = tanh( W&#8341;&#8341; h&#8348;&#8331;&#8321;  +  W&#8339;&#8341; x&#8348;  +  b )</pre>
+
+<p><b>Why RNNs are needed.</b> A bag of words or an average of word vectors discards word
+order entirely &mdash; "good, not bad" and "bad, not good" produce the identical vector. An
+RNN instead reads the sequence one step at a time and carries a memory forward, so order is
+preserved by construction.</p>
+
+<h2><span class="q">Q1</span>Forward Pass</h2>
+
+<p>Start from h&#8320; = 0 (no context yet), then repeat one identical operation per step:</p>
+
+<pre class="eq">h&#8321; = tanh(W&#8341;&#8341; h&#8320; + W&#8339;&#8341; x&#8321; + b)
+h&#8322; = tanh(W&#8341;&#8341; h&#8321; + W&#8339;&#8341; x&#8322; + b)
+h&#8323; = tanh(W&#8341;&#8341; h&#8322; + W&#8339;&#8341; x&#8323; + b)
+L  = L(h&#8323;)</pre>
+
+<p>Three things follow directly:</p>
+<ul>
+  <li><b>Each step needs the previous one finished</b> &mdash; h&#8322; cannot be computed
+  before h&#8321; exists. The forward pass cannot be parallelised across time.</li>
+  <li><b>The same W&#8341;&#8341;, W&#8339;&#8341;, b appear in every line</b> &mdash; one
+  parameter set, reused at every step (Q6).</li>
+  <li><b>The loss is taken only at the end</b>, yet h&#8321; and h&#8322; must still be
+  corrected. That is the problem BPTT solves (Q3).</li>
+</ul>
+
+<div class="drawbox">
+  <span class="label">Draw this by hand &mdash; unrolled computational graph</span>
+  <pre class="eq" style="margin:0;background:transparent;border:none;padding:0;font-size:9pt">
+   h&#8320; ──W&#8341;&#8341;──▶ h&#8321; ──W&#8341;&#8341;──▶ h&#8322; ──W&#8341;&#8341;──▶ h&#8323; ───▶ L
+                 ▲             ▲             ▲
+              W&#8339;&#8341;│          W&#8339;&#8341;│          W&#8339;&#8341;│
+                 x&#8321;            x&#8322;            x&#8323;
+  </pre>
+  <div style="font-size:8.6pt;color:#3a4150;margin-top:5px">
+    Boxes for h&#8320;..h&#8323; and x&#8321;..x&#8323;, horizontal arrows labelled W&#8341;&#8341;,
+    vertical arrows labelled W&#8339;&#8341;, one arrow from h&#8323; to L. Use a ruler &mdash;
+    this is the diagram the question explicitly asks for.
+  </div>
+</div>
+
+<p><b>Reading it:</b> two arrows enter every hidden state &mdash; one from that step's input,
+one from the previous hidden state. Only h&#8323; connects to the loss. The horizontal chain
+is the <i>only</i> route by which x&#8321; can influence L, and read backwards, the only route
+by which L can reach x&#8321;'s parameters.</p>
+
+<h2><span class="q">Q2</span>Hidden State Dynamics</h2>
+
+<p><b>h&#8348; is the network's memory</b> &mdash; a fixed-size summary of everything seen up
+to time t. Its size never changes, whether the network has read 3 words or 300. Constant
+memory cost, but finite capacity.</p>
+
+<p><b>How context accumulates.</b> Substituting each equation into the next:</p>
+
+<pre class="eq">h&#8322; = tanh( W&#8341;&#8341; · [ tanh(W&#8341;&#8341; h&#8320; + W&#8339;&#8341; x&#8321; + b) ] + W&#8339;&#8341; x&#8322; + b )
+                   └────────── this is h&#8321; ──────────┘</pre>
+
+<p>Expanded fully, h&#8323; is a nested function of x&#8321;, x&#8322; <i>and</i> x&#8323;. Every
+input still has influence, but <b>older information has been squeezed through tanh one more
+time at each step</b>. That is the intuition behind vanishing gradients in Q7 &mdash; the maths
+there states the same observation precisely.</p>
+
+<h2><span class="q">Q3</span>Backpropagation Through Time</h2>
+
+<p>The loss is measured only at h&#8323;, but the weights that produced h&#8321; and h&#8322;
+are equally responsible. So the error signal must travel <b>backwards along the same chain the
+forward pass came along</b>:</p>
+
+<pre class="eq">L  ──▶  h&#8323;  ──▶  h&#8322;  ──▶  h&#8321;</pre>
+
+<p><b>Why "through time".</b> In a feed-forward network, backpropagation travels backwards
+through <i>layers</i> &mdash; structures existing simultaneously in space. An RNN has only
+<b>one</b> cell; what looks like a stack of layers is the <i>same cell at different moments</i>.
+Travelling backwards therefore means stepping backwards through <b>timesteps</b>, not layers.
+Hence backpropagation <b>through time</b>.</p>
+
+<p>Mechanically it is still just the chain rule. Two consequences follow from the structure,
+and each gets its own question: every hidden state must be stored (Q5), and the shared weights
+accumulate a gradient at every step (Q6).</p>
+
+<h2><span class="q">Q4</span>Chain Rule Derivation</h2>
+
+<p>L depends on h&#8321; only through h&#8322;, which affects h&#8323;. Applying the
+multivariable chain rule along that single path:</p>
+
+<pre class="eq">∂L/∂h&#8321;  =  (∂L/∂h&#8323;) · (∂h&#8323;/∂h&#8322;) · (∂h&#8322;/∂h&#8321;)</pre>
+
+<h3>Step 1 &mdash; the loss term</h3>
+<p>With L = ‖h&#8323;‖² = &#8721;&#7522; h&#8323;,&#7522;² :</p>
+<pre class="eq">∂L/∂h&#8323;  =  2 h&#8323;</pre>
+
+<h3>Step 2 &mdash; one step of recurrence <span style="font-weight:400">(the important one)</span></h3>
+<p>Write the pre-activation a&#8348; = W&#8341;&#8341; h&#8348;&#8331;&#8321; + W&#8339;&#8341; x&#8348; + b,
+so h&#8348; = tanh(a&#8348;). Then</p>
+<pre class="eq">∂h&#8348;/∂h&#8348;&#8331;&#8321;  =  diag( tanh&#8242;(a&#8348;) ) · W&#8341;&#8341;</pre>
+<p>Using the identity tanh&#8242;(a) = 1 &minus; tanh²(a) = 1 &minus; h&#8348;² :</p>
+<pre class="eq key">∂h&#8348;/∂h&#8348;&#8331;&#8321;  =  diag( 1 &minus; h&#8348;² ) · W&#8341;&#8341;        ← the Jacobian of one timestep</pre>
+
+<h3>Step 3 &mdash; assemble</h3>
+<pre class="eq">∂L/∂h&#8321;  =   2h&#8323;  ·  diag(1&minus;h&#8323;²)W&#8341;&#8341;  ·  diag(1&minus;h&#8322;²)W&#8341;&#8341;
+            └──┬──┘    └───────┬───────┘    └───────┬───────┘
+            ∂L/∂h&#8323;        ∂h&#8323;/∂h&#8322;             ∂h&#8322;/∂h&#8321;</pre>
+
+<h3>General form, for a sequence of length T</h3>
+<pre class="eq key">                          T
+∂L/∂h&#8342;   =   (∂L/∂h&#7451;)  ·   &#8719;   diag( 1 &minus; h&#8348;² ) W&#8341;&#8341;
+                        t = k+1</pre>
+
+<div class="callout">
+  <span class="label">This product is the centre of the whole assignment</span>
+  Q5 follows because each Jacobian contains its own h&#8348;. Q6 follows because
+  W&#8341;&#8341; appears in every factor. Q7 follows because a product of T terms grows or
+  shrinks exponentially in T.
+</div>
+
+<p><b>Verified.</b> I computed &#8706;L/&#8706;h&#8321; twice &mdash; once with PyTorch's autograd,
+once by evaluating the formula above directly. Maximum difference:
+<span class="num">1.79 &times; 10&#8315;&#8311;</span>, i.e. floating-point noise. The derivation is
+correct, not merely plausible.</p>
+
+<h2><span class="q">Q5</span>Intermediate Activations &amp; Memory</h2>
+
+<p>Look again at the Jacobian from Q4:</p>
+<pre class="eq">∂h&#8348;/∂h&#8348;&#8331;&#8321;  =  diag( 1 &minus; h&#8348;² ) W&#8341;&#8341;</pre>
+
+<p><b>It contains h&#8348; itself.</b> The backward pass cannot evaluate this term without the
+numerical value the forward pass produced. So every hidden state must be <b>kept</b>, not
+discarded after use &mdash; the forward pass is not only computing an answer, it is recording
+the working the backward pass will need.</p>
+
+<p><b>The cost:</b> memory &prop; T &times; H, i.e. <b>linear in sequence length</b>. A
+1,000-step sequence stores 1,000 hidden states before a single gradient is computed. This is a
+real engineering constraint, and it is why <b>truncated BPTT</b> (backpropagate only the last k
+steps) and <b>gradient checkpointing</b> (store some states, recompute the rest) exist.</p>
+
+<h2><span class="q">Q6</span>Parameter Sharing</h2>
+
+<p><b>Why the same weights at every step:</b></p>
+<ul>
+  <li><b>Sequences have no fixed length.</b> Separate weights per timestep would mean a
+  different model for every input length, and no way to handle anything longer than seen in
+  training.</li>
+  <li><b>A pattern should be recognisable wherever it occurs.</b> "not" should be understood
+  the same way at position 2 or position 40.</li>
+  <li><b>Far fewer parameters</b> &mdash; one matrix instead of T, cheaper and less prone to
+  overfitting.</li>
+</ul>
+
+<p><b>The effect on gradients &mdash; they SUM.</b> Because W&#8341;&#8341; is used at every
+step it has many paths to the loss, and the chain rule requires adding each contribution:</p>
+
+<pre class="eq key">                    T
+∂L/∂W&#8341;&#8341;   =   &#8721;   (∂L/∂h&#8348;) · (∂h&#8348;/∂W&#8341;&#8341;)
+                  t = 1</pre>
+
+<p>Note the summation. A non-shared parameter receives one gradient term; a shared one
+accumulates T of them. Two consequences: <b>one update per parameter, not per timestep</b>
+(all contributions are summed first, then a single update applied); and <b>gradient magnitude
+scales with sequence length</b>, which is part of why long sequences need careful learning
+rates and gradient clipping.</p>
+
+<h2><span class="q">Q7</span>Vanishing &amp; Exploding Gradients</h2>
+
+<p>Straight from the general result in Q4, the gradient reaching an early timestep is a
+<b>product of T&minus;k matrices</b>. Repeated multiplication is inherently unstable. Letting
+&lambda; be roughly the largest singular value of one Jacobian:</p>
+
+<pre class="eq">‖ ∂L/∂h&#8342; ‖   ~   &lambda;&#7523;&#8315;&#7503;</pre>
+
+<table>
+  <tr><th>case</th><th>what happens</th><th>consequence</th></tr>
+  <tr><td class="num">&lambda; &lt; 1</td><td><b>vanishes</b> exponentially</td><td>early steps get no learning signal &mdash; no long-range dependencies</td></tr>
+  <tr><td class="num">&lambda; &asymp; 1</td><td>stable</td><td>a knife-edge, not a region</td></tr>
+  <tr><td class="num">&lambda; &gt; 1</td><td><b>explodes</b> exponentially</td><td>enormous updates destroy the weights</td></tr>
+</table>
+
+<p><b>Why tanh makes vanishing more likely.</b> tanh&#8242;(a) = 1 &minus; tanh²(a) &le; 1, with
+equality only at a = 0. So the diag(1 &minus; h&#8348;²) factor is <b>always &le; 1</b> and
+usually well below it, pushing &lambda; downwards at every step regardless of
+W&#8341;&#8341;.</p>
+
+<h3>Measured, not just argued</h3>
+
+<p>I ran 30 timesteps with the spectral radius of W&#8341;&#8341; fixed exactly, and tracked the
+gradient norm at every step:</p>
+
+<table>
+  <tr><th>radius</th><th class="c">predicted (radius²&#8313;)</th><th class="c">measured</th><th>verdict</th></tr>
+  <tr><td class="num">0.5</td><td class="c num">1.86 &times; 10&#8315;&#8313;</td><td class="c num">1.86 &times; 10&#8315;&#8313;</td><td>exact match</td></tr>
+  <tr><td class="num">1.5</td><td class="c num">1.28 &times; 10&#8309;</td><td class="c num">2.12 &times; 10²</td><td>~600&times; weaker</td></tr>
+</table>
+
+<div class="figbox">
+  <span class="big">FIGURE 1 &mdash; GRADIENT OVER 30 TIMESTEPS</span>
+  <span class="small">LEAVE BLANK &mdash; rule a box roughly <b>14 cm wide &times; 8 cm tall</b></span>
+  <span class="tiny">(this marker is not to scale &mdash; your box should be taller)</span>
+</div>
+
+<div class="callout">
+  <span class="label">The key finding &mdash; the two failures are not symmetric</span>
+  <b>Vanishing matches theory exactly</b>; by t = 1 the gradient is around 10&#8315;&#185;&#8313;,
+  numerically indistinguishable from no signal. <b>Exploding is roughly 600&times; weaker than
+  predicted</b>, because as the gradient grows so does h&#8348;, and as h&#8348; approaches
+  &plusmn;1 the factor (1 &minus; h&#8348;²) collapses towards zero. <b>The saturating
+  non-linearity acts as its own brake on explosion.</b>
+  <br><br>
+  This matters practically: explosion is loud and fixable by <b>gradient clipping</b>, whereas
+  vanishing is silent &mdash; no error, no warning, the network simply never learns long-range
+  structure. That is the harder failure, and it is what <b>LSTM and GRU</b> were designed to
+  fix, using additive gated paths so gradients can cross many steps without being multiplied
+  down at each one.
+</div>
+
+<h2><span class="q">Q8</span>PyTorch Implementation</h2>
+
+<p>I implemented a custom RNN cell in PyTorch rather than calling <span class="mono">nn.RNN</span>,
+so that all three parameters are explicit and each gradient can be inspected separately. The
+recurrence is written out by hand:</p>
+
+<pre class="eq">class SimpleRNNCell(nn.Module):
+    def __init__(self, input_size, hidden_size):
+        self.W_xh = nn.Parameter(torch.randn(hidden_size, input_size) * 0.5)
+        self.W_hh = nn.Parameter(torch.randn(hidden_size, hidden_size) * 0.5)
+        self.b    = nn.Parameter(torch.zeros(hidden_size))
+
+    def forward(self, x, h_prev):
+        return torch.tanh(self.W_xh @ x + self.W_hh @ h_prev + self.b)</pre>
+
+<p>Run over <b>T = 5</b> timesteps (satisfying T &ge; 5), a scalar loss
+L = ‖h&#8309;‖² is taken at the final step, and <span class="mono">.backward()</span> called.
+Every parameter received a gradient:</p>
+
+<div class="figbox">
+  <span class="big">FIGURE 2 &mdash; PRINTED .grad FOR EVERY PARAMETER</span>
+  <span class="small">LEAVE BLANK &mdash; rule a box roughly <b>14 cm wide &times; 9 cm tall</b></span>
+  <span class="tiny">(this marker is not to scale &mdash; your box should be taller)</span>
+</div>
+
+<h3>What these gradients physically represent</h3>
+
+<p>Each number answers one precise question: <b>if I increased this single parameter by a tiny
+amount, how much would the loss change?</b> Formally
+<span class="mono">p.grad[i,j]</span> = &#8706;L/&#8706;p&#7522;&#11388;.</p>
+
+<ul>
+  <li><b>Sign</b> &mdash; positive means increasing the weight increases the loss, so training
+  should decrease it. This is why gradient descent subtracts:
+  <span class="mono">p &minus;= lr &times; p.grad</span>.</li>
+  <li><b>Magnitude</b> &mdash; how strongly that weight influences the loss. Near zero means the
+  loss is flat in that direction.</li>
+</ul>
+
+<p><b>The specifically recurrent part.</b> Because W&#8341;&#8341; is shared across all T steps,
+<span class="mono">W_hh.grad</span> is <i>not</i> the influence of one use &mdash; it is the
+<b>sum of its influence at every timestep</b>, exactly the summation derived in Q6. A single
+call to <span class="mono">.backward()</span> silently walked the chain from h&#8309; back to
+h&#8321;, computed a Jacobian at each step, and accumulated T contributions into one matrix.
+<b>That is BPTT, performed automatically.</b></p>
+
+<h2>Conclusion</h2>
+
+<p>Everything in this assignment rests on one object &mdash; the product of Jacobians derived
+in Q4:</p>
+
+<pre class="eq key">                          T
+∂L/∂h&#8342;   =   (∂L/∂h&#7451;)  ·   &#8719;   diag( 1 &minus; h&#8348;² ) W&#8341;&#8341;
+                        t = k+1</pre>
+
+<p>Q5 follows because each Jacobian needs its own stored h&#8348;. Q6 follows because
+W&#8341;&#8341; appears in every factor, so its gradients sum. Q7 follows because a product of
+T terms changes exponentially in T. The derivation was verified against autograd to
+10&#8315;&#8311;, and the vanishing/exploding behaviour measured rather than assumed &mdash;
+revealing that the two failure modes are <b>not</b> symmetric, since tanh saturation damps
+explosion but nothing damps vanishing.</p>
+
+<p style="margin-top:10px;font-size:9.4pt;color:#3a4150">
+<b>Full implementation, runnable notebook and all figures:</b><br>
+<span class="mono">github.com/prasannakoirala58/NLP-MTech</span>
+&nbsp;&rarr;&nbsp; <span class="mono">assignments/a4-rnn-bptt/</span></p>
+
+</body>
+</html>
