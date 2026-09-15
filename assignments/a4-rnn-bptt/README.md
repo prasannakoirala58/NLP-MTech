@@ -38,10 +38,27 @@ the layout.
 | `render.sh` | rebuilds `DRAFT.pdf` |
 | `PrasannaKoirala_RNN_BPTT.ipynb` | all 8 answers, live code, 2 figures |
 
-## Status
+## Status — COMPLETE
 
 - [x] Notebook built, runs clean, 14/14 checks pass
 - [x] Draft typeset, 5 pages
-- [ ] Copied out by hand, two boxes left blank
-- [ ] Scanned
-- [ ] Figures inserted, final PDF committed
+- [x] Copied out by hand — **15 pages**, both boxes left blank
+- [x] Scanned
+- [x] Figures inserted, final PDF committed
+
+**Submit `PrasannaKoirala_RNN_BPTT.pdf`** (15 pages, 5.2 MB) + attach the `.ipynb`.
+
+### How the figures got in
+
+`insert_figures.py`, re-runnable if a figure changes:
+
+1. Renders the scan at 175 dpi
+2. Finds the ruled box on **page 10** (1090x673 px) and **page 13** (990x754 px) by
+   looking for peaks in ink density inside the region each box occupies
+3. Whites out the interior, keeping the hand-drawn border, and pastes the figure scaled
+   to fit and centred
+4. Reassembles — handwriting pages greyscale to halve the size, **the two figure pages in
+   colour** since the plot lines are colour-coded
+
+Source scan 7.15 MB, finished file 5.19 MB. Legibility of the smallest text (the printed
+gradient values) was verified by reading the compressed output back.

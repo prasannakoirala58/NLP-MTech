@@ -57,4 +57,4 @@ Scalar loss evaluated at the final step only:
 ## Status
 - [x] Notebook: 31 cells, 14/14 checks, derivation verified vs autograd (1.8e-07)
 - [x] Draft: 5 typeset pages, 2 figure boxes marked
-- [ ] Handwritten, scanned, figures inserted
+- [x] Handwritten (15 pp), scanned, figures inserted — COMPLETE
