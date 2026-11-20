@@ -1,6 +1,6 @@
 # a2 — Named Entity Recognition from a News Article
 
-Source: `questions/Assignment_1.docx.pdf` (Assignment 02) · Syllabus Unit 1 · Lab 1
+Source: `questions/a2-ner/Assignment_1.docx.pdf` (Assignment 02) · Syllabus Unit 1 · Lab 1
 
 ## Tasks
 - [x] Download an English news article from a **reputable** source

@@ -1,6 +1,6 @@
 # a4 — Recurrent Neural Networks: BPTT and Gradient Dynamics
 
-Source: `questions/RNN_Assignment_BPTT.pdf` · Syllabus Unit 3 · Lab 4
+Source: `questions/a4-rnn-bptt/RNN_Assignment_BPTT.pdf` · Syllabus Unit 3 · Lab 4
 
 ## Problem context
 An RNN processes a 3-timestep sequence (x₁, x₂, x₃). Hidden state recurrence:

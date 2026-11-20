@@ -1,6 +1,6 @@
 # a3 — Word Embeddings
 
-Sources: `questions/Embedding_assignment.pdf` + `questions/Assignment-3.jpg`
+Sources: `questions/a3-embeddings/Embedding_assignment.pdf` + `questions/a3-embeddings/Assignment-3.jpg`
 Syllabus Unit 2 · Labs 2–3
 
 ## The rule

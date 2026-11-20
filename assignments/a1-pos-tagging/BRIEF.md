@@ -1,6 +1,6 @@
 # a1 — POS Extraction from a News Article
 
-Source: `questions/Assignment_1.docx.pdf` (Assignment 01) · Syllabus Unit 1 · Lab 1
+Source: `questions/a1-pos-tagging/Assignment_1.docx.pdf` (Assignment 01) · Syllabus Unit 1 · Lab 1
 
 ## Tasks
 - [x] Download an English news article from a **reputable** source
