@@ -185,8 +185,8 @@ independent audit. All agree.
 
 | # | Step | Who | Done when |
 |---|---|---|---|
-| 0 | Plan locked, questions reorganised, commit | Claude | 🟢 **your go** |
-| 1 | **Learning PDF** | Claude | renders clean, every question covered |
+| 0 ✅ | Plan locked, questions reorganised, commit | Claude | 🟢 **your go** |
+| 1 ✅ | **Learning PDF** (12 pp) | Claude | renders clean, every question covered |
 | 2 | **Read it**, ask anything | **You** | 🟢 you can say in your own words what attention, Q/K/V, the mask and heads do |
 | 3 | **Notebook** | Claude, while you read | clean fresh-kernel run · all checks pass · numpy + matplotlib only · signatures exact |
 | 4 | **Draft** `DRAFT.html → .pdf` + number audit | Claude | every draft number matched to the notebook, **0 mismatches** |
