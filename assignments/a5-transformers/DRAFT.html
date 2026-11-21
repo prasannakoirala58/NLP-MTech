@@ -227,9 +227,8 @@ Shade the −∞ triangle (above the diagonal).</div>
 <div class="step"><b>Step 3</b> + M: &nbsp;<m>0.7071, −∞, −∞; 0, 0.7071, −∞; 0.7071, 0.7071, 1.4142</m></div>
 <div class="step"><b>Step 4</b> token 1: only e<sup>0.7071</sup> survives → [1, 0, 0]</div>
 <div class="step"><b>Step 5</b> token 2: e<sup>0</sup> = 1, e<sup>0.7071</sup> = 2.0281, sum = 3.0281 → [0.3302, 0.6698, 0]</div>
-<div class="step"><b>Step 6</b> (token 3: 2.0281, 2.0281, e<sup>1.4142</sup> = 4.1132, sum = 8.1694 → 2.0281/8.1694 = 0.24826, 4.1132/8.1694 = 0.50349)</div>
-<div class="ans">A = <m>1.000, 0, 0; 0.330, 0.670, 0; 0.248, 0.248, 0.503</m> <span class="py">Python ✓</span></div>
-<p class="note">Row 3 adds to 0.999 only through rounding; in Python it is exactly 1.</p>
+<div class="ans">token 1: [1.000, 0, 0] &nbsp;&nbsp;&nbsp; token 2: [0.330, 0.670, 0] <span class="py">Python ✓</span></div>
+<p class="note">Each token only sees itself and the tokens before it; every future weight is 0.</p>
 
 <h3>(d) Verification: causal vs padding</h3>
 <ul>
