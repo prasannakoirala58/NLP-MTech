@@ -193,7 +193,7 @@ independent audit. All agree.
 | 5 | **S1 (Q1–Q3):** copy → phone-scan → I check it → we walk through the Q1–Q3 code | You + me | 🟢 |
 | 6 | **S2 (Q4–Q7):** same loop | You + me | 🟢 |
 | 7 | **S3 (Q8–Q10):** same loop | You + me | 🟢 |
-| 8 | **Final package**: one scan PDF, SOLUTION.md, README.md, every box ticked | Claude | nothing unticked |
+| 8 | **Final package + deep validation**: one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |
 | 9 | **Submit**: push, upload `.ipynb` + `.pdf` + GitHub link | **You** | Turned in ✅ |
 
 **Files:** `BRIEF.md` · `SOLUTION.md` · `README.md` · `PrasannaKoirala_Transformer.ipynb` ·
