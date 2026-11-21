@@ -40,13 +40,13 @@
 | **Diagrams** | 3 only, **simple boxes and arrows**, about 5 min each with a ruler. The draft lists every label. |
 | **Rounding** | 4 d.p. while working; final answer 3 d.p., rounded **once** from the calculator's full value. Calculator in **RADIANS**. |
 
-**Size: 18–20 pages, in 3 sittings of about 2 hours each.**
+**Size: about 20–22 pages** (the draft is ~7.5 typed pages, including the full-page Q9a drawing), in 3 sittings of about 2 hours each.
 
 | Sitting | Questions | ≈ pages |
 |---|---|---|
-| S1 | Q1–Q3 | 6 |
-| S2 | Q4–Q7 | 7 |
-| S3 | Q8–Q10 | 6 (includes the one full-page diagram, Q9a) |
+| S1 | Q1–Q3 | 7 |
+| S2 | Q4–Q7 | 7–8 |
+| S3 | Q8–Q10 | 6–7 (includes the one full-page diagram, Q9a) |
 
 ### 💻 Notebook: the same 4 steps for every question
 1. **Idea in one line** + *how we thought about it*, in plain words
@@ -58,9 +58,9 @@
 Fixed seed · imports only `numpy` and `matplotlib` · ends with **"All checks: N/N passed"**.
 
 ### 📘 Learning PDF: `docs/learning/unit4-transformers.html → .pdf`
-Kid-simple: an everyday picture first, then the maths in small steps, then "→ this is Q_".
-Follows Q1→Q10, uses the assignment's own numbers, simple pictures, and ends with a one-page
-**"If you're picked to present"** sheet. About 10–12 pages.
+Plain words, **no maths**: for each question, the problem, an everyday scenario (lamps on cinema
+seats, a new student asking for help, a translation office…) and what each calculation *means*.
+6 pages. The maths lives in the handwritten notes.
 
 ---
 
@@ -181,18 +181,18 @@ independent audit. All agree.
 ## 7. Roadmap
 🟢 = **your green light** before we move on. Commit after every step, with no AI attribution.
 
-**Weekend schedule (deadline Sun 22 Nov):** **Fri**: steps 0–4 (you read the learning PDF) · **Sat**: S1 + S2 · **Sun**: S3, package, submit.
+**Weekend schedule (deadline Sun 22 Nov, end of day):** **Sat 21**: read the plain-words notes, then S1 + S2 · **Sun 22**: S3, scan, package, submit.
 
 | # | Step | Who | Done when |
 |---|---|---|---|
 | 0 ✅ | Plan locked, questions reorganised, commit | Claude | 🟢 **your go** |
-| 1 ✅ | **Learning PDF** (12 pp) | Claude | renders clean, every question covered |
+| 1 ✅ | **Learning PDF**, rewritten in plain words (6 pp) | Claude | renders clean, every question covered |
 | 2 | **Read it**, ask anything | **You** | 🟢 you can say in your own words what attention, Q/K/V, the mask and heads do |
-| 3 | **Notebook** | Claude, while you read | clean fresh-kernel run · all checks pass · numpy + matplotlib only · signatures exact |
-| 4 | **Draft** `DRAFT.html → .pdf` + number audit | Claude | every draft number matched to the notebook, **0 mismatches** |
+| 3 ✅ | **Notebook**: 73/73 checks | Claude, while you read | clean fresh-kernel run · all checks pass · numpy + matplotlib only · signatures exact |
+| 4 ✅ | **Draft** `DRAFT.html → .pdf` + number audit: 173/173 numbers match | Claude | every draft number matched to the notebook, **0 mismatches** |
 | 5 | **S1 (Q1–Q3):** copy → phone-scan → I check it → we walk through the Q1–Q3 code | You + me | 🟢 |
 | 6 | **S2 (Q4–Q7):** same loop | You + me | 🟢 |
-| 7 | **S3 (Q8–Q10):** same loop + a mock presentation of one question | You + me | 🟢 |
+| 7 | **S3 (Q8–Q10):** same loop | You + me | 🟢 |
 | 8 | **Final package**: one scan PDF, SOLUTION.md, README.md, every box ticked | Claude | nothing unticked |
 | 9 | **Submit**: push, upload `.ipynb` + `.pdf` + GitHub link | **You** | Turned in ✅ |
 

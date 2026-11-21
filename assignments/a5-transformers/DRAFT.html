@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Transformers — Handwritten Notes Draft</title>
+<style>
+  @page { size: A4; margin: 15mm 15mm 14mm 15mm; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Charter","Iowan Old Style",Georgia,serif;
+         font-size: 10.4pt; line-height: 1.45; color: #16181d; margin: 0; }
+
+  .title-block { border-bottom: 2.5px solid #16181d; padding-bottom: 8px; margin-bottom: 12px; }
+  h1 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 19pt; font-weight: 700;
+       letter-spacing: -0.4px; margin: 0 0 4px; }
+  .byline { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.6pt; color: #5b6270; letter-spacing: 0.3px; }
+
+  h2 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 13pt; font-weight: 700;
+       margin: 16px 0 5px; padding-bottom: 3px; border-bottom: 1.5px solid #16181d; break-after: avoid; }
+  h2 .q { color: #be123c; margin-right: 7px; }
+  h3 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 10.6pt; font-weight: 700;
+       margin: 11px 0 4px; break-after: avoid; }
+  p { margin: 0 0 5px; }
+  ul, ol { margin: 0 0 6px 18px; padding: 0; }
+  li { margin-bottom: 2px; }
+
+  .why { font-style: italic; color: #3a4150; margin-bottom: 5px; }
+  .why::before { content: "What this shows: "; font-style: normal; font-weight: 700; color: #16181d; }
+  .given { margin: 4px 0; }
+  .given b:first-child { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 9.4pt; }
+  .step { margin: 3px 0 3px 0; padding-left: 62px; text-indent: -62px; }
+  .step > b:first-child { display: inline-block; width: 56px; text-indent: 0;
+       font-family: "Helvetica Neue",Arial,sans-serif; font-size: 9.2pt; color: #be123c; }
+  .mono { font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9.4pt; }
+
+  .ans { border: 1.6px solid #16181d; padding: 5px 10px; margin: 6px 0; display: inline-block;
+         break-inside: avoid; }
+  .py { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.8pt; color: #15803d; font-weight: 700; margin-left: 8px; }
+  .note { font-size: 9.4pt; color: #3a4150; }
+
+  .algo { border: 1px solid #16181d; border-left: 4px solid #2563eb; padding: 6px 12px 4px; margin: 7px 0;
+          background: #f5f8ff; break-inside: avoid; }
+  .algo .label, .draw .label { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.2pt; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 2px; }
+  .algo .label { color: #2563eb; }
+  .algo ol { margin-bottom: 2px; }
+  .draw { border: 2px dashed #16181d; padding: 7px 12px; margin: 8px 0; break-inside: avoid; }
+  .draw .label { color: #be123c; }
+
+  table { border-collapse: collapse; margin: 5px 0 7px; font-size: 9.6pt; break-inside: avoid; }
+  th { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.4pt; text-align: left;
+       padding: 3px 8px; border-bottom: 1.5px solid #16181d; }
+  td { padding: 3px 8px; border-bottom: 1px solid #dfe2e8; }
+
+  table.mx { display: inline-table; vertical-align: middle; border-left: 1.6px solid #16181d;
+       border-right: 1.6px solid #16181d; border-radius: 5px; margin: 2px 4px; }
+  table.mx td { border: none; padding: 0 6px; text-align: center;
+       font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9.3pt; }
+  table.grid td, table.grid th { border: 1px solid #16181d; text-align: center; padding: 3px 10px;
+       font-family: "SF Mono",Menlo,monospace; }
+  table.grid th { font-family: "Helvetica Neue",Arial,sans-serif; background: #f5f6f8; }
+  .dark { background: #d9dce3; }
+
+  .sitting { break-before: page; font-family: "Helvetica Neue",Arial,sans-serif; font-size: 9pt;
+       font-weight: 700; letter-spacing: 1px; color: #fff; background: #16181d; padding: 4px 10px; margin-bottom: 4px; }
+  .sitting.first { break-before: auto; }
+  .nocopy { border: 1.5px dashed #9aa2b1; background: #f7f8fa; padding: 7px 12px; margin: 6px 0 10px;
+            font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.8pt; color: #3a4150; }
+  .nocopy b:first-child { color: #be123c; }
+  svg text { font-family: "Helvetica Neue",Arial,sans-serif; fill: #16181d; }
+  svg .bx { fill: #fff; stroke: #16181d; stroke-width: 1.3; }
+  svg .blk { fill: none; stroke: #6b7280; stroke-width: 1.2; stroke-dasharray: 5 4; }
+  svg .ln { stroke: #16181d; stroke-width: 1.3; fill: none; }
+  svg .res { stroke: #be123c; stroke-width: 1.4; fill: none; }
+</style>
+</head>
+<body>
+
+<div class="title-block">
+  <h1>Transformers &mdash; Mathematical Foundations</h1>
+  <div class="byline">PRASANNA KOIRALA &nbsp;&middot;&nbsp; ROLL 20016 &nbsp;&middot;&nbsp; AIAC 536 NATURAL LANGUAGE PROCESSING &nbsp;&middot;&nbsp; KATHMANDU UNIVERSITY</div>
+</div>
+
+<div class="nocopy"><b>DON'T COPY THIS BOX.</b> Copy everything else. Black bars = start of a sitting.
+Calculator in <b>RADIANS</b>. Keep 4 decimals while working, round the final answer to 3 decimals <b>once</b>.
+Boxed lines = draw a box around them. Dashed "DRAW" boxes = draw the diagram yourself with a ruler (simple boxes and arrows).
+"Python ✓" = write it as shown; it means the notebook checked that value.</div>
+
+<!-- =============================== SITTING 1 =============================== -->
+<div class="sitting first">SITTING 1 &nbsp;·&nbsp; Q1 – Q3</div>
+
+<section data-q="Q1">
+<h2><span class="q">Q1</span>Sinusoidal Positional Encoding</h2>
+
+<h3>(a) Roles of pos, i, d, 10000 and how frequency varies</h3>
+<p class="why">attention has no sense of order, so each position gets a unique vector of sines and cosines, added to the word embedding.</p>
+<ul>
+  <li><b>pos</b> = position of the word in the sequence: 0, 1, 2, …</li>
+  <li><b>i</b> = index of the sin/cos pair, 0 … d/2 − 1. Dimension 2i holds sin, dimension 2i+1 holds cos.</li>
+  <li><b>d</b> = d_model, the length of each embedding vector.</li>
+  <li><b>10000</b> = base that sets the slowest wavelength (about 2π · 10000), so positions never repeat in practice.</li>
+</ul>
+<p><b>Derivation (frequency vs dimension):</b></p>
+<div class="step"><b>Step 1</b> PE(pos, 2i) = sin(ω<sub>i</sub> · pos), with ω<sub>i</sub> = 1 / 10000<sup>2i/d</sup> = 10000<sup>−2i/d</sup></div>
+<div class="step"><b>Step 2</b> wavelength λ<sub>i</sub> = 2π / ω<sub>i</sub> = 2π · 10000<sup>2i/d</sup></div>
+<div class="step"><b>Step 3</b> i = 0: ω = 1, λ = 2π ≈ 6.28 &nbsp;→ <b>high frequency</b> (changes every position)</div>
+<div class="step"><b>Step 4</b> i = d/2 − 1: ω ≈ 1/10000, λ ≈ 2π · 10000 &nbsp;→ <b>low frequency</b> (barely changes)</div>
+<div class="step"><b>Step 5</b> ω<sub>i+1</sub> / ω<sub>i</sub> = 10000<sup>−2/d</sup>, a constant: frequency falls geometrically with i</div>
+<div class="ans">Low dimensions = high frequency (fine, local position). High dimensions = low frequency (coarse, global position).</div>
+
+<h3>(b) Hand computation: d = 4, pos = 0, 1, 2</h3>
+<div class="given"><b>Given</b> d = 4 → pairs i = 0 (dims 0, 1) and i = 1 (dims 2, 3).</div>
+<div class="step"><b>Step 1</b> divisors: 10000<sup>0/4</sup> = 1, &nbsp; 10000<sup>2/4</sup> = 100</div>
+<div class="step"><b>Step 2</b> PE(pos) = [ sin(pos), cos(pos), sin(pos/100), cos(pos/100) ] &nbsp; (radians)</div>
+<div class="step"><b>Step 3</b> pos 0: sin 0 = 0, cos 0 = 1, sin 0 = 0, cos 0 = 1</div>
+<div class="step"><b>Step 4</b> pos 1: sin 1 = 0.8415, cos 1 = 0.5403, sin 0.01 = 0.0100, cos 0.01 = 1.0000</div>
+<div class="step"><b>Step 5</b> pos 2: sin 2 = 0.9093, cos 2 = −0.4161, sin 0.02 = 0.0200, cos 0.02 = 0.9998</div>
+<div class="ans">PE = <m>0.0000, 1.0000, 0.0000, 1.0000; 0.8415, 0.5403, 0.0100, 1.0000; 0.9093, −0.4161, 0.0200, 0.9998</m> <span class="py">Python ✓</span></div>
+<p class="note">Columns 0–1 (fast pair) change a lot between positions; columns 2–3 (slow pair) hardly move.</p>
+
+<h3>(d) Periodicity and relative position</h3>
+<ul>
+  <li>Each pair is periodic with wavelength λ<sub>i</sub>. Mixing many wavelengths gives every position a unique code, like the hands of a clock.</li>
+  <li>For an offset k: <span class="mono">[sin ω(p+k), cos ω(p+k)]ᵀ = R(ωk) · [sin ωp, cos ωp]ᵀ</span>,<br>
+      where &nbsp;R(ωk) = <m>cos ωk, sin ωk; −sin ωk, cos ωk</m></li>
+  <li>R depends only on k, not on p, so "k positions later" is one fixed linear map everywhere. The model can learn relative offsets. <span class="py">Python ✓ (all p, all pairs)</span></li>
+</ul>
+</section>
+
+<section data-q="Q2">
+<h2><span class="q">Q2</span>Scaled Dot-Product Self-Attention</h2>
+
+<h3>(a) Q, K, V, score dimensions, and scaling by √d<sub>k</sub></h3>
+<ul>
+  <li><b>Q</b> (query) = what a token is looking for. <b>K</b> (key) = what each token offers to be matched on. <b>V</b> (value) = the information a token passes on.</li>
+  <li>Dimensions for n tokens: Q (n × d<sub>k</sub>) · Kᵀ (d<sub>k</sub> × n) = <b>QKᵀ (n × n)</b>; row i = scores of token i against every token. Softmax keeps n × n; then (n × n) · V (n × d<sub>v</sub>) = output (n × d<sub>v</sub>).</li>
+</ul>
+<p><b>Derivation (why divide by √d<sub>k</sub>):</b> <span class="why" style="display:inline">dot products grow with d<sub>k</sub>; dividing by √d<sub>k</sub> brings their spread back to 1.</span></p>
+<div class="step"><b>Step 1</b> Assume the components of q and k are independent, mean 0, variance 1.</div>
+<div class="step"><b>Step 2</b> q · k = Σ<sub>j=1..d<sub>k</sub></sub> q<sub>j</sub>k<sub>j</sub>; each term has mean 0, variance 1.</div>
+<div class="step"><b>Step 3</b> Var(q · k) = d<sub>k</sub> &nbsp;→ &nbsp;std = √d<sub>k</sub></div>
+<div class="step"><b>Step 4</b> Var(q · k / √d<sub>k</sub>) = d<sub>k</sub> / d<sub>k</sub> = 1</div>
+<div class="ans">Without scaling, large d<sub>k</sub> → huge scores → softmax saturates (one weight ≈ 1) → gradients ≈ 0 (Q7d).</div>
+<div class="algo"><span class="label">Algorithm: scaled dot-product attention</span>
+<ol><li>S = QKᵀ &nbsp;(n × n)</li><li>S ← S / √d<sub>k</sub></li><li>A = softmax of each row of S (each row sums to 1)</li><li>Output = A V &nbsp;(n × d<sub>v</sub>)</li></ol></div>
+
+<h3>(b) Hand computation: Q = K = V = I₂</h3>
+<div class="given"><b>Given</b> Q = K = V = <m>1, 0; 0, 1</m>, &nbsp; d<sub>k</sub> = 2, &nbsp; √2 = 1.4142</div>
+<div class="step"><b>Step 1</b> QKᵀ = I · I = <m>1, 0; 0, 1</m></div>
+<div class="step"><b>Step 2</b> ÷ √2: &nbsp;<m>0.7071, 0; 0, 0.7071</m></div>
+<div class="step"><b>Step 3</b> row 1: e<sup>0.7071</sup> = 2.0281, e<sup>0</sup> = 1, sum = 3.0281 → 2.0281/3.0281 = 0.6698, 1/3.0281 = 0.3302. Row 2 is the mirror image.</div>
+<div class="step"><b>Step 4</b> output = A · V = A · I = A</div>
+<div class="ans">A = Output = <m>0.670, 0.330; 0.330, 0.670</m> <span class="py">Python ✓</span></div>
+
+<h3>(d) Verification</h3>
+<p>Each row: 0.670 + 0.330 = 1.000 ✓. Python gives the same weights and output to 3 d.p. ✓</p>
+</section>
+
+<section data-q="Q3">
+<h2><span class="q">Q3</span>Learnable Q, K, V Projections</h2>
+
+<h3>(a) Projection dimensions, and why three matrices</h3>
+<ul>
+  <li>X ∈ ℝ<sup>n × d_model</sup>; &nbsp; W<sub>Q</sub>, W<sub>K</sub> ∈ ℝ<sup>d_model × d<sub>k</sub></sup>; &nbsp; W<sub>V</sub> ∈ ℝ<sup>d_model × d<sub>v</sub></sup></li>
+  <li>Q = XW<sub>Q</sub> (n × d<sub>k</sub>), &nbsp;K = XW<sub>K</sub> (n × d<sub>k</sub>), &nbsp;V = XW<sub>V</sub> (n × d<sub>v</sub>). Q and K must share d<sub>k</sub> (QKᵀ needs matching inner size); d<sub>v</sub> is free.</li>
+  <li>Three roles: <b>asking</b> (Q), <b>being matched</b> (K), <b>carrying content</b> (V). Separate matrices let each role use different features. If W<sub>Q</sub> = W<sub>K</sub>, scores would be forced symmetric (s<sub>ij</sub> = s<sub>ji</sub>).</li>
+</ul>
+
+<h3>(b) Hand computation</h3>
+<div class="given"><b>Given</b> X = <m>1, 2; 0, 1</m>, W<sub>Q</sub> = <m>1, 0; 0, 1</m>, W<sub>K</sub> = <m>0, 1; 1, 0</m>, W<sub>V</sub> = <m>2, 0; 0, 1</m></div>
+<div class="step"><b>Step 1</b> Q = XW<sub>Q</sub> = <m>1, 2; 0, 1</m> &nbsp; K = XW<sub>K</sub> = <m>2, 1; 1, 0</m> &nbsp; V = XW<sub>V</sub> = <m>2, 2; 0, 1</m></div>
+<div class="step"><b>Step 2</b> QKᵀ = <m>1, 2; 0, 1</m> · <m>2, 1; 1, 0</m> = <m>4, 1; 1, 0</m></div>
+<div class="step"><b>Step 3</b> ÷ √2: &nbsp;<m>2.8284, 0.7071; 0.7071, 0</m></div>
+<div class="step"><b>Step 4</b> row 1: e<sup>2.8284</sup> = 16.9184, e<sup>0.7071</sup> = 2.0281, sum = 18.9465 → [0.8930, 0.1070]</div>
+<div class="step"><b>Step 5</b> row 2: e<sup>0.7071</sup> = 2.0281, e<sup>0</sup> = 1, sum = 3.0281 → [0.6698, 0.3302]</div>
+<div class="step"><b>Step 6</b> output = A V: row 1 = [0.8930·2, 0.8930·2 + 0.1070·1] = [1.7860, 1.8930]; row 2 = [0.6698·2, 0.6698·2 + 0.3302] = [1.3396, 1.6698]</div>
+<div class="ans">A = <m>0.893, 0.107; 0.670, 0.330</m> &nbsp; Output = <m>1.786, 1.893; 1.340, 1.670</m> <span class="py">Python ✓</span></div>
+
+<h3>(d) Identity projections vs the supplied projections</h3>
+<div class="step"><b>Step 1</b> Identity: Q = K = V = X → QKᵀ = XXᵀ = <m>5, 2; 2, 1</m> → ÷√2 = <m>3.5355, 1.4142; 1.4142, 0.7071</m></div>
+<div class="step"><b>Step 2</b> A 2-entry softmax depends only on the difference: row 1: 3.5355 − 1.4142 = 2.1213 = 2.8284 − 0.7071; row 2: 1.4142 − 0.7071 = 0.7071 = 0.7071 − 0 → <b>same weights</b> as (b).</div>
+<div class="step"><b>Step 3</b> Why: s<sub>ij</sub>(identity) − s<sub>ij</sub>(supplied) = (x<sub>i1</sub> − x<sub>i2</sub>)(x<sub>j1</sub> − x<sub>j2</sub>) = (−1)(−1) = 1 for every i, j: each row shifts by a constant, and softmax(z + c) = softmax(z) (Q7a).</div>
+<div class="step"><b>Step 4</b> Outputs differ: identity A·X = <m>0.893, 1.893; 0.670, 1.670</m> vs supplied <m>1.786, 1.893; 1.340, 1.670</m>. W<sub>V</sub> doubled the first value feature.</div>
+<div class="ans">Here W<sub>K</sub> shifts each score row by a constant, so <b>who attends to whom is unchanged</b>; only W<sub>V</sub> changes <b>what is passed on</b>.</div>
+<p>In general W<sub>Q</sub>, W<sub>K</sub> reshape which tokens match (a random W<sub>K</sub> changes the weights, <span class="py" style="margin:0">Python ✓</span>) and W<sub>V</sub> reshapes the retrieved information.</p>
+</section>
+
+<!-- =============================== SITTING 2 =============================== -->
+<div class="sitting">SITTING 2 &nbsp;·&nbsp; Q4 – Q7</div>
+
+<section data-q="Q4">
+<h2><span class="q">Q4</span>Causal Self-Attention and Masking</h2>
+
+<h3>(a) Causal masking in autoregressive generation</h3>
+<ul>
+  <li>Autoregressive generation predicts token t from tokens 1 … t − 1 only. In training the whole sentence is fed at once, so position i must not see positions j &gt; i, or it would copy the answer.</li>
+  <li>Mask M<sub>ij</sub> = 0 if j ≤ i, −∞ if j &gt; i, added to the scores <b>before</b> softmax. e<sup>−∞</sup> = 0, so future weights are exactly 0.</li>
+</ul>
+<div class="draw"><span class="label">Draw: 4 × 4 causal mask</span>
+<table class="grid"><tr><th>query ↓ key →</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+<tr><th>1</th><td>0</td><td class="dark">−∞</td><td class="dark">−∞</td><td class="dark">−∞</td></tr>
+<tr><th>2</th><td>0</td><td>0</td><td class="dark">−∞</td><td class="dark">−∞</td></tr>
+<tr><th>3</th><td>0</td><td>0</td><td>0</td><td class="dark">−∞</td></tr>
+<tr><th>4</th><td>0</td><td>0</td><td>0</td><td>0</td></tr></table>
+Shade the −∞ triangle (above the diagonal).</div>
+<div class="algo"><span class="label">Algorithm: causal self-attention</span>
+<ol><li>S = QKᵀ / √d<sub>k</sub> &nbsp;(n × n)</li><li>Build M by comparing positions: −∞ where j &gt; i, else 0</li>
+<li>S′ = S + M</li><li>A = softmax of each row of S′ (future weights = 0)</li><li>Output = A V</li></ol></div>
+
+<h3>(b) Hand computation: Q = K = V = [[1,0],[0,1],[1,1]]</h3>
+<div class="given"><b>Given</b> Q = K = V = <m>1, 0; 0, 1; 1, 1</m>, &nbsp; d<sub>k</sub> = 2</div>
+<div class="step"><b>Step 1</b> QKᵀ = <m>1, 0, 1; 0, 1, 1; 1, 1, 2</m></div>
+<div class="step"><b>Step 2</b> ÷ √2: &nbsp;<m>0.7071, 0, 0.7071; 0, 0.7071, 0.7071; 0.7071, 0.7071, 1.4142</m></div>
+<div class="step"><b>Step 3</b> + M: &nbsp;<m>0.7071, −∞, −∞; 0, 0.7071, −∞; 0.7071, 0.7071, 1.4142</m></div>
+<div class="step"><b>Step 4</b> token 1: only e<sup>0.7071</sup> survives → [1, 0, 0]</div>
+<div class="step"><b>Step 5</b> token 2: e<sup>0</sup> = 1, e<sup>0.7071</sup> = 2.0281, sum = 3.0281 → [0.3302, 0.6698, 0]</div>
+<div class="step"><b>Step 6</b> (token 3: 2.0281, 2.0281, e<sup>1.4142</sup> = 4.1132, sum = 8.1694 → 2.0281/8.1694 = 0.24826, 4.1132/8.1694 = 0.50349)</div>
+<div class="ans">A = <m>1.000, 0, 0; 0.330, 0.670, 0; 0.248, 0.248, 0.503</m> <span class="py">Python ✓</span></div>
+<p class="note">Row 3 adds to 0.999 only through rounding; in Python it is exactly 1.</p>
+
+<h3>(d) Verification: causal vs padding</h3>
+<ul>
+  <li>Python: every weight above the diagonal is exactly 0 ✓; changing a future token leaves every earlier output unchanged ✓.</li>
+  <li><b>Causal mask</b> hides the <b>future</b>: a triangle, different for every row. Needed for generation.</li>
+  <li><b>Padding mask</b> hides <b>filler tokens</b> added to make sentences the same length: whole columns, the same for every row. Needed for batching.</li>
+</ul>
+</section>
+
+<section data-q="Q5">
+<h2><span class="q">Q5</span>Cross-Attention in Encoder–Decoder Transformers</h2>
+
+<h3>(a) Cross vs self-attention</h3>
+<ul>
+  <li>Self-attention: Q, K, V all come from the same sequence. Cross-attention: <b>Q from the decoder</b> (H<sub>dec</sub>W<sub>Q</sub>), <b>K and V from the encoder</b> (H<sub>enc</sub>W<sub>K</sub>, H<sub>enc</sub>W<sub>V</sub>).</li>
+  <li>n decoder tokens, m encoder tokens: Q (n × d<sub>k</sub>) · Kᵀ (d<sub>k</sub> × m) = <b>scores (n × m)</b>; output (n × m)(m × d<sub>v</sub>) = n × d<sub>v</sub>.</li>
+</ul>
+
+<h3>(b) Hand computation</h3>
+<div class="given"><b>Given</b> Q = <m>1, 0</m>, &nbsp;K = <m>1, 0; 0, 1; 1, 1</m>, &nbsp;V = <m>2, 0; 0, 2; 1, 1</m>, &nbsp;d<sub>k</sub> = 2</div>
+<div class="step"><b>Step 1</b> QKᵀ = [1·1 + 0·0, &nbsp;1·0 + 0·1, &nbsp;1·1 + 0·1] = [1, 0, 1]</div>
+<div class="step"><b>Step 2</b> ÷ √2: [0.7071, 0, 0.7071]</div>
+<div class="step"><b>Step 3</b> e: 2.0281, 1, 2.0281; sum = 5.0562 → [0.4011, 0.1978, 0.4011]</div>
+<div class="step"><b>Step 4</b> output = 0.4011·[2, 0] + 0.1978·[0, 2] + 0.4011·[1, 1] = [1.2033, 0.7967]</div>
+<div class="ans">weights = [0.401, 0.198, 0.401] &nbsp;&nbsp; output = [1.203, 0.797] <span class="py">Python ✓</span></div>
+
+<h3>(d) Retrieval, and why the matrix need not be square</h3>
+<ul>
+  <li>The decoder query is a search request and the encoder keys are index entries. The weights pick the relevant source tokens (40% / 20% / 40%), and the output retrieves a mix of their values.</li>
+  <li>Weights are n × m: one row per decoder token, one column per source token. Two different sequences of different lengths, so 1 × 3 here and 3 × 5 in the notebook. Each row still sums to 1.</li>
+</ul>
+</section>
+
+<section data-q="Q6">
+<h2><span class="q">Q6</span>Multi-Head Attention</h2>
+
+<h3>(a) Dimensions: d_model = 8, H = 2, d<sub>k</sub> = d<sub>v</sub> = 8/2 = 4</h3>
+<table>
+<tr><th>quantity</th><th>shape</th></tr>
+<tr><td>X</td><td>n × 8</td></tr>
+<tr><td>W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub></td><td>8 × 8 each (= 2 heads × 4 columns)</td></tr>
+<tr><td>Q, K, V &nbsp;→ per head</td><td>n × 8 &nbsp;→ &nbsp;n × 4</td></tr>
+<tr><td>scores / weights per head</td><td>n × n</td></tr>
+<tr><td>head output A<sub>h</sub>V<sub>h</sub></td><td>n × 4</td></tr>
+<tr><td>concat [head 1 | head 2]</td><td>n × 8</td></tr>
+<tr><td>W<sub>O</sub> → final output</td><td>8 × 8 → n × 8</td></tr>
+<tr><td>all weights</td><td>2 × n × n</td></tr>
+</table>
+<div class="algo"><span class="label">Algorithm: multi-head attention</span>
+<ol><li>Project: Q = XW<sub>Q</sub>, K = XW<sub>K</sub>, V = XW<sub>V</sub></li><li>Split the columns into H heads of d<sub>k</sub></li>
+<li>Each head: A<sub>h</sub> = softmax(Q<sub>h</sub>K<sub>h</sub>ᵀ / √d<sub>k</sub>), out<sub>h</sub> = A<sub>h</sub>V<sub>h</sub></li>
+<li>Concatenate the heads side by side (n × H·d<sub>v</sub>)</li><li>Output = concat · W<sub>O</sub></li></ol></div>
+
+<h3>(b) Hand computation: X = I₂, two heads</h3>
+<div class="given"><b>Given</b> X = I₂; head 1: W<sub>Q</sub> = W<sub>K</sub> = W<sub>V</sub> = I₂; head 2: W<sub>Q</sub> = W<sub>K</sub> = P = <m>0, 1; 1, 0</m>, W<sub>V</sub> = I₂; each head d<sub>k</sub> = 2</div>
+<div class="step"><b>Step 1</b> Head 1: Q = K = V = I₂, exactly Q2(b) → A₁ = <m>0.670, 0.330; 0.330, 0.670</m>, out₁ = A₁</div>
+<div class="step"><b>Step 2</b> Head 2: Q = K = XP = P → QKᵀ = PPᵀ = I (swapping twice = no swap) → same scores → A₂ = A₁; V = I₂ → out₂ = A₂</div>
+<div class="step"><b>Step 3</b> concatenate side by side (2 × 4)</div>
+<div class="ans">concat = <m>0.670, 0.330, 0.670, 0.330; 0.330, 0.670, 0.330, 0.670</m> <span class="py">Python ✓</span></div>
+<p class="note">The concat is 2 × 4 but d_model = 2: W<sub>O</sub> (4 × 2) maps it back. The two heads are identical, so they are redundant.</p>
+
+<h3>(d) Different relationships, and why more heads ≠ more capacity</h3>
+<ul>
+  <li>Each head has its own W<sub>Q</sub><sup>(h)</sup>, W<sub>K</sub><sup>(h)</sup>, W<sub>V</sub><sup>(h)</sup>, so each defines its own notion of "match" (e.g. syntax, nearby words, coreference).</li>
+  <li><b>Fixed budget:</b> H · d<sub>k</sub> = d_model, so the parameters stay 4 · d_model² for any H.</li>
+  <li><b>Thinner heads:</b> rank(Q<sub>h</sub>K<sub>h</sub>ᵀ) ≤ d<sub>k</sub> = d_model / H, so each head can express fewer patterns. <span class="py" style="margin:0">Python ✓ (rank 8, 4, 2, 1)</span></li>
+  <li><b>Redundancy:</b> heads can learn the same pattern (our toy: head 2 = head 1); many trained heads can be removed with little loss.</li>
+</ul>
+</section>
+
+<section data-q="Q7">
+<h2><span class="q">Q7</span>Numerical Stability and Attention Temperature</h2>
+
+<h3>(a) Proof: softmax(z) = softmax(z − max z)</h3>
+<p class="why">subtracting any constant c from every score leaves softmax unchanged, so we may subtract the max to avoid overflow.</p>
+<div class="step"><b>Step 1</b> softmax(z − c)<sub>i</sub> = e<sup>z<sub>i</sub> − c</sup> / Σ<sub>j</sub> e<sup>z<sub>j</sub> − c</sup></div>
+<div class="step"><b>Step 2</b> = e<sup>−c</sup> e<sup>z<sub>i</sub></sup> / ( e<sup>−c</sup> Σ<sub>j</sub> e<sup>z<sub>j</sub></sup> )</div>
+<div class="step"><b>Step 3</b> = e<sup>z<sub>i</sub></sup> / Σ<sub>j</sub> e<sup>z<sub>j</sub></sup> = softmax(z)<sub>i</sub> &nbsp;∎ &nbsp;(e<sup>−c</sup> cancels)</div>
+<div class="step"><b>Step 4</b> With c = max(z), the largest exponent is e<sup>0</sup> = 1, so nothing overflows.</div>
+<p>Example: [1000, 1001, 1002] − 1002 = [−2, −1, 0] → e: 0.1353, 0.3679, 1; sum = 1.5032 → <b>[0.090, 0.245, 0.665]</b>. Directly, e<sup>1000</sup> = ∞ and ∞/∞ = nan. <span class="py">Python ✓</span></p>
+
+<h3>(d) Sharpness, √d<sub>k</sub> scaling, and softmax gradients</h3>
+<ul>
+  <li><b>Temperature:</b> softmax(z / T). T &lt; 1 sharpens (the top score dominates); T &gt; 1 flattens (towards uniform). Notebook: entropy 0.37 at T = 0.5 → 1.10 at T = 4.</li>
+  <li><b>√d<sub>k</sub> scaling</b> = choosing T = √d<sub>k</sub>, so the scores have variance 1 whatever d<sub>k</sub> is (Q2a).</li>
+</ul>
+<p><b>Derivation (softmax gradient):</b> <span class="why" style="display:inline">a saturated softmax passes almost no gradient back.</span></p>
+<div class="step"><b>Step 1</b> s<sub>i</sub> = e<sup>z<sub>i</sub></sup> / S, &nbsp; S = Σ<sub>k</sub> e<sup>z<sub>k</sub></sup></div>
+<div class="step"><b>Step 2</b> quotient rule: ∂s<sub>i</sub>/∂z<sub>j</sub> = (δ<sub>ij</sub> e<sup>z<sub>i</sub></sup> S − e<sup>z<sub>i</sub></sup> e<sup>z<sub>j</sub></sup>) / S² = s<sub>i</sub>(δ<sub>ij</sub> − s<sub>j</sub>)</div>
+<div class="step"><b>Step 3</b> saturated (one s ≈ 1, the rest ≈ 0): every s<sub>i</sub>(δ<sub>ij</sub> − s<sub>j</sub>) ≈ 0 → the gradient vanishes</div>
+<div class="ans">Too sharp → no gradient, no learning. Too flat → no focus. √d<sub>k</sub> keeps softmax in the useful middle.</div>
+<p class="note">Notebook: largest gradient entry 0.223 for scores [2, 1, 0], but only about 8 × 10⁻⁹ for [20, 1, 0].</p>
+</section>
+
+<!-- =============================== SITTING 3 =============================== -->
+<div class="sitting">SITTING 3 &nbsp;·&nbsp; Q8 – Q10</div>
+
+<section data-q="Q8">
+<h2><span class="q">Q8</span>Transformer Encoder Block</h2>
+
+<h3>(a) Architecture</h3>
+<div class="draw"><span class="label">Draw: encoder block (about half a page). Label every box; write the shape on the arrows.</span>
+<svg viewBox="0 0 400 300" width="54%" style="display:block;margin:0 auto">
+  <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16181d"/></marker>
+        <marker id="r2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#be123c"/></marker></defs>
+  <text x="200" y="16" text-anchor="middle" font-size="12" font-weight="700">X &nbsp;(n × d)</text>
+  <line class="ln" x1="200" y1="22" x2="200" y2="48" marker-end="url(#a2)"/>
+  <rect class="bx" x="110" y="50" width="180" height="30" rx="4"/><text x="200" y="70" text-anchor="middle" font-size="11.5">Multi-Head Attention</text>
+  <line class="ln" x1="200" y1="80" x2="200" y2="104" marker-end="url(#a2)"/><text x="208" y="96" font-size="9.5">n × d</text>
+  <rect class="bx" x="110" y="106" width="180" height="30" rx="4"/><text x="200" y="126" text-anchor="middle" font-size="11.5">Add &amp; LayerNorm</text>
+  <line class="ln" x1="200" y1="136" x2="200" y2="160" marker-end="url(#a2)"/><text x="208" y="152" font-size="9.5">H: n × d</text>
+  <rect class="bx" x="110" y="162" width="180" height="30" rx="4"/><text x="200" y="182" text-anchor="middle" font-size="11">FFN: d → d_ff → d (ReLU)</text>
+  <line class="ln" x1="200" y1="192" x2="200" y2="216" marker-end="url(#a2)"/><text x="208" y="208" font-size="9.5">n × d</text>
+  <rect class="bx" x="110" y="218" width="180" height="30" rx="4"/><text x="200" y="238" text-anchor="middle" font-size="11.5">Add &amp; LayerNorm</text>
+  <line class="ln" x1="200" y1="248" x2="200" y2="272" marker-end="url(#a2)"/>
+  <text x="200" y="290" text-anchor="middle" font-size="12" font-weight="700">Y &nbsp;(n × d)</text>
+  <path class="res" d="M200,35 H70 V121 H107" marker-end="url(#r2)"/>
+  <path class="res" d="M200,148 H70 V233 H107" marker-end="url(#r2)"/>
+  <text x="62" y="82" text-anchor="end" font-size="10" style="fill:#be123c">+ X</text>
+  <text x="62" y="196" text-anchor="end" font-size="10" style="fill:#be123c">+ H</text>
+</svg>
+Must show: X in, MHA, 2 × Add &amp; LayerNorm, FFN with d_ff, <b>2 residual arrows</b>, Y out, n × d on the arrows.</div>
+<ul>
+  <li><b>Multi-head attention</b> mixes information across tokens: n × d → n × d.</li>
+  <li><b>Residual</b> X + MHA(X) keeps the original signal and gives the gradient a direct path.</li>
+  <li><b>LayerNorm</b>, per token across its d features: x̂ = (x − μ) / √(σ² + ε), &nbsp;y = γ x̂ + β.</li>
+  <li><b>Position-wise FFN</b>: ReLU(HW₁ + b₁)W₂ + b₂, W₁: d × d_ff, W₂: d_ff × d (d_ff usually 4d), the same for every token.</li>
+  <li>The shape stays n × d throughout, so blocks can be stacked N times.</li>
+</ul>
+<div class="algo"><span class="label">Algorithm: encoder block (post-norm)</span>
+<ol><li>A = MultiHead(X)</li><li>H = LayerNorm(X + A)</li><li>F = ReLU(HW₁ + b₁)W₂ + b₂</li><li>Y = LayerNorm(H + F)</li></ol></div>
+
+<h3>(c) FFN vs attention; residuals and gradients</h3>
+<ul>
+  <li><b>FFN acts per token:</b> row i of FFN(H) uses only row i of H (same W₁, W₂ on every row), so tokens never mix. <b>Attention mixes tokens:</b> output row i = Σ<sub>j</sub> a<sub>ij</sub> v<sub>j</sub> depends on every token. <span class="py" style="margin:0">Python ✓ (change token 2: FFN row 2 only, attention every row)</span></li>
+  <li><b>Residuals:</b> y = x + F(x) → ∂y/∂x = I + ∂F/∂x. The identity term carries the gradient straight through every layer, so it does not vanish even when ∂F/∂x is small. This is what lets deep stacks train (unlike the repeated multiplications of an RNN).</li>
+</ul>
+</section>
+
+<section data-q="Q9">
+<h2><span class="q">Q9</span>Decoder Block and Complete Transformer</h2>
+
+<h3>(a) Architecture</h3>
+<div class="draw"><span class="label">Draw: the full Transformer (one full page). Simple boxes and arrows.</span>
+<svg viewBox="0 0 640 540" width="100%">
+  <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16181d"/></marker>
+        <marker id="r3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#be123c"/></marker></defs>
+  <text x="160" y="16" text-anchor="middle" font-size="11.5" font-weight="700">ENCODER</text>
+  <text x="160" y="32" text-anchor="middle" font-size="10">source tokens (m)</text>
+  <line class="ln" x1="160" y1="37" x2="160" y2="52" marker-end="url(#a3)"/>
+  <rect class="bx" x="50" y="54" width="220" height="30" rx="4"/><text x="160" y="73" text-anchor="middle" font-size="10.5">Embedding + Positional Encoding</text>
+  <line class="ln" x1="160" y1="84" x2="160" y2="118" marker-end="url(#a3)"/>
+  <rect class="blk" x="35" y="104" width="250" height="194" rx="6"/><text x="16" y="205" font-size="13" font-weight="700">×N</text>
+  <rect class="bx" x="50" y="120" width="220" height="30" rx="4"/><text x="160" y="139" text-anchor="middle" font-size="10.5">Multi-Head Self-Attention</text>
+  <line class="ln" x1="160" y1="150" x2="160" y2="163" marker-end="url(#a3)"/>
+  <rect class="bx" x="50" y="165" width="220" height="30" rx="4"/><text x="160" y="184" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
+  <line class="ln" x1="160" y1="195" x2="160" y2="208" marker-end="url(#a3)"/>
+  <rect class="bx" x="50" y="210" width="220" height="30" rx="4"/><text x="160" y="229" text-anchor="middle" font-size="10.5">Feed-Forward</text>
+  <line class="ln" x1="160" y1="240" x2="160" y2="253" marker-end="url(#a3)"/>
+  <rect class="bx" x="50" y="255" width="220" height="30" rx="4"/><text x="160" y="274" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
+  <path class="res" d="M160,112 H42 V180 H48" marker-end="url(#r3)"/>
+  <path class="res" d="M160,202 H42 V270 H48" marker-end="url(#r3)"/>
+  <line class="ln" x1="160" y1="285" x2="160" y2="330"/>
+  <text x="168" y="322" font-size="9.5">encoder output (m × d)</text>
+  <path class="ln" d="M160,330 H318 V225 H358" marker-end="url(#a3)"/>
+  <text x="338" y="219" text-anchor="middle" font-size="9" font-weight="700">K, V</text>
+  <text x="470" y="16" text-anchor="middle" font-size="11.5" font-weight="700">DECODER</text>
+  <text x="470" y="32" text-anchor="middle" font-size="10">output tokens so far (shifted right, n)</text>
+  <line class="ln" x1="470" y1="37" x2="470" y2="52" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="54" width="220" height="30" rx="4"/><text x="470" y="73" text-anchor="middle" font-size="10.5">Embedding + Positional Encoding</text>
+  <line class="ln" x1="470" y1="84" x2="470" y2="118" marker-end="url(#a3)"/>
+  <rect class="blk" x="345" y="104" width="250" height="284" rx="6"/><text x="603" y="250" font-size="13" font-weight="700">×N</text>
+  <rect class="bx" x="360" y="120" width="220" height="30" rx="4"/><text x="470" y="139" text-anchor="middle" font-size="10.5">Masked Multi-Head Self-Attention</text>
+  <line class="ln" x1="470" y1="150" x2="470" y2="163" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="165" width="220" height="30" rx="4"/><text x="470" y="184" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
+  <line class="ln" x1="470" y1="195" x2="470" y2="208" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="210" width="220" height="30" rx="4"/><text x="470" y="229" text-anchor="middle" font-size="10.5">Cross-Attention (Q here; K, V from encoder)</text>
+  <line class="ln" x1="470" y1="240" x2="470" y2="253" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="255" width="220" height="30" rx="4"/><text x="470" y="274" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
+  <line class="ln" x1="470" y1="285" x2="470" y2="298" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="300" width="220" height="30" rx="4"/><text x="470" y="319" text-anchor="middle" font-size="10.5">Feed-Forward</text>
+  <line class="ln" x1="470" y1="330" x2="470" y2="343" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="345" width="220" height="30" rx="4"/><text x="470" y="364" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
+  <path class="res" d="M470,112 H598 V180 H582" marker-end="url(#r3)"/>
+  <path class="res" d="M470,202 H598 V270 H582" marker-end="url(#r3)"/>
+  <path class="res" d="M470,292 H598 V360 H582" marker-end="url(#r3)"/>
+  <line class="ln" x1="470" y1="375" x2="470" y2="408" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="410" width="220" height="30" rx="4"/><text x="470" y="429" text-anchor="middle" font-size="10.5">Linear (d → vocabulary)</text>
+  <line class="ln" x1="470" y1="440" x2="470" y2="458" marker-end="url(#a3)"/>
+  <rect class="bx" x="360" y="460" width="220" height="30" rx="4"/><text x="470" y="479" text-anchor="middle" font-size="10.5">Softmax</text>
+  <line class="ln" x1="470" y1="490" x2="470" y2="508" marker-end="url(#a3)"/>
+  <text x="470" y="525" text-anchor="middle" font-size="10.5" font-weight="700">next-token probabilities</text>
+</svg>
+Must show: <b>PE on both sides</b> · ×N on both stacks · encoder: MHA, FFN · decoder: <b>masked</b> MHA, <b>cross</b>-attention, FFN ·
+<b>Add &amp; Norm after every sub-layer</b> (2 encoder, 3 decoder) with <b>residual arrows</b> · encoder output → K, V of the cross-attention in <b>every</b> decoder block · <b>Linear → Softmax</b> over the vocabulary.</div>
+<ul>
+  <li><b>Masked self-attention:</b> Q, K, V all from the decoder's own tokens, with a causal mask so position i sees only positions ≤ i. Weights n × n.</li>
+  <li><b>Encoder–decoder (cross) attention:</b> Q from the decoder, K and V from the encoder output, with no causal mask (the source is fully known). Weights n × m.</li>
+</ul>
+<div class="algo"><span class="label">Algorithm: decoder block (post-norm)</span>
+<ol><li>A = MaskedMultiHead(Y<sub>in</sub>); &nbsp;H₁ = LayerNorm(Y<sub>in</sub> + A)</li>
+<li>C = CrossMultiHead(Q from H₁; K, V from the encoder output); &nbsp;H₂ = LayerNorm(H₁ + C)</li>
+<li>F = FFN(H₂); &nbsp;out = LayerNorm(H₂ + F)</li>
+<li>After the last block: logits = out · W<sub>vocab</sub>, &nbsp;p = softmax(logits)</li></ol></div>
+
+<h3>(c) Information flow, and why only the decoder is masked</h3>
+<ul>
+  <li><b>Flow:</b> source tokens → embedding + PE → N encoder blocks → encoder output (m × d) → K, V in the cross-attention of every decoder block → decoder output (n × d) → Linear (d → vocabulary) → softmax → next-token probabilities.</li>
+  <li><b>Decoder needs the causal mask:</b> it generates left to right. At inference, token t + 1 does not exist yet when token t is produced, so training must hide it too, or the model attends to the answer it should predict. <span class="py" style="margin:0">Python ✓ (no future leak)</span></li>
+  <li><b>Encoder does not:</b> the whole source sentence is given in advance, so every token may use full left and right context.</li>
+</ul>
+</section>
+
+<section data-q="Q10">
+<h2><span class="q">Q10</span>Computational Complexity</h2>
+
+<h3>(a) Derivation of the costs (multiply-adds)</h3>
+<p class="why">count the multiply-adds in each matrix product: attention grows with n², the projections only with n.</p>
+<div class="step"><b>Rule</b> (a × b)(b × c) costs a · b · c multiply-adds: a·c entries, each a dot product of length b.</div>
+<table>
+<tr><th>operation</th><th>one head (d<sub>k</sub> = d<sub>v</sub> = d/H)</th><th>all H heads</th></tr>
+<tr><td>Q, K, V projections</td><td>3 · n · d · d<sub>k</sub></td><td>3 · n · d²</td></tr>
+<tr><td>QKᵀ: (n × d<sub>k</sub>)(d<sub>k</sub> × n)</td><td>n² · d<sub>k</sub></td><td>n² · d</td></tr>
+<tr><td>AV: (n × n)(n × d<sub>v</sub>)</td><td>n² · d<sub>v</sub></td><td>n² · d</td></tr>
+<tr><td>attention-matrix memory</td><td>n²</td><td>H · n²</td></tr>
+</table>
+<div class="ans">Projections (+ W<sub>O</sub>) ≈ 4nd² = O(n·d²), linear in n. &nbsp;Attention ≈ 2n²d = O(n²·d), quadratic in n. &nbsp;Memory O(H·n²). &nbsp;Equal when n = 2d.</div>
+
+<h3>(c) Quadratic growth, and arithmetic vs implementation</h3>
+<ul>
+  <li><b>Quadratic:</b> every one of n tokens scores against all n, so n² pairs. Doubling n gives 4× the work and memory. Notebook: memory 32 KiB at n = 32 → 8192 KiB at n = 512 (×256 for ×16 length).</li>
+  <li><b>Sequence length:</b> below n = 2d (= 128 here) the projections dominate, so time grows slower than n². Above it, n² takes over and the measured slope rises towards 2.</li>
+  <li><b>Masking:</b> the causal mask zeroes half the matrix, but naive code still computes all n² scores, so <b>no arithmetic is saved</b>. Only a smarter implementation skips the masked half.</li>
+  <li><b>Heads:</b> H · d<sub>k</sub> = d keeps the arithmetic the same, but H separate n × n matrices are stored, so memory is H · n².</li>
+  <li><b>Arithmetic vs implementation:</b> the formula counts operations. Real time also depends on overhead at small n, memory traffic at large n, and special kernels that skip masked blocks or never store the full n × n matrix. These save time or memory without changing the arithmetic.</li>
+</ul>
+</section>
+
+<script>
+// Turn every <m>a, b; c, d</m> into a bracketed matrix (rows split by ";", entries by ",").
+document.querySelectorAll('m').forEach(function (el) {
+  var table = document.createElement('table');
+  table.className = 'mx';
+  el.textContent.split(';').forEach(function (rowText) {
+    var tr = table.insertRow();
+    rowText.split(',').forEach(function (value) { tr.insertCell().textContent = value.trim(); });
+  });
+  el.replaceWith(table);
+});
+</script>
+</body>
+</html>
