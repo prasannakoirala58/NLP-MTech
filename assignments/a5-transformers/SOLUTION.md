@@ -1,7 +1,8 @@
 # a5 — Solution trace
 
-**Deliverables:** `PrasannaKoirala_Transformer.ipynb` (83 cells, 73/73 checks) + handwritten notes
-copied from `DRAFT.html` (≈ 22–24 pages, scan pending) + the GitHub link.
+**Deliverables:** `PrasannaKoirala_Transformer.ipynb` (83 cells, 73/73 checks) +
+`PrasannaKoirala_Transformer.pdf` (handwritten notes written from `DRAFT.html`, 43 scanned pages)
++ the GitHub link.
 
 ---
 
@@ -72,7 +73,31 @@ large n. That is exactly Q10c's "arithmetic vs implementation" distinction, meas
 - `uv run` tried to re-sync and download a spaCy wheel over a slow network, so the notebook is
   executed with `uv run --no-sync`. Nothing is installed by hand.
 
-## 6. Still to do
+## 6. From phone scan to the final PDF
 
-The scan, pasting the three plots into the ruled boxes (`insert_figures.py`), the final
-`DRAFT.pdf`, the README, a final independent validation, then submission.
+The notes were written by hand, leaving a blank gap under each question heading and at each
+plot, then scanned with CamScanner (43 pages, 25 MB). Every page was checked against the draft
+before building. `insert_figures.py` then does four things:
+
+1. **Takes only the page photos.** Each PDF page is one photo plus a small "CS" logo stamped on
+   top; `pdfimages -j` pulls the photos out untouched, so the logo is simply not copied.
+2. **Whitens the table cloth** that shows at some page edges. Rule: paper is bright, so anything
+   that is *not paper* and is joined to the photo's edge is background. Walking in from the
+   left/right ignores flat things (ruled lines); from the top/bottom it ignores narrow things
+   (the red margin line). Checked by painting the whitened pixels red: only the edges were hit.
+3. **Finds the blank gaps and pastes** the 10 question snapshots and 3 plots into them, at the
+   box sizes planned in the draft (16 cm wide; the temperature plot 13 cm).
+4. **Compresses 25 MB → 8.5 MB**: greyscale (the ink is black), 150 dpi, and the paper's faint
+   speckle (show-through from the back) flattened to white. Ink, pencil shading and ruled lines
+   are untouched: everything darker than grey 200 is kept exactly.
+
+Mistakes along the way:
+
+- **Ruled lines counted as writing.** On some pages the printed lines are dark navy, so "dark
+  pixel" found no gaps. Fix: ink must be part of an *upright stroke* (a short vertical run);
+  ruled lines are only a few pixels tall.
+- **PNG would have been smaller, but not inside a PDF from Pillow**: it writes palette images
+  as hex text, doubling them. JPEG 2000 compresses better but some PDF viewers handle it badly.
+  Plain JPEG opens everywhere, so it stayed.
+- **The first cloth rule (warm colours only) missed dark red and black shadow.** Replaced by the
+  edge-joined "not paper" rule above.
