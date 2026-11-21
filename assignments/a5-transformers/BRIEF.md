@@ -38,9 +38,10 @@
 | **Hand calculations** | Step by step, like an algorithm: **Given → Step 1 → Step 2 → … → boxed answer → `Python ✓`** |
 | **Algorithm boxes** | 4–6 numbered steps in words: attention (Q2) · masking (Q4) · multi-head (Q6) · encoder (Q8) · decoder (Q9) |
 | **Diagrams** | 3 only, **simple boxes and arrows**, about 5 min each with a ruler. The draft lists every label. |
+| **Figure boxes** | 3 striped boxes printed at real size: **16 × 5.2 cm** (Q1c), **13 × 8.5 cm** (Q7c), **16 × 5.5 cm** (Q10b). Rule an *empty* box of that size; the plot is pasted in after scanning, as in a4. |
 | **Rounding** | 4 d.p. while working; final answer 3 d.p., rounded **once** from the calculator's full value. Calculator in **RADIANS**. |
 
-**Size: about 20–22 pages** (the draft is ~7.5 typed pages, including the full-page Q9a drawing), in 3 sittings of about 2 hours each.
+**Size: about 22–24 pages** (the draft is ~8.5 typed pages, including the full-page Q9a drawing and the 3 figure boxes), in 3 sittings of about 2 hours each.
 
 | Sitting | Questions | ≈ pages |
 |---|---|---|
@@ -70,7 +71,7 @@ seats, a new student asking for help, a translation office…) and what each cal
 **Q1 Positional encoding (10)**
 - [ ] a (3) ✍️ roles of `pos, i, d, 10000`; frequency `ωᵢ = 1/10000^(2i/d)`, wavelength `2π·10000^(2i/d)`: first dims fast, last dims slow
 - [ ] b (3) ✍️💻 `d=4`, `pos=0,1,2` → 3×4 matrix (4 d.p.)
-- [ ] c (3) 💻 `sinusoidal_positional_encoding(seq_len, d_model)` → 20×16 heatmap
+- [ ] c (3) 💻 `sinusoidal_positional_encoding(seq_len, d_model)` → 20×16 heatmap (+ Figure 1 in the notes)
 - [ ] d (1) ✍️💻 periodicity; `PE(pos+k)` is a rotation of `PE(pos)`, so an offset k is always the same transform
 
 **Q2 Scaled dot-product attention (12)**
@@ -106,7 +107,7 @@ seats, a new student asking for help, a translation office…) and what each cal
 **Q7 Stability & temperature (8)**
 - [ ] a (2) ✍️ proof: `softmax(z) = softmax(z − c)`, because `e^(−c)` cancels top and bottom
 - [ ] b (2) 💻 `stable_softmax(x, axis=-1)` vs naive on `[1000, 1001, 1002]`
-- [ ] c (2) 💻 ⚑ seeded random Q, K (6 tokens, d_k=8); `QKᵀ/T` for `T ∈ {0.5,1,2,4}`; bar charts + entropy; note `T = √d_k` is the standard scaling
+- [ ] c (2) 💻 ⚑ seeded random Q, K (6 tokens, d_k=8); `QKᵀ/T` for `T ∈ {0.5,1,2,4}`; bar charts + entropy (+ Figure 2 in the notes); note `T = √d_k` is the standard scaling
 - [ ] d (2) ✍️ sharpness vs T; why √d; ⚑ **Jacobian** `∂sᵢ/∂zⱼ = sᵢ(δᵢⱼ − sⱼ)` → 0 when saturated → no learning signal
 
 **Q8 Encoder block (10)**
@@ -121,7 +122,7 @@ seats, a new student asking for help, a translation office…) and what each cal
 
 **Q10 Complexity (8)**
 - [ ] a (3) ✍️ a **table**, per head vs total: Q/K/V projections `3·n·d·d_k` vs `3·n·d²` · `QKᵀ` `n²·d_k` vs `n²·d` · `AV` `n²·d_v` vs `n²·d` · memory `n²` vs `H·n²`
-- [ ] b (3) 💻 `benchmark_attention(seq_lengths, d_model, num_heads)`, n = 32…512, d_model 64, H 4; times full multi-head attention, projections included; time + memory; plot. ⚑ Report the fitted slopes and **describe** the trend; don't assert it
+- [ ] b (3) 💻 `benchmark_attention(seq_lengths, d_model, num_heads)`, n = 32…512, d_model 64, H 4; times full multi-head attention, projections included; time + memory; plot (+ Figure 3 and the memory table in the notes). ⚑ Report the fitted slopes and **describe** the trend; don't assert it
 - [ ] c (2) ✍️ quadratic growth; effects of masking, heads and length; arithmetic cost vs implementation savings
 
 ---
@@ -189,15 +190,15 @@ independent audit. All agree.
 | 1 ✅ | **Learning PDF**, rewritten in plain words (6 pp) | Claude | renders clean, every question covered |
 | 2 | **Read it**, ask anything | **You** | 🟢 you can say in your own words what attention, Q/K/V, the mask and heads do |
 | 3 ✅ | **Notebook**: 73/73 checks | Claude, while you read | clean fresh-kernel run · all checks pass · numpy + matplotlib only · signatures exact |
-| 4 ✅ | **Draft** `DRAFT.html → .pdf` + number audit: 173/173 numbers match | Claude | every draft number matched to the notebook, **0 mismatches** |
+| 4 ✅ | **Draft** `DRAFT.html → .pdf` + number audit: 174/174 numbers match | Claude | every draft number matched to the notebook, **0 mismatches** |
 | 5 | **S1 (Q1–Q3):** copy → phone-scan → I check it → we walk through the Q1–Q3 code | You + me | 🟢 |
 | 6 | **S2 (Q4–Q7):** same loop | You + me | 🟢 |
 | 7 | **S3 (Q8–Q10):** same loop | You + me | 🟢 |
-| 8 | **Final package + deep validation**: one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |
+| 8 | **Final package + deep validation**: paste the 3 plots into the ruled boxes (`insert_figures.py`, as in a4), one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |
 | 9 | **Submit**: push, upload `.ipynb` + `.pdf` + GitHub link | **You** | Turned in ✅ |
 
 **Files:** `BRIEF.md` · `SOLUTION.md` · `README.md` · `PrasannaKoirala_Transformer.ipynb` ·
-`DRAFT.html/.pdf` · `render.sh` · `check_draft_numbers.py` · `outputs/` ·
+`DRAFT.html/.pdf` · `render.sh` · `check_draft_numbers.py` · `insert_figures.py` (after the scan) · `outputs/` ·
 `PrasannaKoirala_Transformer.pdf` · plus `docs/learning/unit4-transformers.html/.pdf`.
 Drafts are committed publicly, same as a4 (your call).
 
