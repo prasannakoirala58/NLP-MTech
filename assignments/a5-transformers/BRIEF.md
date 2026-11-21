@@ -41,13 +41,8 @@
 | **Figure boxes** | 3 striped boxes printed at real size: **16 × 5.2 cm** (Q1c), **13 × 8.5 cm** (Q7c), **16 × 5.5 cm** (Q10b). Rule an *empty* box of that size; the plot is pasted in after scanning, as in a4. |
 | **Rounding** | 4 d.p. while working; final answer 3 d.p., rounded **once** from the calculator's full value. Calculator in **RADIANS**. |
 
-**Size: about 22–24 pages** (the draft is ~8.5 typed pages, including the full-page Q9a drawing and the 3 figure boxes), in 3 sittings of about 2 hours each.
-
-| Sitting | Questions | ≈ pages |
-|---|---|---|
-| S1 | Q1–Q3 | 7 |
-| S2 | Q4–Q7 | 7–8 |
-| S3 | Q8–Q10 | 6–7 (includes the one full-page diagram, Q9a) |
+**Size: about 22–24 pages, one continuous note** with the name header at the top (the draft is ~8.5 typed
+pages, including the full-page Q9a drawing and the 3 figure boxes).
 
 ### 💻 Notebook: the same 4 steps for every question
 1. **Idea in one line** + *how we thought about it*, in plain words
@@ -182,19 +177,17 @@ independent audit. All agree.
 ## 7. Roadmap
 🟢 = **your green light** before we move on. Commit after every step, with no AI attribution.
 
-**Weekend schedule (deadline Sun 22 Nov, end of day):** **Sat 21**: read the plain-words notes, then S1 + S2 · **Sun 22**: S3, scan, package, submit.
-
 | # | Step | Who | Done when |
 |---|---|---|---|
 | 0 ✅ | Plan locked, questions reorganised, commit | Claude | 🟢 **your go** |
 | 1 ✅ | **Learning PDF**, rewritten in plain words (6 pp) | Claude | renders clean, every question covered |
 | 2 | **Read it**, ask anything | **You** | 🟢 you can say in your own words what attention, Q/K/V, the mask and heads do |
 | 3 ✅ | **Notebook**: 73/73 checks | Claude, while you read | clean fresh-kernel run · all checks pass · numpy + matplotlib only · signatures exact |
-| 4 ✅ | **Draft** `DRAFT.html → .pdf` + number audit: 174/174 numbers match | Claude | every draft number matched to the notebook, **0 mismatches** |
-| 5 | **S1 (Q1–Q3):** copy → phone-scan → I check it → we walk through the Q1–Q3 code | You + me | 🟢 |
-| 6 | **S2 (Q4–Q7):** same loop | You + me | 🟢 |
-| 7 | **S3 (Q8–Q10):** same loop | You + me | 🟢 |
-| 8 | **Final package + deep validation**: paste the 3 plots into the ruled boxes (`insert_figures.py`, as in a4), one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |
+| 4 ✅ | **Draft** `DRAFT.html → .pdf` + number audit: every number matches · one note, name header, no sittings | Claude | every draft number matched to the notebook, **0 mismatches** |
+| 5 | **Copy the whole note by hand** from `DRAFT.html`, top to bottom, ruling the 3 empty figure boxes; phone-scan it into `scans/` | **You** | 🟢 scan sent |
+| 6 | **Check the scan** against the draft: every part present, no wrong digit, legible | Claude | nothing missing, nothing wrong |
+| 7 | **Code walkthrough**: you run the notebook, I explain each part | Both | 🟢 you can explain any question |
+| 8 | **Final package + deep validation**: final `DRAFT.pdf` render, paste the 3 plots into the ruled boxes (`insert_figures.py`, as in a4), one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |
 | 9 | **Submit**: push, upload `.ipynb` + `.pdf` + GitHub link | **You** | Turned in ✅ |
 
 **Files:** `BRIEF.md` · `SOLUTION.md` · `README.md` · `PrasannaKoirala_Transformer.ipynb` ·
