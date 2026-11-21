@@ -38,11 +38,12 @@
 | **Hand calculations** | Step by step, like an algorithm: **Given → Step 1 → Step 2 → … → boxed answer → `Python ✓`** |
 | **Algorithm boxes** | 4–6 numbered steps in words: attention (Q2) · masking (Q4) · multi-head (Q6) · encoder (Q8) · decoder (Q9) |
 | **Diagrams** | 3 only, **simple boxes and arrows**, about 5 min each with a ruler. The draft lists every label. |
-| **Figure boxes** | 3 striped boxes printed at real size: **16 × 5.2 cm** (Q1c), **13 × 8.5 cm** (Q7c), **16 × 5.5 cm** (Q10b). Rule an *empty* box of that size; the plot is pasted in after scanning, as in a4. |
+| **Question boxes** | At the top of every question: a box 16 cm wide (7.4–10.2 cm tall) showing that question's snapshot. Rule an *empty* box of that size; the snapshot is pasted in after scanning, so the note reads question → answer without copying any question text. |
+| **Figure boxes** | 3 striped boxes: **16 × 5.2 cm** (Q1c), **13 × 8.5 cm** (Q7c), **16 × 5.5 cm** (Q10b). Rule an *empty* box; the plot is pasted in after scanning, as in a4. |
 | **Rounding** | 4 d.p. while working; final answer 3 d.p., rounded **once** from the calculator's full value. Calculator in **RADIANS**. |
 
-**Size: about 22–24 pages, one continuous note** with the name header at the top (the draft is ~8.5 typed
-pages, including the full-page Q9a drawing and the 3 figure boxes).
+**Size: about 26–28 pages, one continuous note** with the name header at the top. About 4 of those pages are
+empty ruled boxes (10 questions + 3 plots), so the writing itself is unchanged.
 
 ### 💻 Notebook: the same 4 steps for every question
 1. **Idea in one line** + *how we thought about it*, in plain words
@@ -187,11 +188,11 @@ independent audit. All agree.
 | 5 | **Copy the whole note by hand** from `DRAFT.html`, top to bottom, ruling the 3 empty figure boxes; phone-scan it to one PDF and save it next to the notebook (any name) | **You** | 🟢 scan sent |
 | 6 | **Check the scan** against the draft: every part present, no wrong digit, legible | Claude | nothing missing, nothing wrong |
 | 7 | **Code walkthrough**: you run the notebook, I explain each part | Both | 🟢 you can explain any question |
-| 8 | **Final package + deep validation**: final `DRAFT.pdf` render, paste the 3 plots into the ruled boxes (`insert_figures.py`, as in a4), one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |
+| 8 | **Final package + deep validation**: final `DRAFT.pdf` render, paste the 10 question snapshots and 3 plots into the ruled boxes (`insert_figures.py`, as in a4), one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |
 | 9 | **Submit**: push, upload `.ipynb` + `.pdf` + GitHub link | **You** | Turned in ✅ |
 
 **Files:** `BRIEF.md` · `SOLUTION.md` · `README.md` · `PrasannaKoirala_Transformer.ipynb` ·
-`DRAFT.html/.pdf` · `render.sh` · `check_draft_numbers.py` · `insert_figures.py` (after the scan) · `outputs/` ·
+`DRAFT.html/.pdf` · `render.sh` · `check_draft_numbers.py` · `make_question_images.py` → `question-images/` · `insert_figures.py` (after the scan) · `outputs/` ·
 `PrasannaKoirala_Transformer.pdf` · plus `docs/learning/unit4-transformers.html/.pdf`.
 Drafts are committed publicly, same as a4 (your call).
 

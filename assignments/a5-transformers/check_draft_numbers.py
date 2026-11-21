@@ -11,7 +11,7 @@ Each <section data-q="Qn"> of the draft is checked against that question's value
   * numbers with 4 or more decimals (working steps, done the paper way with 4-decimal
     inputs) may drift by a hair from full precision, e.g. 8.1694 vs 8.16947.
 
-Whole numbers (shapes, indices, given inputs) and FIGURE box sizes are not checked.
+Whole numbers (shapes, indices, given inputs) and FIGURE / question box sizes are not checked.
 Exit code 0 = every number matched.
 """
 import json
@@ -28,8 +28,8 @@ verified = json.loads((HERE / "outputs" / "verified_values.json").read_text(enco
 # Drop the script and style blocks: they are not part of what gets copied
 html = re.sub(r"<script.*?</script>", "", html, flags=re.DOTALL)
 html = re.sub(r"<style.*?</style>", "", html, flags=re.DOTALL)
-# Drop the FIGURE placeholder boxes: their numbers are box sizes in cm, not maths
-html = re.sub(r'<div class="figbox".*?</div></div>', "", html, flags=re.DOTALL)
+# Drop the FIGURE and question boxes: their numbers are box sizes in cm, not maths
+html = re.sub(r'<div class="(?:figbox|qbox)".*?</div></div>', "", html, flags=re.DOTALL)
 
 # A decimal number, optionally with a minus sign glued to it (the draft uses the "−" character)
 NUMBER = re.compile(r"(?<![\w.])[−-]?\d+\.\d+")

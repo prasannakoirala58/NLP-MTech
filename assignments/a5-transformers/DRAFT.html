@@ -68,6 +68,12 @@
   .nocopy { border: 1.5px dashed #9aa2b1; background: #f7f8fa; padding: 7px 12px; margin: 6px 0 10px;
             font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.8pt; color: #3a4150; }
   .nocopy b:first-child { color: #be123c; }
+  .qbox { margin: 4px 0 12px; break-inside: avoid; }
+  .qlabel { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.2pt; font-weight: 700; color: #be123c;
+            text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 3px; }
+  .qframe { border: 2px dashed #16181d; box-sizing: border-box; display: flex; align-items: center;
+            justify-content: center; background: #fff; overflow: hidden; }
+  .qframe img { max-width: 100%; max-height: 100%; }
   .figbox { border: 2px dashed #16181d; border-radius: 3px; margin: 8px auto 5px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     background: repeating-linear-gradient(45deg,#fff,#fff 9px,#f6f7f9 9px,#f6f7f9 18px);
@@ -114,12 +120,13 @@
 <div class="nocopy"><b>DON'T COPY THIS BOX.</b> Copy everything else, top to bottom, including the name header.
 Calculator in <b>RADIANS</b>. Keep 4 decimals while working, round the final answer to 3 decimals <b>once</b>.
 Boxed lines = draw a box around them. Dashed "DRAW" boxes = draw the diagram yourself with a ruler (simple boxes and arrows).
-<b>Striped "FIGURE" boxes = rule an EMPTY box of exactly the size written on it and leave it blank.</b> They are printed at real size;
-the plot gets pasted in after you scan. "Python ✓" = write it as shown; it means the notebook checked that value.</div>
+<b>Question boxes and striped "FIGURE" boxes = rule an EMPTY box of exactly the size written on it and leave it blank.</b> The question snapshot or the plot gets pasted in after you scan. They are printed at real size. "Python ✓" = write it as shown; it means the notebook checked that value.</div>
 
 
 <section data-q="Q1">
 <h2><span class="q">Q1</span>Sinusoidal Positional Encoding</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 10.1 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:101mm"><img src="question-images/q01.png" alt="Question 1"></div></div>
 
 <h3>(a) Roles of pos, i, d, 10000 and how frequency varies</h3>
 <p class="why">attention has no sense of order, so each position gets a unique vector of sines and cosines, added to the word embedding.</p>
@@ -164,6 +171,8 @@ the plot gets pasted in after you scan. "Python ✓" = write it as shown; it mea
 
 <section data-q="Q2">
 <h2><span class="q">Q2</span>Scaled Dot-Product Self-Attention</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 8.3 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:83mm"><img src="question-images/q02.png" alt="Question 2"></div></div>
 
 <h3>(a) Q, K, V, score dimensions, and scaling by √d<sub>k</sub></h3>
 <ul>
@@ -193,6 +202,8 @@ the plot gets pasted in after you scan. "Python ✓" = write it as shown; it mea
 
 <section data-q="Q3">
 <h2><span class="q">Q3</span>Learnable Q, K, V Projections</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 7.8 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:78mm"><img src="question-images/q03.png" alt="Question 3"></div></div>
 
 <h3>(a) Projection dimensions, and why three matrices</h3>
 <ul>
@@ -223,6 +234,8 @@ the plot gets pasted in after you scan. "Python ✓" = write it as shown; it mea
 
 <section data-q="Q4">
 <h2><span class="q">Q4</span>Causal Self-Attention and Masking</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 7.9 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:79mm"><img src="question-images/q04.png" alt="Question 4"></div></div>
 
 <h3>(a) Causal masking in autoregressive generation</h3>
 <ul>
@@ -260,6 +273,8 @@ Shade the −∞ triangle (above the diagonal).</div>
 
 <section data-q="Q5">
 <h2><span class="q">Q5</span>Cross-Attention in Encoder–Decoder Transformers</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 8.5 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:85mm"><img src="question-images/q05.png" alt="Question 5"></div></div>
 
 <h3>(a) Cross vs self-attention</h3>
 <ul>
@@ -284,6 +299,8 @@ Shade the −∞ triangle (above the diagonal).</div>
 
 <section data-q="Q6">
 <h2><span class="q">Q6</span>Multi-Head Attention</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 10.2 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:102mm"><img src="question-images/q06.png" alt="Question 6"></div></div>
 
 <h3>(a) Dimensions: d_model = 8, H = 2, d<sub>k</sub> = d<sub>v</sub> = 8/2 = 4</h3>
 <table>
@@ -321,6 +338,8 @@ Shade the −∞ triangle (above the diagonal).</div>
 
 <section data-q="Q7">
 <h2><span class="q">Q7</span>Numerical Stability and Attention Temperature</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 7.4 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:74mm"><img src="question-images/q07.png" alt="Question 7"></div></div>
 
 <h3>(a) Proof: softmax(z) = softmax(z − max z)</h3>
 <p class="why">subtracting any constant c from every score leaves softmax unchanged, so we may subtract the max to avoid overflow.</p>
@@ -352,6 +371,8 @@ Shade the −∞ triangle (above the diagonal).</div>
 
 <section data-q="Q8">
 <h2><span class="q">Q8</span>Transformer Encoder Block</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 10.1 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:101mm"><img src="question-images/q08.png" alt="Question 8"></div></div>
 
 <h3>(a) Architecture</h3>
 <div class="draw"><span class="label">Draw: encoder block (about half a page). Label every box; write the shape on the arrows.</span>
@@ -394,6 +415,8 @@ Must show: X in, MHA, 2 × Add &amp; LayerNorm, FFN with d_ff, <b>2 residual arr
 
 <section data-q="Q9">
 <h2><span class="q">Q9</span>Decoder Block and Complete Transformer</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 8.9 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:89mm"><img src="question-images/q09.png" alt="Question 9"></div></div>
 
 <h3>(a) Architecture</h3>
 <div class="draw"><span class="label">Draw: the full Transformer (one full page). Simple boxes and arrows.</span>
@@ -468,6 +491,8 @@ Must show: <b>PE on both sides</b> · ×N on both stacks · encoder: MHA, FFN ·
 
 <section data-q="Q10">
 <h2><span class="q">Q10</span>Computational Complexity</h2>
+<div class="qbox"><div class="qlabel">Question box · rule an empty box 16 × 7.7 cm · the question is pasted in after scanning, so don't copy its text</div>
+<div class="qframe" style="width:160mm;height:77mm"><img src="question-images/q10.png" alt="Question 10"></div></div>
 
 <h3>(a) Derivation of the costs (multiply-adds)</h3>
 <p class="why">count the multiply-adds in each matrix product: attention grows with n², the projections only with n.</p>
