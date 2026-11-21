@@ -184,7 +184,7 @@ independent audit. All agree.
 | 2 | **Read it**, ask anything | **You** | 🟢 you can say in your own words what attention, Q/K/V, the mask and heads do |
 | 3 ✅ | **Notebook**: 73/73 checks | Claude, while you read | clean fresh-kernel run · all checks pass · numpy + matplotlib only · signatures exact |
 | 4 ✅ | **Draft** `DRAFT.html → .pdf` + number audit: every number matches · one note, name header, no sittings | Claude | every draft number matched to the notebook, **0 mismatches** |
-| 5 | **Copy the whole note by hand** from `DRAFT.html`, top to bottom, ruling the 3 empty figure boxes; phone-scan it into `scans/` | **You** | 🟢 scan sent |
+| 5 | **Copy the whole note by hand** from `DRAFT.html`, top to bottom, ruling the 3 empty figure boxes; phone-scan it to one PDF and save it next to the notebook (any name) | **You** | 🟢 scan sent |
 | 6 | **Check the scan** against the draft: every part present, no wrong digit, legible | Claude | nothing missing, nothing wrong |
 | 7 | **Code walkthrough**: you run the notebook, I explain each part | Both | 🟢 you can explain any question |
 | 8 | **Final package + deep validation**: final `DRAFT.pdf` render, paste the 3 plots into the ruled boxes (`insert_figures.py`, as in a4), one scan PDF, SOLUTION.md, README.md, then an independent audit of the notebook *and* the scanned notes against the brief and this plan | Claude | nothing unticked · audit clean |

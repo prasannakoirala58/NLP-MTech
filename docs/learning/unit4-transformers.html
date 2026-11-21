@@ -40,6 +40,20 @@
   .cap { text-align: center; font-size: 9pt; color: #5b6270; margin-top: -3px; }
   .dev { font-family: "Kohinoor Devanagari","Devanagari Sangam MN","Noto Sans Devanagari",sans-serif; }
   section { break-inside: auto; }
+
+  /* ---------- on screen: a centred, padded page (printing is unaffected) ---------- */
+  @media screen {
+    html { background: #eceef2; }
+    body { max-width: 840px; margin: 36px auto; padding: 48px 60px 56px; background: #fff;
+           border-radius: 12px; box-shadow: 0 1px 3px rgba(20,24,32,.08), 0 10px 30px rgba(20,24,32,.07);
+           font-size: 16px; line-height: 1.65; }
+    h1 { font-size: 28px; }
+    h2 { margin-top: 34px; font-size: 20px; }
+    h3 { margin-top: 20px; font-size: 16px; }
+  }
+  @media screen and (max-width: 760px) {
+    body { margin: 0; padding: 24px 18px; border-radius: 0; box-shadow: none; }
+  }
 </style>
 </head>
 <body>
