@@ -2,622 +2,325 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Transformers, Explained Simply</title>
+<title>Transformers in Plain Words</title>
 <style>
-  @page { size: A4; margin: 16mm 15mm 15mm 15mm; }
+  @page { size: A4; margin: 16mm 16mm 15mm 16mm; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-
   body { font-family: "Charter","Iowan Old Style",Georgia,serif;
-         font-size: 10.6pt; line-height: 1.45; color: #16181d; margin: 0; }
-
+         font-size: 11pt; line-height: 1.5; color: #16181d; margin: 0; }
   .title-block { border-bottom: 2.5px solid #16181d; padding-bottom: 9px; margin-bottom: 14px; }
   h1 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 21pt; font-weight: 700;
        letter-spacing: -0.4px; margin: 0 0 5px; }
   .byline { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.8pt;
             color: #5b6270; letter-spacing: 0.3px; }
-
-  h2 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 13pt; font-weight: 700;
-       margin: 18px 0 6px; padding-bottom: 3px; border-bottom: 1px solid #c9cdd6;
-       break-after: avoid; }
+  h2 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 13.5pt; font-weight: 700;
+       margin: 20px 0 6px; padding-bottom: 3px; border-bottom: 1px solid #c9cdd6; break-after: avoid; }
   h2 .q { color: #be123c; margin-right: 7px; }
-  h3 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 10.4pt; font-weight: 700;
-       margin: 11px 0 4px; break-after: avoid; }
-  .newpage { break-before: page; }
-
-  p { margin: 0 0 6px; }
-  ul, ol { margin: 0 0 7px 18px; padding: 0; }
+  h3 { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 10.6pt; font-weight: 700;
+       margin: 10px 0 3px; break-after: avoid; }
+  p { margin: 0 0 7px; }
+  ul, ol { margin: 0 0 8px 20px; padding: 0; }
   li { margin-bottom: 3px; }
-  .mono { font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9.3pt; }
-
-  .oneline { font-size: 11.2pt; font-weight: 700; margin: 2px 0 8px; }
-
-  pre.eq { font-family: "SF Mono",Menlo,Consolas,monospace; font-size: 9.6pt;
-    line-height: 1.6; background: #f5f6f8; border-left: 3px solid #9aa2b1;
-    padding: 7px 12px; margin: 7px 0; border-radius: 0 3px 3px 0;
-    white-space: pre; break-inside: avoid; }
-  pre.key { border-left-color: #be123c; background: #fdf4f5; }
-
-  table { border-collapse: collapse; width: 100%; margin: 7px 0 8px;
-          font-size: 9.6pt; break-inside: avoid; }
-  th { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.4pt;
-       text-transform: uppercase; letter-spacing: 0.5px; text-align: left;
-       padding: 4px 7px; border-bottom: 1.5px solid #16181d; color: #3a4150; }
-  td { padding: 3.5px 7px; border-bottom: 1px solid #dfe2e8; vertical-align: top; }
-  tr:last-child td { border-bottom: none; }
-  td.c, th.c { text-align: center; }
-  .num { font-family: "SF Mono",Menlo,monospace; }
-
-  table.grid { width: auto; margin: 8px auto; }
-  table.grid td, table.grid th { text-align: center; border: 1px solid #c9cdd6;
-       padding: 4px 9px; font-family: "SF Mono",Menlo,monospace; font-size: 9.3pt; }
-  table.grid th { text-transform: none; letter-spacing: 0; background: #f5f6f8; }
-  .shade1 { background: #fde2e6; } .shade2 { background: #f9b9c4; } .shade3 { background: #f07a8e; }
-  .blocked { background: #3a4150; color: #fff; }
-
-  .box { border: 1px solid #16181d; border-left-width: 4px;
-         padding: 7px 12px; margin: 8px 0; background: #fbfbfc; break-inside: avoid; }
-  .box .label { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.2pt;
-    font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
-    display: block; margin-bottom: 3px; }
-  .picture { border-color: #2563eb; background: #f5f8ff; }
-  .picture .label { color: #2563eb; }
-  .remember { border-color: #be123c; background: #fdf4f5; }
-  .remember .label { color: #be123c; }
-  .assign { border-color: #15803d; background: #f3fbf5; }
-  .assign .label { color: #15803d; }
-
-  figure { margin: 10px 0; text-align: center; break-inside: avoid; }
-  figcaption { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.4pt;
-               color: #5b6270; margin-top: 3px; }
-  svg text { font-family: "Helvetica Neue",Arial,sans-serif; fill: #16181d; }
-  svg .bx { fill: #fff; stroke: #16181d; stroke-width: 1.3; }
-  svg .att { fill: #fde2e6; stroke: #16181d; stroke-width: 1.3; }
-  svg .ffn { fill: #e0ecff; stroke: #16181d; stroke-width: 1.3; }
-  svg .nrm { fill: #f1f2f5; stroke: #16181d; stroke-width: 1.3; }
-  svg .blk { fill: none; stroke: #6b7280; stroke-width: 1.2; stroke-dasharray: 5 4; }
-  svg .ln { stroke: #16181d; stroke-width: 1.3; fill: none; }
-  svg .res { stroke: #be123c; stroke-width: 1.4; fill: none; }
-
-  .qa { break-inside: avoid; margin-bottom: 7px; }
-  .qa b { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 9.8pt; }
+  .problem { font-size: 11.2pt; margin: 2px 0 8px; }
+  .problem b:first-child { color: #be123c; }
+  .box { border: 1px solid #16181d; border-left-width: 4px; padding: 7px 12px;
+         margin: 8px 0; break-inside: avoid; }
+  .box .label { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 8.2pt; font-weight: 700;
+         text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 3px; }
+  .story { border-color: #2563eb; background: #f5f8ff; } .story .label { color: #2563eb; }
+  .calc { border-color: #6b7280; background: #f7f8fa; } .calc .label { color: #3a4150; }
+  .remember { border-color: #be123c; background: #fdf4f5; } .remember .label { color: #be123c; }
+  .big { border-color: #15803d; background: #f3fbf5; } .big .label { color: #15803d; }
+  table { border-collapse: collapse; margin: 8px auto; font-size: 10pt; break-inside: avoid; }
+  td, th { border: 1px solid #c9cdd6; padding: 4px 10px; text-align: center; }
+  th { font-family: "Helvetica Neue",Arial,sans-serif; font-size: 9pt; background: #f5f6f8; }
+  .on { background: #fbbf24; } .off { background: #fff; color: #9aa2b1; }
+  .seen { background: #dcfce7; } .hidden { background: #3a4150; color: #fff; }
+  .hot { background: #f07a8e; } .warm { background: #fde2e6; }
+  .cap { text-align: center; font-size: 9pt; color: #5b6270; margin-top: -3px; }
   .dev { font-family: "Kohinoor Devanagari","Devanagari Sangam MN","Noto Sans Devanagari",sans-serif; }
+  section { break-inside: auto; }
 </style>
 </head>
 <body>
 
 <div class="title-block">
-  <h1>Transformers, Explained Simply</h1>
-  <div class="byline">STUDY NOTES FOR PRASANNA &nbsp;&middot;&nbsp; AIAC 536 UNIT 4: ATTENTION &amp; TRANSFORMERS &nbsp;&middot;&nbsp; READ THIS BEFORE WRITING ANYTHING</div>
+  <h1>Transformers in Plain Words</h1>
+  <div class="byline">STUDY NOTES FOR PRASANNA &nbsp;&middot;&nbsp; AIAC 536 UNIT 4 &nbsp;&middot;&nbsp; NO MATHS HERE, JUST WHAT'S GOING ON</div>
 </div>
 
-<h2>Start here</h2>
-<p>This is for <b>you</b>, not the grader. Read it once, slowly, before you write anything by hand.
-Every section follows the assignment's order, Q1 to Q10, and uses the same 4 boxes:</p>
-<ul>
-  <li><b>In one line</b>: the whole idea in a single sentence.</li>
-  <li><span style="color:#2563eb;font-weight:700">Picture it</span>: an everyday picture, so the maths has something to hang on.</li>
-  <li><b>The maths, slowly</b>: small steps, with the assignment's own numbers where possible.</li>
-  <li><span style="color:#15803d;font-weight:700">In the assignment</span>: which question parts this section prepares you for.</li>
-</ul>
-<p>You already know three things that make this easy: words become vectors (a3), the dot
-product measures how similar two vectors are (a3), and RNNs forget over long distances
-because gradients vanish (a4). A Transformer is what people built to fix that last problem.</p>
+<p>The handwritten notes have all the maths. This page is only the <b>story</b>: what problem each
+piece solves, and what each calculation <i>means</i>. Read one question, pause, then the next.</p>
 
-<h2>1 &nbsp;The big idea</h2>
-<p class="oneline">A Transformer lets every word look directly at every other word, all at the same time.</p>
-<div class="box picture"><span class="label">Picture it</span>
-An RNN is a classroom where a message is whispered from desk to desk down the row. By the
-last desk the message is blurry: that's the vanishing gradient you measured in a4. A
-Transformer is a classroom where every student can <b>talk to every other student
-directly</b>. Nothing has to survive a long chain of whispers, and everyone talks at once,
-so it's fast too.
-</div>
-<p>Take <i>"The cat sat on the mat because <b>it</b> was tired."</i> To understand
-<b>it</b>, the word needs to find <b>cat</b>. An RNN has to carry "cat" through 6 steps of
-whispering. A Transformer lets "it" look straight at "cat" in one step. That act of looking
-is called <b>attention</b>, and everything in this assignment is built from it.</p>
-
-<h2>2 &nbsp;Shapes: the grammar of matrices</h2>
-<p class="oneline">A shape <span class="mono">(rows × columns)</span> tells you what a matrix holds. Get shapes right and the rest follows.</p>
-<p>A sentence of <b>n</b> words, each word a vector of <b>d</b> numbers, is one matrix
-<span class="mono">X</span> of shape <span class="mono">(n × d)</span>: <b>one row per word</b>.
-In the assignment <span class="mono">d</span> is called <span class="mono">d_model</span>.</p>
-<pre class="eq key">The only rule you need:   (a × b) @ (b × c)  =  (a × c)
-                                ↑       ↑
-                          these must match, and they disappear</pre>
-<p>Example: <span class="mono">(3 × 2) @ (2 × 3) = (3 × 3)</span>. Whenever you multiply, write the
-shapes underneath and cancel the middle. The grader explicitly marks "tensor-dimension
-understanding", so this habit is worth real marks.</p>
-
-<h2><span class="q">Q1</span>Positional encoding: telling words where they are</h2>
-<p class="oneline">Attention sees a bag of words with no order, so we add a unique "position signature" to each word.</p>
-<p>Attention compares every word with every other word, but nothing in that comparison says
-which word came first. To attention, <i>"dog bites man"</i> and <i>"man bites dog"</i> look
-identical. We fix it by <b>adding</b> a position vector <span class="mono">PE(pos)</span> to each word's vector.</p>
-<div class="box picture"><span class="label">Picture it: a clock</span>
-A clock has a fast hand (seconds), a medium hand (minutes) and a slow hand (hours). Any
-<i>one</i> hand repeats. All three together tell you the exact time. Positional encoding is
-a clock with <b>d/2 hands</b>, each spinning at a different speed. Each pair of dimensions
-(one sin and one cos) is one hand.
-</div>
-<h3>The maths, slowly</h3>
-<pre class="eq">PE(pos, 2i)   = sin( pos / 10000<sup>2i/d</sup> )      ← even dimension:  sin
-PE(pos, 2i+1) = cos( pos / 10000<sup>2i/d</sup> )      ← odd dimension:   cos</pre>
-<table>
-<tr><th>Symbol</th><th>What it is</th><th>Clock picture</th></tr>
-<tr><td class="mono">pos</td><td>the word's position: 0, 1, 2, …</td><td>the time</td></tr>
-<tr><td class="mono">i</td><td>which sin/cos pair: 0 … d/2 − 1</td><td>which hand</td></tr>
-<tr><td class="mono">d</td><td>length of each word vector (d_model)</td><td>number of hands × 2</td></tr>
-<tr><td class="mono">10000</td><td>sets how slow the slowest hand is</td><td>so slow it never comes round within a real sentence</td></tr>
-</table>
-<p><b>Frequency</b> (how fast hand <span class="mono">i</span> spins) is
-<span class="mono">ω<sub>i</sub> = 1 / 10000<sup>2i/d</sup></span>. As <span class="mono">i</span>
-grows, the bottom gets bigger, so ω gets <b>smaller</b>: the hand slows down. The
-<b>wavelength</b> (positions before it repeats) is <span class="mono">2π / ω<sub>i</sub> = 2π · 10000<sup>2i/d</sup></span>.</p>
-<table>
-<tr><th>d = 16, hand i</th><th class="c">0</th><th class="c">1</th><th class="c">2</th><th class="c">3</th><th class="c">4</th><th class="c">5</th><th class="c">6</th><th class="c">7</th></tr>
-<tr><td>repeats every … positions</td><td class="c num">6.3</td><td class="c num">19.9</td><td class="c num">62.8</td><td class="c num">199</td><td class="c num">628</td><td class="c num">1987</td><td class="c num">6283</td><td class="c num">19869</td></tr>
-</table>
-<p>Hand 0 is <b>high-frequency</b> and changes a lot between neighbouring words. Hand 7 is <b>low-frequency</b>
-and barely moves, which tells you roughly where in a long text you are.</p>
-<h3>With real numbers (exactly Q1b, d = 4)</h3>
-<p>d = 4 gives 2 hands: <span class="mono">i = 0</span> divides by <span class="mono">10000<sup>0</sup> = 1</span>, and
-<span class="mono">i = 1</span> divides by <span class="mono">10000<sup>2/4</sup> = 100</span>. So each row is
-<span class="mono">[ sin(pos), cos(pos), sin(pos/100), cos(pos/100) ]</span>.</p>
-<pre class="eq key">pos 0:  [ 0.0000,  1.0000,  0.0000,  1.0000 ]
-pos 1:  [ 0.8415,  0.5403,  0.0100,  1.0000 ]
-pos 2:  [ 0.9093, −0.4161,  0.0200,  0.9998 ]
-                         ↑ fast hand moved a lot     ↑ slow hand barely moved</pre>
-<p><b>Calculator in RADIANS.</b> In degree mode, sin(1) shows 0.0175 instead of 0.8415, and the whole matrix is wrong.</p>
-<h3>Why this helps with relative position (Q1d)</h3>
-<p>Moving forward <span class="mono">k</span> words turns every hand by a fixed angle,
-<span class="mono">ω·k</span>. Turning a hand is a <b>rotation</b>, and the rotation depends only on
-<span class="mono">k</span>, not on where you started:</p>
-<pre class="eq">[ sin ω(pos+k) ]   [  cos ωk   sin ωk ] [ sin ω·pos ]
-[ cos ω(pos+k) ] = [ −sin ωk   cos ωk ] [ cos ω·pos ]</pre>
-<p>So "3 words later" is the same transformation everywhere in the sentence, and the model can
-learn "look 3 words back" once and use it anywhere.</p>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q1a</b>: the roles table + the frequency/wavelength derivation · <b>Q1b</b>: the 3×4 matrix above ·
-<b>Q1c</b>: code for 20 × 16, plotted as a heatmap (fast columns on the left look stripy, slow ones on the right smooth) ·
-<b>Q1d</b>: periodicity + the rotation idea.
-</div>
-
-<h2><span class="q">Q2</span>Attention: the core idea</h2>
-<p class="oneline">Each word asks a question, compares it with every word's label, and takes a mix of their information.</p>
-<div class="box picture"><span class="label">Picture it: a library</span>
-You walk in with a <b>question</b> ("books about cats?"). That's the <b>Query (Q)</b>.
-Every book has a <b>label</b> on its spine. That's the <b>Key (K)</b>. Inside every book
-is its <b>content</b>. That's the <b>Value (V)</b>. You compare your question with every label,
-decide how much each book matters, and read a mix of the books, mostly from the best matches.
-</div>
-<h3>The 4 steps</h3>
-<pre class="eq key">Attention(Q, K, V) = softmax( Q K<sup>T</sup> / √d<sub>k</sub> ) V
-
-Step 1  scores  = Q K<sup>T</sup>          how well each question matches each label
-Step 2  scaled  = scores / √d<sub>k</sub>    calm the numbers down (explained below)
-Step 3  weights = softmax(scaled)   turn each row into percentages that sum to 1
-Step 4  output  = weights @ V      take that mix of the contents</pre>
-<p><b>Shapes for n words:</b> <span class="mono">Q (n × d<sub>k</sub>) @ K<sup>T</sup> (d<sub>k</sub> × n) = (n × n)</span>.
-One score for every pair: row = the word asking, column = the word being looked at.
-Then <span class="mono">weights (n × n) @ V (n × d<sub>v</sub>) = (n × d<sub>v</sub>)</span>: one new vector per word.</p>
-<p><b>Softmax</b> turns any row of scores into shares: <span class="mono">e<sup>x</sup></span> makes every
-number positive (and bigger scores much bigger), then dividing by the row total makes them sum to 1.</p>
-<table class="grid">
-<tr><th>"it" looks at →</th><th>The</th><th>cat</th><th>sat</th><th>because</th><th>it</th><th>was</th><th>tired</th></tr>
-<tr><th>weight</th><td>0.05</td><td class="shade3">0.70</td><td class="shade1">0.10</td><td>0.05</td><td>0.05</td><td>0.03</td><td>0.02</td></tr>
-</table>
-<p style="text-align:center;font-size:8.6pt;color:#5b6270;margin-top:-4px">(made-up illustration: one row of the n × n weights, summing to 1.00)</p>
-<h3>Why divide by √d<sub>k</sub>? (Q2a)</h3>
-<p>A dot product adds up <span class="mono">d<sub>k</sub></span> little products. Adding more random numbers makes the
-total swing wider. If each component of q and k is random with mean 0 and variance 1, then
-<span class="mono">Var(q·k) = d<sub>k</sub></span>, so the typical size is <span class="mono">√d<sub>k</sub></span>. Measured with 20,000 random pairs:</p>
-<table>
-<tr style="text-transform:none"><th style="text-transform:none">d<sub>k</sub></th><th class="c" style="text-transform:none">typical size of q·k</th><th class="c" style="text-transform:none">√d<sub>k</sub></th><th class="c" style="text-transform:none">after ÷ √d<sub>k</sub></th></tr>
-<tr><td>4</td><td class="c num">2.00</td><td class="c num">2.00</td><td class="c num">1.00</td></tr>
-<tr><td>64</td><td class="c num">8.03</td><td class="c num">8.00</td><td class="c num">1.00</td></tr>
-<tr><td>512</td><td class="c num">22.54</td><td class="c num">22.63</td><td class="c num">1.00</td></tr>
-</table>
-<p>Huge scores make softmax give one word ≈100% and the rest ≈0%, like a teacher who only ever
-listens to one student. That kills learning (see Q7). Dividing by √d<sub>k</sub> brings the size back to about 1, whatever d is.</p>
-<h3>With real numbers (exactly Q2b: Q = K = V = I₂)</h3>
-<pre class="eq">Step 1  QK<sup>T</sup> = I·I = [[1, 0], [0, 1]]
-Step 2  ÷ √2      = [[0.7071, 0], [0, 0.7071]]
-Step 3  row 1: e<sup>0.7071</sup> = 2.0281,  e<sup>0</sup> = 1,  total = 3.0281
-               2.0281/3.0281 = 0.670,   1/3.0281 = 0.330
-        weights = [[0.670, 0.330], [0.330, 0.670]]      each row sums to 1 ✓
-Step 4  output = weights @ I = the weights themselves</pre>
-<div class="box remember"><span class="label">Remember</span>
-<b>0.670 / 0.330</b> is <span class="mono">softmax([0.7071, 0])</span>. It comes back in Q3, Q4 and Q6.
-Learn <span class="mono">e<sup>0.7071</sup> = 2.0281</span> once.
-</div>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q2a</b>: Q/K/V, the n × n shape, the √d argument + an algorithm box (the 4 steps) · <b>Q2b</b>: the calculation above ·
-<b>Q2c</b>: code · <b>Q2d</b>: check every row sums to 1.
-</div>
-
-<h2><span class="q">Q3</span>Projections: three versions of every word</h2>
-<p class="oneline">Each word gets three learned "versions" of itself: one for asking, one for being found, one for giving information.</p>
-<div class="box picture"><span class="label">Picture it</span>
-Think of yourself on a group project. What you <b>ask</b> others (Query), the skills on your
-<b>name tag</b> (Key) and what you actually <b>know</b> (Value) are three different things,
-even though they're all "you". The model learns three matrices that make these three versions.
-</div>
-<pre class="eq key">Q = X W<sub>Q</sub>     K = X W<sub>K</sub>     V = X W<sub>V</sub>
-(n × d_model) @ (d_model × d<sub>k</sub>) = (n × d<sub>k</sub>)        W<sub>V</sub> gives (n × d<sub>v</sub>)</pre>
-<p>W<sub>Q</sub> and W<sub>K</sub> must have the <b>same</b> output size d<sub>k</sub>, because Q and K get dot-producted together.
-W<sub>V</sub> can have a different size d<sub>v</sub>. They differ because <i>asking</i>, <i>being found</i> and
-<i>giving information</i> are different jobs, so each needs its own learned view of the word.</p>
-<h3>The surprise in Q3d</h3>
-<p>With identity matrices the scores are <span class="mono">[[5,2],[2,1]]</span>. With the supplied matrices
-they are <span class="mono">[[4,1],[1,0]]</span>. Every row went down by exactly 1. Softmax only cares about
-<b>differences inside a row</b>: if everyone in a class gets 5 bonus marks, the ranking doesn't change.
-So the weights come out <b>identical</b> (<span class="mono">0.893 / 0.107</span> and <span class="mono">0.670 / 0.330</span>).
-Only the <b>output</b> changes, because W<sub>V</sub> doubled the first column of V.</p>
-<p>Most students will write "the projections changed who attends to whom". For <i>these</i> matrices that is
-wrong, and you'll show why. (In general projections <i>do</i> change the weights; the notebook proves it with a random W<sub>K</sub>.)</p>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q3a</b>: shapes + why three matrices · <b>Q3b</b>: compute Q, K, V, then attention · <b>Q3c</b>: code · <b>Q3d</b>: the surprise above.
-</div>
-
-<h2><span class="q">Q4</span>The causal mask: no peeking at the future</h2>
-<p class="oneline">When generating text, a word may only look at itself and the words before it.</p>
-<div class="box picture"><span class="label">Picture it</span>
-Writing a story one word at a time, you can't read words you haven't written yet. In training we
-feed the model the whole sentence at once, so we must <b>hide the future</b>, like sliding a
-card down a quiz sheet. Without it the model would just copy the next word, which is cheating.
-</div>
-<p>We add a mask <span class="mono">M</span> to the scores <b>before</b> softmax: 0 where looking is allowed
-(<span class="mono">j ≤ i</span>), <span class="mono">−∞</span> where it isn't (<span class="mono">j &gt; i</span>).
-Since <span class="mono">e<sup>−∞</sup> = 0</span>, blocked words get exactly 0 weight.</p>
-<table class="grid">
-<tr><th>query ↓ &nbsp; key →</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
-<tr><th>1</th><td>0</td><td class="blocked">−∞</td><td class="blocked">−∞</td><td class="blocked">−∞</td></tr>
-<tr><th>2</th><td>0</td><td>0</td><td class="blocked">−∞</td><td class="blocked">−∞</td></tr>
-<tr><th>3</th><td>0</td><td>0</td><td>0</td><td class="blocked">−∞</td></tr>
-<tr><th>4</th><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-</table>
-<p style="text-align:center;font-size:8.6pt;color:#5b6270;margin-top:-4px">the 4 × 4 causal mask: you'll draw exactly this for Q4a</p>
-<h3>With real numbers (Q4b: Q = K = V = [[1,0],[0,1],[1,1]])</h3>
-<pre class="eq">QK<sup>T</sup> = [[1,0,1],[0,1,1],[1,1,2]]
-÷√2   →  [[0.7071, 0, 0.7071], [0, 0.7071, 0.7071], [0.7071, 0.7071, 1.4142]]
-mask →  row 1: [0.7071,  −∞,  −∞]   → only itself  → weights [1, 0, 0]
-        row 2: [0, 0.7071,  −∞]     → e: 1, 2.0281  → weights [0.330, 0.670, 0]</pre>
-<p>Word 1 can only see itself, so it gets 100%. Notice row 2 is our old friend 0.330 / 0.670.</p>
-<p><b>Causal vs padding mask (Q4d).</b> Sentences in a batch have different lengths, so short ones are
-filled with blank "padding" tokens. A <b>padding mask</b> blocks those blank <i>columns</i> for everyone,
-so no word looks at filler. A <b>causal mask</b> blocks the <i>future</i>, the triangle above the diagonal.
-Different reasons, same trick (−∞ before softmax).</p>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q4a</b>: why + draw the mask + algorithm box · <b>Q4b</b>: rows 1 and 2 above · <b>Q4c</b>: code, mask built by comparing positions ·
-<b>Q4d</b>: future weights are exactly 0 + causal vs padding.
-</div>
-
-<h2><span class="q">Q5</span>Cross-attention: looking at another sentence</h2>
-<p class="oneline">Same attention, but the questions come from one sentence and the labels and contents from another.</p>
-<div class="box picture"><span class="label">Picture it: a translator</span>
-Translating <span class="dev">मलाई चिया मन पर्छ</span> (<i>malai chiya man parchha</i>) into "I like tea":
-each time you write an English word, you glance back at the Nepali sentence to see which Nepali
-words matter right now. The English side <b>asks</b> (Q); the Nepali side <b>answers</b> (K and V).
-</div>
-<pre class="eq key">Q = H<sub>decoder</sub> W<sub>Q</sub>     K = H<sub>encoder</sub> W<sub>K</sub>     V = H<sub>encoder</sub> W<sub>V</sub>
-weights: (n decoder words × d<sub>k</sub>) @ (d<sub>k</sub> × m encoder words) = (n × m)</pre>
-<p>Self-attention: one sentence looks at itself, so the weights are <span class="mono">n × n</span>, square.
-Cross-attention: 3 English words looking at 4 Nepali words gives <span class="mono">3 × 4</span>, <b>not square</b>,
-because the two sentences have different lengths. Each row still sums to 1.</p>
-<h3>With real numbers (Q5b)</h3>
-<pre class="eq">QK<sup>T</sup> = [1, 0, 1]   ÷√2 → [0.7071, 0, 0.7071]
-e: 2.0281, 1, 2.0281   total 5.0562   → weights [0.401, 0.198, 0.401]
-output = 0.401·[2,0] + 0.198·[0,2] + 0.401·[1,1] = [1.203, 0.797]</pre>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q5a</b>: cross vs self, where Q/K/V come from, n × m · <b>Q5b</b>: above · <b>Q5c</b>: code · <b>Q5d</b>: "retrieval" + why not square.
-</div>
-
-<h2><span class="q">Q6</span>Multi-head attention: several teammates looking for different things</h2>
-<p class="oneline">Split each word's vector into H smaller pieces, run attention on each piece separately, then glue the results back together.</p>
-<div class="box picture"><span class="label">Picture it</span>
-One attention pattern can only look for one kind of relationship at a time. So use a team: one
-teammate tracks grammar, one tracks who-did-what, one watches nearby words. Each <b>head</b> is a
-teammate with its own W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub>. At the end their notes are put side by side
-(<b>concat</b>) and W<sub>O</sub> blends them into one report.
-</div>
-<figure>
-<svg viewBox="0 0 640 150" width="100%">
-  <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16181d"/></marker></defs>
-  <rect class="bx" x="4" y="55" width="70" height="40" rx="4"/>
-  <text x="39" y="72" text-anchor="middle" font-size="12" font-weight="700">X</text>
-  <text x="39" y="87" text-anchor="middle" font-size="10">n × 8</text>
-  <line class="ln" x1="74" y1="75" x2="98" y2="75" marker-end="url(#a1)"/>
-  <rect class="bx" x="100" y="50" width="100" height="50" rx="4"/>
-  <text x="150" y="68" text-anchor="middle" font-size="11" font-weight="700">project</text>
-  <text x="150" y="82" text-anchor="middle" font-size="9.5">W_Q, W_K, W_V</text>
-  <text x="150" y="94" text-anchor="middle" font-size="9.5">8 × 8 each</text>
-  <line class="ln" x1="200" y1="68" x2="226" y2="40" marker-end="url(#a1)"/>
-  <line class="ln" x1="200" y1="82" x2="226" y2="110" marker-end="url(#a1)"/>
-  <rect class="att" x="228" y="18" width="110" height="42" rx="4"/>
-  <text x="283" y="35" text-anchor="middle" font-size="10.5" font-weight="700">head 1</text>
-  <text x="283" y="50" text-anchor="middle" font-size="9.5">Q, K, V: n × 4</text>
-  <rect class="att" x="228" y="90" width="110" height="42" rx="4"/>
-  <text x="283" y="107" text-anchor="middle" font-size="10.5" font-weight="700">head 2</text>
-  <text x="283" y="122" text-anchor="middle" font-size="9.5">Q, K, V: n × 4</text>
-  <line class="ln" x1="338" y1="39" x2="362" y2="39" marker-end="url(#a1)"/>
-  <line class="ln" x1="338" y1="111" x2="362" y2="111" marker-end="url(#a1)"/>
-  <rect class="bx" x="364" y="18" width="100" height="42" rx="4"/>
-  <text x="414" y="35" text-anchor="middle" font-size="10">attention</text>
-  <text x="414" y="50" text-anchor="middle" font-size="9.5">out n × 4</text>
-  <rect class="bx" x="364" y="90" width="100" height="42" rx="4"/>
-  <text x="414" y="107" text-anchor="middle" font-size="10">attention</text>
-  <text x="414" y="122" text-anchor="middle" font-size="9.5">out n × 4</text>
-  <line class="ln" x1="464" y1="39" x2="488" y2="68" marker-end="url(#a1)"/>
-  <line class="ln" x1="464" y1="111" x2="488" y2="82" marker-end="url(#a1)"/>
-  <rect class="bx" x="490" y="55" width="70" height="40" rx="4"/>
-  <text x="525" y="72" text-anchor="middle" font-size="10.5" font-weight="700">concat</text>
-  <text x="525" y="87" text-anchor="middle" font-size="9.5">n × 8</text>
-  <line class="ln" x1="560" y1="75" x2="578" y2="75" marker-end="url(#a1)"/>
-  <rect class="bx" x="580" y="55" width="56" height="40" rx="4"/>
-  <text x="608" y="72" text-anchor="middle" font-size="10.5" font-weight="700">× W_O</text>
-  <text x="608" y="87" text-anchor="middle" font-size="9.5">n × 8</text>
-</svg>
-<figcaption>Q6a's setting: d_model = 8, H = 2 heads, d_k = d_v = 8/2 = 4. Each head also makes its own n × n weights.</figcaption>
-</figure>
-<h3>The two toy heads (Q6b)</h3>
-<p>Head 1 uses identity matrices, so it is exactly Q2b: weights <span class="mono">[[0.670, 0.330], [0.330, 0.670]]</span>.
-Head 2 uses the swap matrix P for both W<sub>Q</sub> and W<sub>K</sub>. Swapping both sides cancels out:
-<span class="mono">QK<sup>T</sup> = X P P<sup>T</sup> X<sup>T</sup> = X X<sup>T</sup></span> because <span class="mono">P P<sup>T</sup> = I</span>.
-So head 2 gives the <b>same</b> weights as head 1. Concat puts them side by side:
-<span class="mono">(2 × 2) + (2 × 2) → (2 × 4)</span>. That's wider than d_model = 2, and bringing it back to d_model is exactly W<sub>O</sub>'s job.</p>
-<h3>Do more heads mean more power? (Q6d) Not necessarily.</h3>
-<ul>
-  <li><b>Same pizza, more slices.</b> Total size is fixed: H × d<sub>k</sub> = d_model. For d_model = 8 the
-      parameter count is 256 whether H is 1, 2, 4 or 8. More heads don't add parameters.</li>
-  <li><b>Thinner slices.</b> Each head works in only d<sub>k</sub> dimensions, so its score matrix can
-      express at most d<sub>k</sub> "independent directions" (rank ≤ d<sub>k</sub>). With 8 heads of size 1, each head is very limited.</li>
-  <li><b>Copycats.</b> Heads can end up doing the same job, like our two toy heads. Research found many
-      heads in trained models can be removed with little loss (Michel et al. 2019; Voita et al. 2019).</li>
-</ul>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q6a</b>: every shape in the diagram + algorithm box · <b>Q6b</b>: two heads + concat · <b>Q6c</b>: code (split → attend → concat → W<sub>O</sub>) ·
-<b>Q6d</b>: the three bullets above.
-</div>
-
-<h2><span class="q">Q7</span>Keeping softmax safe, and temperature</h2>
-<p class="oneline">Subtracting the biggest score before exponentiating changes nothing mathematically but stops the computer overflowing.</p>
-<p>The biggest number a computer float can hold is about <span class="mono">e<sup>709</sup></span>. So
-<span class="mono">e<sup>1000</sup></span> becomes <b>infinity</b>, and <span class="mono">∞ / ∞</span> is
-<b>nan</b> ("not a number"). Softmax of <span class="mono">[1000, 1001, 1002]</span> done directly gives
-<span class="mono">[nan, nan, nan]</span>.</p>
-<h3>The proof (Q7a): it's one cancellation</h3>
-<pre class="eq key">softmax(z − c)<sub>i</sub> = e<sup>z<sub>i</sub>−c</sup> / Σ e<sup>z<sub>j</sub>−c</sup>
-                = e<sup>−c</sup>·e<sup>z<sub>i</sub></sup> / ( e<sup>−c</sup>·Σ e<sup>z<sub>j</sub></sup> )     e<sup>−c</sup> is the same in every term
-                = e<sup>z<sub>i</sub></sup> / Σ e<sup>z<sub>j</sub></sup>  =  softmax(z)<sub>i</sub>          it cancels top and bottom ∎</pre>
-<p>Pick <span class="mono">c = max(z)</span>: the biggest exponent becomes <span class="mono">e<sup>0</sup> = 1</span> and nothing can overflow.
-For <span class="mono">[1000, 1001, 1002]</span>: subtract 1002 → <span class="mono">[−2, −1, 0]</span> →
-<span class="mono">e: 0.1353, 0.3679, 1</span> → <b><span class="mono">[0.090, 0.245, 0.665]</span></b>.
-(This is the same cancellation that made Q3d's weights identical.)</p>
-<h3>Temperature T: how sure the softmax is</h3>
-<p>Divide scores by T before softmax. Small T = sharp (one winner). Big T = flat (everyone similar). Scores <span class="mono">[2, 1, 0]</span>:</p>
-<table>
-<tr><th>T</th><th class="c">word 1</th><th class="c">word 2</th><th class="c">word 3</th><th>feels like</th></tr>
-<tr><td>0.5</td><td class="c num">0.867</td><td class="c num">0.117</td><td class="c num">0.016</td><td>very sure, almost one winner</td></tr>
-<tr><td>1</td><td class="c num">0.665</td><td class="c num">0.245</td><td class="c num">0.090</td><td>normal (Q7b's numbers again!)</td></tr>
-<tr><td>2</td><td class="c num">0.506</td><td class="c num">0.307</td><td class="c num">0.186</td><td>relaxed</td></tr>
-<tr><td>4</td><td class="c num">0.419</td><td class="c num">0.326</td><td class="c num">0.254</td><td>almost no preference</td></tr>
-</table>
-<p>Dividing by √d<sub>k</sub> in attention is exactly using <b>T = √d<sub>k</sub></b>.</p>
-<h3>Why "too sure" stops learning (Q7d)</h3>
-<p>How much output i moves when score j moves is <span class="mono">∂s<sub>i</sub>/∂z<sub>j</sub> = s<sub>i</sub>(δ<sub>ij</sub> − s<sub>j</sub>)</span>,
-where δ<sub>ij</sub> is 1 if i = j and 0 otherwise. If one s is ≈ 1 and the rest ≈ 0, every term is ≈ 0, so the gradient vanishes.
-Scores [2, 1, 0] give a biggest entry of 0.223; scores [20, 1, 0] give 0.0000000077. A student
-who is 100% sure never changes their mind. That's why we scale by √d<sub>k</sub>: to keep softmax out of that zone.</p>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q7a</b>: the proof · <b>Q7b</b>: code, nan vs stable · <b>Q7c</b>: T = 0.5, 1, 2, 4 plotted · <b>Q7d</b>: sharpness, √d, the gradient formula.
-</div>
-
-<h2><span class="q">Q8</span>The encoder block: talk, then think</h2>
-<p class="oneline">Every word first talks to the others (attention), then thinks alone (feed-forward), tidying up after each step.</p>
-<div class="box picture"><span class="label">Picture it</span>
-A study group. <b>Step 1, discuss:</b> everyone shares with everyone (attention). <b>Step 2, think
-alone:</b> each student quietly processes what they heard (feed-forward network). After each step:
-<b>keep your original notes</b> and add the new ones (residual), then <b>tidy up</b> (LayerNorm).
-</div>
-<figure>
-<svg viewBox="0 0 400 310" width="62%">
-  <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16181d"/></marker>
-        <marker id="r2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#be123c"/></marker></defs>
-  <text x="200" y="16" text-anchor="middle" font-size="12" font-weight="700">X &nbsp;(n × d)</text>
-  <line class="ln" x1="200" y1="22" x2="200" y2="48" marker-end="url(#a2)"/>
-  <rect class="att" x="110" y="50" width="180" height="32" rx="4"/>
-  <text x="200" y="71" text-anchor="middle" font-size="11.5">Multi-Head Attention</text>
-  <line class="ln" x1="200" y1="82" x2="200" y2="106" marker-end="url(#a2)"/>
-  <text x="208" y="98" font-size="9.5">n × d</text>
-  <rect class="nrm" x="110" y="108" width="180" height="32" rx="4"/>
-  <text x="200" y="129" text-anchor="middle" font-size="11.5">Add &amp; LayerNorm</text>
-  <line class="ln" x1="200" y1="140" x2="200" y2="164" marker-end="url(#a2)"/>
-  <text x="208" y="156" font-size="9.5">H: n × d</text>
-  <rect class="ffn" x="110" y="166" width="180" height="32" rx="4"/>
-  <text x="200" y="187" text-anchor="middle" font-size="11">Feed-Forward  d → d_ff → d</text>
-  <line class="ln" x1="200" y1="198" x2="200" y2="222" marker-end="url(#a2)"/>
-  <text x="208" y="214" font-size="9.5">n × d</text>
-  <rect class="nrm" x="110" y="224" width="180" height="32" rx="4"/>
-  <text x="200" y="245" text-anchor="middle" font-size="11.5">Add &amp; LayerNorm</text>
-  <line class="ln" x1="200" y1="256" x2="200" y2="280" marker-end="url(#a2)"/>
-  <text x="200" y="298" text-anchor="middle" font-size="12" font-weight="700">Y &nbsp;(n × d)</text>
-  <path class="res" d="M200,35 H70 V124 H107" marker-end="url(#r2)"/>
-  <path class="res" d="M200,152 H70 V240 H107" marker-end="url(#r2)"/>
-  <text x="62" y="84" text-anchor="end" font-size="9.5" fill="#be123c" style="fill:#be123c">+ X</text>
-  <text x="62" y="200" text-anchor="end" font-size="9.5" fill="#be123c" style="fill:#be123c">+ H</text>
-</svg>
-<figcaption>One encoder block (post-norm, as the assignment asks). Red = residual "shortcut" paths. Shapes never change: n × d in, n × d out.</figcaption>
-</figure>
-<pre class="eq key">H = LayerNorm( X + MultiHead(X) )
-Y = LayerNorm( H + FFN(H) )          FFN(H) = ReLU(H W<sub>1</sub> + b<sub>1</sub>) W<sub>2</sub> + b<sub>2</sub></pre>
-<table>
-<tr><th>Part</th><th>What it does, simply</th></tr>
-<tr><td><b>Attention</b></td><td>Mixes information <b>between</b> words. Change one word and every row changes.</td></tr>
-<tr><td><b>Feed-forward</b></td><td>The same small network applied to <b>each word on its own</b>: d → d_ff (wider, usually 4×) → ReLU → d. Change word 2 and only row 2 changes.</td></tr>
-<tr><td><b>Residual (+)</b></td><td>Add the input back: <span class="mono">x + F(x)</span>. Its gradient is <span class="mono">I + ∂F/∂x</span>, and that <span class="mono">I</span> is a shortcut lane, so the gradient always gets through even if <span class="mono">∂F/∂x</span> is tiny. It's the fix for a4's vanishing gradients.</td></tr>
-<tr><td><b>LayerNorm</b></td><td>For <b>each word separately</b>, rescale its d numbers to mean 0 and spread 1 (like turning marks into z-scores), then let learned γ and β rescale: <span class="mono">γ·(x − μ)/√(σ² + ε) + β</span>.</td></tr>
-</table>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q8a</b>: draw this block with shapes + algorithm box · <b>Q8b</b>: code layer_norm, feed_forward, the block ·
-<b>Q8c</b>: FFN per word vs attention mixing; residuals and gradients (the table above).
-</div>
-
-<h2 class="newpage"><span class="q">Q9</span>The decoder, and the whole Transformer</h2>
-<p class="oneline">The decoder writes the output one word at a time: look at what you've written (masked), look at the source (cross), think, then pick the next word.</p>
-<p>A decoder block has <b>three</b> sub-layers, each followed by Add &amp; Norm:</p>
-<ol>
-  <li><b>Masked self-attention</b>: look at the words written so far, never the future (Q4).</li>
-  <li><b>Cross-attention</b>: Q from here, K and V from the encoder's output: "which source words matter now?" (Q5).</li>
-  <li><b>Feed-forward</b>: think alone (Q8).</li>
+<div class="box big"><span class="label">The whole Transformer in 5 sentences</span>
+<ol style="margin-bottom:0">
+  <li>Every word becomes a list of numbers (you did this in a3).</li>
+  <li>Every word gets a tag saying <b>where</b> it sits in the sentence. <i>(Q1)</i></li>
+  <li>Every word looks at all the other words and decides <b>which ones matter</b> to it. <i>(Q2–Q7)</i></li>
+  <li>It gathers information from the ones that matter, thinks about it, tidies up, and repeats. <i>(Q8)</i></li>
+  <li>At the end, the model picks the most likely next word. <i>(Q9)</i></li>
 </ol>
-<figure>
-<svg viewBox="0 0 640 540" width="100%">
-  <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16181d"/></marker>
-        <marker id="r3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#be123c"/></marker></defs>
-  <!-- ENCODER -->
-  <text x="160" y="16" text-anchor="middle" font-size="11.5" font-weight="700">ENCODER</text>
-  <text x="160" y="32" text-anchor="middle" font-size="10">source words (m of them)</text>
-  <line class="ln" x1="160" y1="37" x2="160" y2="52" marker-end="url(#a3)"/>
-  <rect class="bx" x="50" y="54" width="220" height="30" rx="4"/>
-  <text x="160" y="73" text-anchor="middle" font-size="10.5">Embedding + Positional Encoding</text>
-  <line class="ln" x1="160" y1="84" x2="160" y2="118" marker-end="url(#a3)"/>
-  <rect class="blk" x="35" y="104" width="250" height="194" rx="6"/>
-  <text x="16" y="205" font-size="13" font-weight="700">×N</text>
-  <rect class="att" x="50" y="120" width="220" height="30" rx="4"/>
-  <text x="160" y="139" text-anchor="middle" font-size="10.5">Multi-Head Self-Attention</text>
-  <line class="ln" x1="160" y1="150" x2="160" y2="163" marker-end="url(#a3)"/>
-  <rect class="nrm" x="50" y="165" width="220" height="30" rx="4"/>
-  <text x="160" y="184" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
-  <line class="ln" x1="160" y1="195" x2="160" y2="208" marker-end="url(#a3)"/>
-  <rect class="ffn" x="50" y="210" width="220" height="30" rx="4"/>
-  <text x="160" y="229" text-anchor="middle" font-size="10.5">Feed-Forward</text>
-  <line class="ln" x1="160" y1="240" x2="160" y2="253" marker-end="url(#a3)"/>
-  <rect class="nrm" x="50" y="255" width="220" height="30" rx="4"/>
-  <text x="160" y="274" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
-  <path class="res" d="M160,112 H42 V180 H48" marker-end="url(#r3)"/>
-  <path class="res" d="M160,202 H42 V270 H48" marker-end="url(#r3)"/>
-  <line class="ln" x1="160" y1="285" x2="160" y2="330"/>
-  <text x="168" y="322" font-size="9.5">encoder output: m × d</text>
-  <path class="ln" d="M160,330 H318 V225 H358" marker-end="url(#a3)"/>
-  <text x="338" y="219" text-anchor="middle" font-size="9" font-weight="700">K, V</text>
-  <!-- DECODER -->
-  <text x="470" y="16" text-anchor="middle" font-size="11.5" font-weight="700">DECODER</text>
-  <text x="470" y="32" text-anchor="middle" font-size="10">output words so far (shifted right)</text>
-  <line class="ln" x1="470" y1="37" x2="470" y2="52" marker-end="url(#a3)"/>
-  <rect class="bx" x="360" y="54" width="220" height="30" rx="4"/>
-  <text x="470" y="73" text-anchor="middle" font-size="10.5">Embedding + Positional Encoding</text>
-  <line class="ln" x1="470" y1="84" x2="470" y2="118" marker-end="url(#a3)"/>
-  <rect class="blk" x="345" y="104" width="250" height="284" rx="6"/>
-  <text x="603" y="250" font-size="13" font-weight="700">×N</text>
-  <rect class="att" x="360" y="120" width="220" height="30" rx="4"/>
-  <text x="470" y="139" text-anchor="middle" font-size="10.5">MASKED Multi-Head Self-Attention</text>
-  <line class="ln" x1="470" y1="150" x2="470" y2="163" marker-end="url(#a3)"/>
-  <rect class="nrm" x="360" y="165" width="220" height="30" rx="4"/>
-  <text x="470" y="184" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
-  <line class="ln" x1="470" y1="195" x2="470" y2="208" marker-end="url(#a3)"/>
-  <rect class="att" x="360" y="210" width="220" height="30" rx="4"/>
-  <text x="470" y="229" text-anchor="middle" font-size="10.5">CROSS-Attention (Q here, K,V from encoder)</text>
-  <line class="ln" x1="470" y1="240" x2="470" y2="253" marker-end="url(#a3)"/>
-  <rect class="nrm" x="360" y="255" width="220" height="30" rx="4"/>
-  <text x="470" y="274" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
-  <line class="ln" x1="470" y1="285" x2="470" y2="298" marker-end="url(#a3)"/>
-  <rect class="ffn" x="360" y="300" width="220" height="30" rx="4"/>
-  <text x="470" y="319" text-anchor="middle" font-size="10.5">Feed-Forward</text>
-  <line class="ln" x1="470" y1="330" x2="470" y2="343" marker-end="url(#a3)"/>
-  <rect class="nrm" x="360" y="345" width="220" height="30" rx="4"/>
-  <text x="470" y="364" text-anchor="middle" font-size="10.5">Add &amp; Norm</text>
-  <path class="res" d="M470,112 H598 V180 H582" marker-end="url(#r3)"/>
-  <path class="res" d="M470,202 H598 V270 H582" marker-end="url(#r3)"/>
-  <path class="res" d="M470,292 H598 V360 H582" marker-end="url(#r3)"/>
-  <line class="ln" x1="470" y1="375" x2="470" y2="408" marker-end="url(#a3)"/>
-  <rect class="bx" x="360" y="410" width="220" height="30" rx="4"/>
-  <text x="470" y="429" text-anchor="middle" font-size="10.5">Linear  (d → vocabulary size)</text>
-  <line class="ln" x1="470" y1="440" x2="470" y2="458" marker-end="url(#a3)"/>
-  <rect class="bx" x="360" y="460" width="220" height="30" rx="4"/>
-  <text x="470" y="479" text-anchor="middle" font-size="10.5">Softmax</text>
-  <line class="ln" x1="470" y1="490" x2="470" y2="508" marker-end="url(#a3)"/>
-  <text x="470" y="525" text-anchor="middle" font-size="10.5" font-weight="700">probability of every possible next word</text>
-</svg>
-<figcaption>The whole Transformer: simple boxes and arrows, the same style you'll draw for Q9a. Red = residuals (2 in each encoder block, 3 in each decoder block). The encoder output feeds the cross-attention in <b>every</b> decoder block.</figcaption>
-</figure>
-<h3>Trace one translation (Q9c)</h3>
-<p>Source words → embedding + PE → N encoder blocks → encoder output (m × d) → used as K and V in
-<b>every</b> decoder block's cross-attention → decoder output → Linear → softmax → the most likely next
-word is picked, appended to the output, and the decoder runs again.</p>
-<p><b>Why the decoder needs the mask but the encoder doesn't:</b> the encoder reads a sentence that
-already exists in full, so every word may see every other word. The decoder <i>produces</i> words one at a time.
-At generation time the future doesn't exist yet, so in training it must be hidden too, or the model learns to cheat.</p>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q9a</b>: draw this diagram + masked vs cross + decoder algorithm box · <b>Q9b</b>: code with d_model = 8, 2 heads,
-encoder length 5, decoder length 3, every shape checked · <b>Q9c</b>: the trace + the mask reason above.
 </div>
-<p style="font-size:9.4pt;color:#5b6270">Original paper (Vaswani et al. 2017, "Attention Is All You Need"): d_model = 512, H = 8, d<sub>k</sub> = 64, d_ff = 2048, N = 6. Ours are tiny versions of the same thing.</p>
 
-<h2><span class="q">Q10</span>The cost: why long texts are expensive</h2>
-<p class="oneline">Every word looks at every word, so n words means n × n pairs: double the text, four times the attention work.</p>
+<!-- ============================ Q1 ============================ -->
+<h2><span class="q">Q1</span>Positional encoding: where is each word?</h2>
+<p class="problem"><b>The problem.</b> A Transformer reads all the words <b>at the same time</b>, like
+word cards dumped on a table. Nothing tells it which card came first, so <i>"dog bites man"</i> and
+<i>"man bites dog"</i> look the same to it.</p>
+<p class="problem"><b>The fix.</b> Before anything else, stamp every word with a little <b>"where am I" tag</b>.</p>
+
+<div class="box story"><span class="label">Picture it: lamps on cinema seats</span>
+Every seat in a cinema row has 3 little lamps. <b>Lamp A</b> flips on/off every seat. <b>Lamp B</b>
+flips every 2 seats. <b>Lamp C</b> flips every 4 seats. Look at the table: every seat gets its own
+pattern. No two seats look the same, so the pattern <i>is</i> the seat's address.
+</div>
 <table>
-<tr><th>Operation</th><th>One head</th><th style="text-transform:none">All H heads (H·d<sub>k</sub> = d)</th></tr>
-<tr><td>Q, K, V projections</td><td class="mono">3 · n · d · d<sub>k</sub></td><td class="mono">3 · n · d²</td></tr>
-<tr><td>Scores Q K<sup>T</sup></td><td class="mono">n² · d<sub>k</sub></td><td class="mono">n² · d</td></tr>
-<tr><td>Mix: weights @ V</td><td class="mono">n² · d<sub>v</sub></td><td class="mono">n² · d</td></tr>
-<tr><td>Attention matrix memory</td><td class="mono">n²</td><td class="mono">H · n²</td></tr>
+<tr><th>seat</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+<tr><th>Lamp A (fast)</th><td class="off">○</td><td class="on">●</td><td class="off">○</td><td class="on">●</td><td class="off">○</td><td class="on">●</td><td class="off">○</td><td class="on">●</td></tr>
+<tr><th>Lamp B (medium)</th><td class="off">○</td><td class="off">○</td><td class="on">●</td><td class="on">●</td><td class="off">○</td><td class="off">○</td><td class="on">●</td><td class="on">●</td></tr>
+<tr><th>Lamp C (slow)</th><td class="off">○</td><td class="off">○</td><td class="off">○</td><td class="off">○</td><td class="on">●</td><td class="on">●</td><td class="on">●</td><td class="on">●</td></tr>
 </table>
-<p>Memory for H = 4 (8 bytes per number): n = 32 → 32 KiB · 64 → 128 KiB · 128 → 512 KiB · 256 → 2 MiB · 512 → <b>8 MiB</b>.
-The text got 16× longer; memory grew 256× (= 16²).</p>
-<div class="box remember"><span class="label">Remember: the crossover (your Q10 insight)</span>
-Projections (plus W<sub>O</sub>) cost about <span class="mono">4n·d²</span>; attention costs about <span class="mono">2n²·d</span>.
-They're equal when <span class="mono">n = 2d</span>: <b>128</b> for d = 64. Below 128 the projections dominate,
-so time grows slower than n². Above 128, n² takes over. So your timing curve will start gentle and steepen.
-</div>
-<p><b>Masking:</b> plain code still computes the whole n × n square and then blanks the triangle, so it saves
-<i>no</i> arithmetic. Only smarter implementations skip the blocked half. That's the difference between
-<b>arithmetic cost</b> (the maths) and <b>implementation savings</b> (clever code). <b>Heads:</b> more heads
-keep the arithmetic the same (H·d<sub>k</sub> = d) but need H separate n × n matrices in memory.</p>
-<div class="box assign"><span class="label">In the assignment</span>
-<b>Q10a</b>: the table above · <b>Q10b</b>: time it for n = 32 … 512, plot · <b>Q10c</b>: quadratic growth, masking, heads, arithmetic vs implementation.
+<p class="cap">every column is a different pattern, so every seat has a unique address</p>
+
+<h3>So where do sine and cosine come in?</h3>
+<p>Real position tags use exactly this idea, with two upgrades:</p>
+<ul>
+  <li><b>Dimmer lamps instead of on/off switches.</b> Each lamp glows brighter and darker in a smooth,
+      steady wave. That's all <b>sine</b> and <b>cosine</b> are: smooth waves that go up and down
+      between −1 and +1, forever, at a steady rhythm.</li>
+  <li><b>Many more lamps</b>, each with its own speed: some fast, some very slow.</li>
+</ul>
+<p><b>Fast lamps</b> tell next-door words apart (word 5 vs word 6). <b>Slow lamps</b> tell far-apart
+parts of the text apart (word 5 vs word 500). Together, every position gets a unique tag.</p>
+
+<div class="box story"><span class="label">Why a sine AND a cosine? A Ferris wheel</span>
+If I only tell you how <b>high</b> your cabin is, you could be going up or coming down: same height,
+two different places. If I also tell you how far <b>left or right</b> it is, you know exactly where you
+are. <b>Sine = the height, cosine = left/right.</b> That's why each lamp is really a sine + cosine pair.
 </div>
 
-<h2 class="newpage">The whole thing on one page</h2>
-<pre class="eq key">Positional encoding   PE(pos,2i) = sin(pos/10000<sup>2i/d</sup>),  PE(pos,2i+1) = cos(…)        add to X
-Projections           Q = XW<sub>Q</sub>  K = XW<sub>K</sub>  V = XW<sub>V</sub>          (n×d)(d×d<sub>k</sub>) = (n×d<sub>k</sub>)
-Attention             softmax(QK<sup>T</sup>/√d<sub>k</sub>) V                     weights (n×n), out (n×d<sub>v</sub>)
-Causal mask           add −∞ where j &gt; i, before softmax         future weight = 0
-Cross-attention       Q from decoder, K,V from encoder           weights (n×m), not square
-Multi-head            split into H heads of d/H, attend, concat, × W<sub>O</sub>    out (n×d)
-Stable softmax        softmax(z) = softmax(z − max z)
-Encoder block         H = LN(X + MHA(X));   Y = LN(H + FFN(H))
-Decoder block         masked MHA → Add&amp;Norm → cross MHA → Add&amp;Norm → FFN → Add&amp;Norm
-Cost                  attention O(n²·d), projections O(n·d²), memory H·n²</pre>
+<p><b>What is the 10000?</b> It's the dial that sets how slow the slowest lamp is. 10000 makes it so
+slow that it never comes back round to the same brightness in any real text, so two far-apart positions can never be confused.</p>
+<p><b>Why it helps with "relative position".</b> Moving 3 words along always turns every lamp by
+the same amount, wherever you start. So the model can learn "look at the word 3 back" once and use it anywhere in the sentence.</p>
+
+<div class="box calc"><span class="label">What you'll calculate (Q1b)</span>
+The brightness of 4 lamps (2 fast, 2 slow) for words 0, 1 and 2: twelve numbers in a small table.
+You'll <i>see</i> the idea in them: the fast lamps change a lot from word to word, the slow lamps barely move.
+</div>
+<div class="box remember"><span class="label">Remember</span>
+Positional encoding = a unique "where am I" tag made of fast and slow waves, added to each word.
+</div>
+
+<!-- ============================ Q2 ============================ -->
+<h2><span class="q">Q2</span>Attention: who should I listen to?</h2>
+<p class="problem"><b>The problem.</b> A word alone is ambiguous. In <i>"The cat sat on the mat because
+<b>it</b> was tired"</i>, the word "it" only makes sense once you know it means the cat.</p>
+
+<div class="box story"><span class="label">Picture it: a new student asking for help</span>
+A new student is stuck on a maths question.
+<ul style="margin:4px 0 0 18px">
+  <li>They know <b>what they need</b>: help with maths. That's the <b>Query (Q)</b>.</li>
+  <li>Everyone in class has a <b>reputation</b>: "good at maths", "good at football". That's the <b>Key (K)</b>.</li>
+  <li>Everyone also has the <b>actual knowledge</b> they'd share. That's the <b>Value (V)</b>.</li>
+</ul>
+The student compares their need with every reputation, decides how much to listen to each person, and blends what they hear.
+</div>
+
+<div class="box calc"><span class="label">What we calculate, in words</span>
+<ol style="margin-bottom:0">
+  <li><b>Match scores</b>: how well my question fits each word's reputation. Big score = good match.</li>
+  <li><b>Calm the scores down</b>: comparing long lists of numbers gives big scores just because the
+      lists are long. Without calming down, the word would listen to one single word and ignore everyone else.
+      So we divide by a number that grows with the list length (√d).</li>
+  <li><b>Softmax</b>: turn the scores into <b>percentages that add up to 100%</b>. Bigger score, bigger share.</li>
+  <li><b>Blend</b>: take each word's information in proportion to its share.</li>
+</ol>
+</div>
 <table>
-<tr><th>Your hand answers (all triple-checked)</th><th>Value</th></tr>
-<tr><td>Q1b, d = 4</td><td class="mono">[0,1,0,1] · [0.8415, 0.5403, 0.0100, 1.0000] · [0.9093, −0.4161, 0.0200, 0.9998]</td></tr>
-<tr><td>Q2b weights = output</td><td class="mono">[[0.670, 0.330], [0.330, 0.670]]</td></tr>
-<tr><td>Q3b weights → output</td><td class="mono">[[0.893, 0.107], [0.670, 0.330]] → [[1.786, 1.893], [1.340, 1.670]]</td></tr>
-<tr><td>Q4b rows 1 and 2</td><td class="mono">[1, 0, 0] · [0.330, 0.670, 0]</td></tr>
-<tr><td>Q5b weights → output</td><td class="mono">[0.401, 0.198, 0.401] → [1.203, 0.797]</td></tr>
-<tr><td>Q6b concat</td><td class="mono">[[0.670, 0.330, 0.670, 0.330], [0.330, 0.670, 0.330, 0.670]]</td></tr>
-<tr><td>Q7b stable softmax</td><td class="mono">[0.090, 0.245, 0.665]</td></tr>
+<tr><th>"it" listens to →</th><th>The</th><th>cat</th><th>sat</th><th>because</th><th>it</th><th>was</th><th>tired</th></tr>
+<tr><th>share</th><td>5%</td><td class="hot">70%</td><td class="warm">10%</td><td>5%</td><td>5%</td><td>3%</td><td>2%</td></tr>
 </table>
-<p><b>Rounding rule:</b> 4 decimals while working, round the final answer to 3 decimals <b>once</b> from the calculator's full value. Calculator in <b>radians</b>.</p>
-
-<h2>If you're picked to present</h2>
-<p>Ten questions you're likely to get, each with a two-line answer. If you can say these in your own words, you're ready.</p>
-<div class="qa"><b>1. What problem does attention solve?</b><br>RNNs pass information step by step and forget over long distances (vanishing gradients). Attention lets every word look at every other word directly, in one step, all in parallel.</div>
-<div class="qa"><b>2. What are Q, K and V?</b><br>Three learned versions of each word: the Query is what it's looking for, the Key is what it offers to be found by, the Value is the information it hands over.</div>
-<div class="qa"><b>3. Why divide by √d<sub>k</sub>?</b><br>Dot products grow like √d<sub>k</sub>. Big scores push softmax to ≈100% for one word, where gradients vanish. Dividing keeps scores around size 1.</div>
-<div class="qa"><b>4. Why positional encoding?</b><br>Attention has no sense of order: "dog bites man" = "man bites dog". Sin/cos waves at different speeds give each position a unique signature, and a shift of k is always the same rotation.</div>
-<div class="qa"><b>5. Why a causal mask in the decoder but not the encoder?</b><br>The decoder generates word by word, so it must not see the future, or it learns to cheat. The encoder reads a complete sentence, so seeing everything is fine.</div>
-<div class="qa"><b>6. Cross-attention vs self-attention?</b><br>Self: Q, K, V from the same sentence, square n × n weights. Cross: Q from the decoder, K and V from the encoder, n × m weights; that's how the decoder reads the source.</div>
-<div class="qa"><b>7. Why multiple heads, and do more always help?</b><br>Different heads can track different relationships. But the total size is fixed (H·d<sub>k</sub> = d), each head gets thinner, and heads can be redundant: our two toy heads were identical.</div>
-<div class="qa"><b>8. Why subtract the max in softmax?</b><br>e<sup>1000</sup> overflows to infinity and gives nan. Subtracting a constant changes nothing (it cancels top and bottom) but makes the biggest exponent e<sup>0</sup> = 1.</div>
-<div class="qa"><b>9. What do residuals and LayerNorm do?</b><br>A residual adds the input back, so the gradient has a shortcut (I + ∂F/∂x) and doesn't vanish. LayerNorm rescales each word's vector to mean 0 and spread 1, so training stays stable.</div>
-<div class="qa"><b>10. Why is attention O(n²), and why does it matter?</b><br>Every word scores against every word: n² pairs, plus an n × n matrix per head in memory. Doubling the text quadruples that cost, which is why long documents are expensive.</div>
-<div class="box remember"><span class="label">Three findings that will impress</span>
-<b>Q3d</b>: the supplied projections give the <i>same</i> attention weights as identity, because every score row shifted by a constant and softmax ignores that. ·
-<b>Q6b</b>: the two heads are identical because P P<sup>T</sup> = I, which is live proof that more heads ≠ more capacity. ·
-<b>Q10</b>: n² only takes over past n = 2·d_model = 128; below that the projections cost more.
+<p class="cap">made-up example: one row of attention, adding up to 100%</p>
+<div class="box remember"><span class="label">Remember</span>
+Attention = "who should I listen to, and how much?" The result is a table of percentages, one row per word.
 </div>
+
+<!-- ============================ Q3 ============================ -->
+<h2><span class="q">Q3</span>Q, K, V: three versions of every word</h2>
+<p class="problem"><b>The problem.</b> Each word plays three different roles: <b>asking</b>, <b>being found</b>
+and <b>giving information</b>. One version of the word can't be good at all three jobs.</p>
+<div class="box story"><span class="label">Picture it: a job portal</span>
+On a job portal, <b>what you search for</b> (Query), your <b>profile headline</b> (Key) and your
+<b>actual skills</b> (Value) are three different things, even though they're all "you".
+</div>
+<div class="box calc"><span class="label">What we calculate</span>
+Each word is passed through three learned "lenses" (three tables of numbers, W<sub>Q</sub>, W<sub>K</sub>,
+W<sub>V</sub>) to make its three versions. Then we run attention as in Q2.
+</div>
+<p><b>The surprise in Q3d.</b> With the lenses the assignment gives, every match score in a row goes
+down by the <b>same amount</b>. That's like every student getting 5 bonus marks: the <b>ranking doesn't
+change</b>. So who-listens-to-whom stays exactly the same, and only <b>what gets passed along</b> changes.
+Most students will miss this.</p>
+<div class="box remember"><span class="label">Remember</span>
+Q, K, V are three learned versions of each word: for asking, for being found, for sharing.
+</div>
+
+<!-- ============================ Q4 ============================ -->
+<h2><span class="q">Q4</span>The causal mask: no peeking at the future</h2>
+<p class="problem"><b>The problem.</b> When a model writes text, it writes <b>one word at a time</b> and
+can't use words that don't exist yet. But in training we show it whole sentences, so it could cheat
+by peeking at the next word.</p>
+<div class="box story"><span class="label">Picture it</span>
+Your phone's autocomplete can only use what you've typed so far. Or a quiz where you cover the
+answers with a card and slide it down one line at a time.
+</div>
+<div class="box calc"><span class="label">What we calculate</span>
+The usual match scores, then every score for a <b>future</b> word is set to "minus infinity".
+Softmax turns minus infinity into <b>exactly 0%</b>. So word 1 sees only itself, word 2 sees words 1–2,
+and so on: a staircase.
+</div>
+<table>
+<tr><th>word ↓ can see →</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+<tr><th>1</th><td class="seen">✓</td><td class="hidden">✗</td><td class="hidden">✗</td><td class="hidden">✗</td></tr>
+<tr><th>2</th><td class="seen">✓</td><td class="seen">✓</td><td class="hidden">✗</td><td class="hidden">✗</td></tr>
+<tr><th>3</th><td class="seen">✓</td><td class="seen">✓</td><td class="seen">✓</td><td class="hidden">✗</td></tr>
+<tr><th>4</th><td class="seen">✓</td><td class="seen">✓</td><td class="seen">✓</td><td class="seen">✓</td></tr>
+</table>
+<p class="cap">the staircase: dark = hidden future</p>
+<p><b>A different mask: padding.</b> Sentences in a batch get filled with blank "filler" words so they
+all have the same length. A <b>padding mask</b> tells everyone to ignore the blank seats.
+<b>Causal mask = hide the future. Padding mask = hide the blanks.</b></p>
+<div class="box remember"><span class="label">Remember</span>
+The causal mask is a blindfold over the future, so the model can't cheat while learning to write.
+</div>
+
+<!-- ============================ Q5 ============================ -->
+<h2><span class="q">Q5</span>Cross-attention: looking at another sentence</h2>
+<p class="problem"><b>The problem.</b> When translating, the writer has to look at the <b>original</b>
+sentence, not only at what it has written so far.</p>
+<div class="box story"><span class="label">Picture it: translating</span>
+Translating <span class="dev">मलाई चिया मन पर्छ</span> into "I like tea". When you write "tea", you glance back
+at the Nepali sentence and focus on <span class="dev">चिया</span>.
+</div>
+<div class="box calc"><span class="label">What we calculate</span>
+The <b>same</b> attention as Q2, with one change: the <b>questions</b> come from the sentence being written
+(the decoder), and the <b>reputations and knowledge</b> come from the original sentence (the encoder).
+</div>
+<p><b>Why the table isn't square.</b> 3 English words asking about 4 Nepali words gives a 3-by-4
+table. Two different sentences, two different lengths. In self-attention a sentence looks at itself, so the table is always square.</p>
+<div class="box remember"><span class="label">Remember</span>
+Self-attention = a sentence looking at itself. Cross-attention = the translation looking at the original.
+</div>
+
+<!-- ============================ Q6 ============================ -->
+<h2><span class="q">Q6</span>Multi-head attention: a team instead of one reader</h2>
+<p class="problem"><b>The problem.</b> One attention pattern can only follow one kind of relationship at a time.</p>
+<div class="box story"><span class="label">Picture it: checking a contract as a team</span>
+One person checks names and dates, one checks the money, one checks the grammar. Each reads the
+whole contract but looks for different things. At the end they put their notes together.
+</div>
+<div class="box calc"><span class="label">What we calculate</span>
+Split each word's numbers into equal pieces, one per <b>head</b> (teammate). Each head runs its own
+attention with its own lenses. Put the results <b>side by side</b> (concatenate). One final table (W<sub>O</sub>) blends them into one answer.
+</div>
+<p><b>Do more heads always help? No.</b></p>
+<ul>
+  <li><b>Same pizza, more slices.</b> The total size never changes. More heads just means each head gets a thinner slice to work with.</li>
+  <li><b>Copycats.</b> Heads can end up doing the same job. In the assignment's toy example the two heads come out <b>identical</b>.</li>
+</ul>
+<div class="box remember"><span class="label">Remember</span>
+Heads = teammates looking for different things, sharing one fixed budget.
+</div>
+
+<!-- ============================ Q7 ============================ -->
+<h2><span class="q">Q7</span>Keeping softmax safe, and the confidence knob</h2>
+<p class="problem"><b>Problem 1: huge numbers break computers.</b> Softmax raises <i>e</i> to the power of
+each score. <i>e</i> to the power 1000 is too big for a computer: it becomes "infinity", then "not a number", and everything breaks.</p>
+<div class="box story"><span class="label">The fix: measure from the tallest person</span>
+Instead of everyone's height above the ground, measure everyone's height <b>relative to the tallest
+person</b>. The differences, which are all softmax cares about, stay exactly the same, but now the numbers are small and safe.
+So we <b>subtract the biggest score from every score</b> first. Same answer, no explosion.
+</div>
+<p class="problem"><b>Problem 2: how confident should attention be?</b> <b>Temperature</b> is a confidence knob:</p>
+<ul>
+  <li><b>Low temperature</b>: decisive, gives almost everything to one word.</li>
+  <li><b>High temperature</b>: undecided, spreads attention evenly.</li>
+</ul>
+<p><b>Why "too confident" stops learning.</b> A student who is 100% sure doesn't change their mind when
+corrected, so they stop learning. Softmax is the same: when it's nearly 100% on one word, small changes
+to the scores change nothing, so the model gets no learning signal. Dividing by √d (Q2) keeps it in the healthy middle.</p>
+<div class="box remember"><span class="label">Remember</span>
+Subtract the max to stay safe. Keep confidence moderate to keep learning.
+</div>
+
+<!-- ============================ Q8 ============================ -->
+<h2><span class="q">Q8</span>The encoder block: talk, then think</h2>
+<div class="box story"><span class="label">Picture it: a study group's routine</span>
+<b>1. Discuss</b>: everyone shares with everyone (attention).
+<b>2. Keep your notes and add</b> what you heard (residual).
+<b>3. Tidy up</b> (layer norm).
+<b>4. Think alone</b> (feed-forward).
+<b>5. Add and tidy</b> again.
+</div>
+<ul>
+  <li><b>Residual (the "add").</b> Like editing an essay while keeping the original draft: you add
+      improvements on top instead of rewriting from scratch. It also gives the learning signal a
+      <b>shortcut lane</b> back to the start, which fixes the vanishing problem you saw in RNNs (a4).</li>
+  <li><b>Layer norm (the "tidy").</b> Brings each word's numbers to a standard scale, like converting
+      marks "out of 50" and "out of 100" into percentages, so nothing gets wildly big or small.</li>
+  <li><b>Feed-forward vs attention.</b> Attention = <b>talking to others</b> (mixes words). Feed-forward =
+      <b>thinking alone</b> (each word on its own). Change one word: attention's output changes for
+      every word; feed-forward's output changes only for that word.</li>
+</ul>
+<div class="box remember"><span class="label">Remember</span>
+Talk → add → tidy → think → add → tidy. The shape never changes: words in, same number of words out.
+</div>
+
+<!-- ============================ Q9 ============================ -->
+<h2><span class="q">Q9</span>The decoder, and the whole Transformer</h2>
+<div class="box story"><span class="label">Picture it: a translation office</span>
+The <b>reader</b> (encoder) reads the whole Nepali sentence and makes detailed notes.
+The <b>writer</b> (decoder) writes the English one word at a time. For each new word the writer:
+<ol style="margin:4px 0 0 18px">
+  <li>re-reads what they've written so far, never ahead (<b>masked</b> attention, Q4)</li>
+  <li>checks the reader's notes (<b>cross</b>-attention, Q5)</li>
+  <li>thinks it over (<b>feed-forward</b>, Q8)</li>
+  <li>scores <b>every word in the English dictionary</b> and picks the most likely one (linear + softmax)</li>
+</ol>
+Then they repeat for the next word.
+</div>
+<p><b>Why only the decoder needs the mask.</b> The reader has the complete sentence in front of them:
+there's no future to hide. The writer is <i>creating</i> the sentence, and the next words don't exist yet.</p>
+<div class="box remember"><span class="label">Remember</span>
+The encoder reads. The decoder writes, looking back at its own words and at the encoder's notes.
+</div>
+
+<!-- ============================ Q10 ============================ -->
+<h2><span class="q">Q10</span>The cost: why long texts are slow</h2>
+<div class="box story"><span class="label">Picture it: handshakes</span>
+In a room where everyone greets everyone, 10 people means 100 greetings and 20 people means 400.
+<b>Double the people, four times the greetings.</b> Attention is exactly this: every word with every word.
+</div>
+<table>
+<tr><th>words</th><td>32</td><td>64</td><td>128</td><td>256</td><td>512</td></tr>
+<tr><th>pairs to compare</th><td>1,024</td><td>4,096</td><td>16,384</td><td>65,536</td><td>262,144</td></tr>
+</table>
+<p class="cap">the text gets 16× longer, the work gets 256× bigger</p>
+<ul>
+  <li><b>The twist.</b> For short texts, preparing the three versions of each word (Q, K, V) costs
+      <i>more</i> than the handshakes. The handshakes only take over after about 128 words (with the
+      assignment's settings). So the timing graph starts gentle and gets steeper.</li>
+  <li><b>Masking.</b> Simple code still calculates the whole table and then hides half, so no time is saved.
+      Only clever code skips the hidden half.</li>
+  <li><b>More heads.</b> Same total work, but each head keeps its own table in memory.</li>
+</ul>
+<div class="box remember"><span class="label">Remember</span>
+Double the text, four times the attention work. That's why long documents are expensive.
+</div>
+
+<p style="margin-top:16px"><b>That's the whole story.</b> The handwritten notes take each of these ideas and show the
+actual numbers. When you copy them, you'll know what every calculation is <i>for</i>.</p>
 
 </body>
 </html>
